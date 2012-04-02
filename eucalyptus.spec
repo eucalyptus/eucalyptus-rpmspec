@@ -182,6 +182,7 @@ Requires:     %{name}             = %{version}-%{release}
 Requires:     %{name}-common-java = %{version}-%{release}
 Requires:     lvm2
 Requires:     vblade
+Requires:     %{euca_iscsi_client}
 Requires:     %{euca_iscsi_server}
 Group:        Applications/System
 
@@ -263,8 +264,8 @@ Requires:     util-linux
 Requires:     %{euca_curl}
 Requires:     %{euca_httpd}
 Requires:     %{euca_hypervisor}
-Requires:     %{euca_libvirt}
 Requires:     %{euca_iscsi_client}
+Requires:     %{euca_libvirt}
 Requires:     %{_sbindir}/euca_conf
 Group:        Applications/System
 
