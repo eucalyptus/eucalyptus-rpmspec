@@ -9,7 +9,6 @@
 %global euca_iscsi_server tgt
 %global euca_libcurl      libcurl-devel
 %global euca_libvirt      xen-tools, libvirt
-%global euca_which        util-linux
 %endif
 %if 0%{?el5}
 %global euca_bridge       xenbr0
@@ -22,7 +21,6 @@
 %global euca_iscsi_server scsi-target-utils
 %global euca_libcurl      curl-devel
 %global euca_libvirt      libvirt >= 0.6
-%global euca_which        which
 %global pybasever         26
 %global __python_ver      2.6
 %global __python          %{_bindir}/python%{__python_ver}
@@ -38,7 +36,6 @@
 %global euca_iscsi_server scsi-target-utils
 %global euca_libcurl      curl-devel
 %global euca_libvirt      libvirt
-%global euca_which        which
 %endif
 %if 0%{?rhel} >= 6
 %global euca_dhcp         dhcp41
@@ -88,10 +85,10 @@ BuildRequires: %{euca_libvirt}
 BuildRequires: %{euca_libcurl}
 
 Requires:      %{euca_build_req}
-Requires:      %{euca_which}
 Requires:      perl(Crypt::OpenSSL::RSA)
 Requires:      perl(Crypt::OpenSSL::Random)
 Requires:      sudo
+Requires:      /usr/bin/which
 Requires(pre):  %{_sbindir}/groupadd
 Requires(pre):  %{_sbindir}/useradd
 Requires(post): %{_sbindir}/euca_conf
