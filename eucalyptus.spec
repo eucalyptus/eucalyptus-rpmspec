@@ -51,8 +51,8 @@
 
 Summary:       Elastic Utility Computing Architecture
 Name:          eucalyptus
-Version:       3.bzr1493
-Release:       1%{?dist}
+Version:       3
+Release:       0.0%{?build_id:.%{build_id}}%{?rev:.%{rev}}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
 Group:         Applications/System
@@ -106,7 +106,7 @@ Obsoletes:     euca-rampartc < 1.3.0-7
 BuildRoot:     %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Source0:       %{name}-%{version}.tar.gz
-Source1:       cloud-lib.tar.gz
+Source1:       http://downloads.eucalyptus.com/devel/dependencies/3_devel/cloud-lib.tar.gz
 # A version of WSDL2C.sh that respects standard classpaths
 Source2:       euca-WSDL2C.sh
 Patch0:        %{name}-3-pgpath.patch
