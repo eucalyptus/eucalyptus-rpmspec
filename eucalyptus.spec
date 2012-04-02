@@ -134,7 +134,6 @@ Requires:     lvm2
 Requires:     velocity
 
 Requires:       %{_sbindir}/euca_conf
-Requires(post): %{_sbindir}/euca_conf
 Group:        Applications/System
 
 %description common-java
@@ -607,13 +606,9 @@ if [ "$1" = "2" ]; then
         BACKDIR=`cat /tmp/eucaback.dir`
         if [ -d "$BACKDIR" ]; then
             /usr/share/eucalyptus/euca_upgrade --old $BACKDIR --new / --conf >/var/log/eucalyptus/upgrade-config.log 2>&1
-            /usr/sbin/euca_conf --setup
         fi
     fi
 fi
-
-# Final setup and set the new user
-/usr/sbin/euca_conf --setup --user eucalyptus
 
 # Clean up after old releases that didn't enumerate all admin-tools files
 rm -rf /usr/sbin/euca_admin
