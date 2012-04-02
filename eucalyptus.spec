@@ -677,34 +677,15 @@ fi
 %endif
 exit 0
 
+%if 0%{?el5}
 %preun cloud
 if [ "$1" = "0" ]; then
-%if 0%{?el5}
     if [ -e /etc/sysconfig/system-config-securitylevel ]; then
         sed -e '/^--port=8773/ d' -e '/^--port=8443/ d' -i /etc/sysconfig/system-config-securitylevel
     fi
+fi
+exit 0
 %endif
-    if [ -e %{_initrddir}/eucalyptus-cloud -a -e /etc/eucalyptus/eucalyptus.conf ]; then
-        /sbin/service eucalyptus-cloud restart || true
-    fi
-fi
-exit 0
-
-%preun walrus
-if [ "$1" = "0" ]; then
-    if [ -e %{_initrddir}/eucalyptus-cloud -a -e /etc/eucalyptus/eucalyptus.conf ]; then
-        /sbin/service eucalyptus-cloud restart || true
-    fi
-fi
-exit 0
-
-%preun sc
-if [ "$1" = "0" ]; then
-    if [ -e %{_initrddir}/eucalyptus-cloud -a -e /etc/eucalyptus/eucalyptus.conf ]; then
-        /sbin/service eucalyptus-cloud restart || true
-    fi
-fi
-exit 0
 
 %preun common-java
 if [ "$1" = "0" ]; then
