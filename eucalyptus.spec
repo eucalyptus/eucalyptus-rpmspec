@@ -106,7 +106,10 @@ Source0:       %{name}-%{version}.tar.gz
 Source1:       http://downloads.eucalyptus.com/devel/dependencies/3_devel/cloud-lib.tar.gz
 # A version of WSDL2C.sh that respects standard classpaths
 Source2:       euca-WSDL2C.sh
-Patch0:        %{name}-3-pgpath.patch
+
+Patch0:        eucalyptus-3-pgpath.patch
+# Eliminate the redundant "common" config section in drbd.conf
+Patch1:        eucalyptus-3.0.0-drbd-common.patch
 
 %description
 Eucalyptus is a service overlay that implements elastic computing
@@ -199,10 +202,19 @@ Requires:     %{name}-common-java%{?_isa} = %{version}-%{release}
 Requires:     euca2ools >= 2.0
 Requires:     lvm2
 Requires:     perl(Getopt::Long)
+## FIXME:  Add the appropriate postgres executable paths to the config file
 %if 0%{?fedora}
 Requires:     postgresql-server
 %else
 Requires:     postgresql91-server
+%endif
+
+# For reporting web UI
+## FIXME:  What do we use on suse?
+%if 0%{?el5}
+Requires:     bitstream-vera-fonts
+%else
+Requires:     dejavu-serif-fonts
 %endif
 Group:        Applications/System
 
@@ -248,13 +260,6 @@ Requires:     euca2ools >= 2.0
 Requires:     coreutils
 Requires:     e2fsprogs
 Requires:     file
-%if 0%{?fedora}
-# This doesn't actually work yet, but grub1 cannot be installed via yum,
-# since it is obsoleted by the grub2 package.
-Requires:     grub2
-%else
-Requires:     grub
-%endif
 Requires:     parted
 Requires:     util-linux
 Requires:     %{euca_curl}
@@ -330,8 +335,13 @@ tools.  It is neither intended nor supported for use by any other programs.
 
 %prep
 %setup -q
+
 %if 0%{?fedora}
 %patch0 -p0
+%endif
+
+%if 0%{?rhel} >= 6 || 0%{?fedora}
+%patch1 -p1
 %endif
 
 %build
@@ -355,9 +365,6 @@ make # %{?_smp_mflags}
 %install
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-
-# This should be omitted from the tree entirely
-rm $RPM_BUILD_ROOT/usr/share/eucalyptus/euca_vmware
 
 # RHEL does not include support for SCSI emulation in KVM.
 %if 0%{?rhel}
@@ -504,9 +511,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %defattr(-,root,root,-)
 %{axis2c_home}/services/EucalyptusGL/
 
-# NB: the vmware tools packaged here only work against Eucalyptus
-# Enterprise Edition, but the client and server may be different
-# systems, so it's reasonable to package these commands here.
 %files admin-tools
 %defattr(-,root,root,-)
 %{_sbindir}/euca_conf
@@ -718,8 +722,23 @@ fi
 exit 0
 
 %changelog
-* Thu Jan 19 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.0.0-1
-- Update to Eucalyptus 3.0
+* Wed Apr 11 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
+- Depend on postgres, not mysql
+
+* Mon Mar 19 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.0.1-2
+- Added iSCSI client dependency to SC package
+
+* Thu Mar 15 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.0.1-1
+- Update to Eucalyptus 3.0.1 RC 1
+
+* Wed Feb  8 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.0.0-3
+- Update to Eucalyptus 3.0.0 RC 3
+
+* Tue Feb  7 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.0.0-2
+- Update to Eucalyptus 3.0.0 RC 2
+
+* Thu Feb  2 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.0.0-1
+- Update to Eucalyptus 3.0.0 RC 1
 
 * Tue Jun  1 2010 Eucalyptus Release Engineering <support@eucalyptus.com> - 2.0.0-1
 - Version 2.0 of Eucalyptus Enterprise Cloud
