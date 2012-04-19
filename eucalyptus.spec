@@ -356,8 +356,8 @@ export CFLAGS="%{optflags}"
 %endif
 
 # Untar the bundled cloud-lib Java dependencies.
-mkdir clc/lib
-tar xzf %{S:1} -C clc/lib
+mkdir clc/deps
+mv %{S:1} clc/deps/cloud-lib.tar.gz
 
 # FIXME: storage/Makefile breaks with parallel make
 make # %{?_smp_mflags}
