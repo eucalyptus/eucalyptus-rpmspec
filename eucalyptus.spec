@@ -440,8 +440,8 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/upgrade
 # Can this file go into a single-component package?  What uses it?
 /var/lib/eucalyptus/keys/cc-client-policy.xml
-%dir /var/log/eucalyptus
-%dir /var/run/eucalyptus
+%attr(-,eucalyptus,eucalyptus) %dir /var/log/eucalyptus
+%attr(-,eucalyptus,eucalyptus) %dir /var/run/eucalyptus
 
 %files common-java
 %defattr(-,root,root,-)
