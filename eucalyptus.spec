@@ -358,7 +358,7 @@ Requires:     PyGreSQL
 Requires:     python%{?pybasever}-boto >= 2.1
 Requires:     rsync
 
-%provide_abi python%{?pybasever}-boto
+%provide_abi python%{?pybasever}-eucadmin
 
 %if ! 0%{?el5}
 BuildArch:    noarch
