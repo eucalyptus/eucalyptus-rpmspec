@@ -46,6 +46,15 @@
 
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
+%define provide_abi() \
+%{!?abi_version: %define abi_version %{version}-%{release}} \
+%if 0%# \
+Provides: %{name}-abi(%1) = %{abi_version} \
+%else \
+Provides: %{name}-abi = %{abi_version} \
+%endif \
+%{nil}
+
 Summary:       Elastic Utility Computing Architecture
 Name:          eucalyptus
 Version:       3
@@ -96,6 +105,8 @@ Requires(post): %{_sbindir}/euca_conf
 Requires:      libselinux-python
 %endif
 
+%provide_abi
+
 # Transition away from libraries in /opt
 Obsoletes:     euca-axis2c   < 1.6.0-2
 Obsoletes:     euca-rampartc < 1.3.0-7
@@ -123,6 +134,8 @@ node controller (nc), storage controller (sc), or walrus packages as well.
 
 %package common-java
 Summary:      Elastic Utility Computing Architecture - ws java stack
+Group:        Applications/System
+
 Requires:     %{name} = %{version}-%{release}
 Requires:     jpackage-utils
 %if 0%{?suse_version}
@@ -132,9 +145,10 @@ Requires:     java >= 1:1.6.0
 %endif
 Requires:     lvm2
 Requires:     velocity
+Requires:     %{_sbindir}/euca_conf
 
-Requires:       %{_sbindir}/euca_conf
-Group:        Applications/System
+%provide_abi common-java
+
 
 %description common-java
 Eucalyptus is a service overlay that implements elastic computing
@@ -146,6 +160,8 @@ This package contains the java WS stack.
 
 %package walrus
 Summary:      Elastic Utility Computing Architecture - walrus
+Group:        Applications/System
+
 Requires:     %{name}             = %{version}-%{release}
 Requires:     %{name}-common-java = %{version}-%{release}
 %if 0%{?rhel}
@@ -163,7 +179,8 @@ Requires:     drbd-utils
 Requires:     drbd
 %endif
 Requires:     lvm2
-Group:        Applications/System
+
+%provide_abi walrus
 
 %description walrus
 Eucalyptus is a service overlay that implements elastic computing
@@ -177,13 +194,16 @@ cloud controller.
 
 %package sc
 Summary:      Elastic Utility Computing Architecture - storage controller
+Group:        Applications/System
+
 Requires:     %{name}             = %{version}-%{release}
 Requires:     %{name}-common-java = %{version}-%{release}
 Requires:     lvm2
 Requires:     vblade
 Requires:     %{euca_iscsi_client}
 Requires:     %{euca_iscsi_server}
-Group:        Applications/System
+
+%provide_abi sc
 
 %description sc
 Eucalyptus is a service overlay that implements elastic computing
@@ -197,6 +217,8 @@ alongside the cluster controller.
 
 %package cloud
 Summary:      Elastic Utility Computing Architecture - cloud controller
+Group:        Applications/System
+
 Requires:     %{name}                     = %{version}-%{release}
 Requires:     %{name}-common-java%{?_isa} = %{version}-%{release}
 Requires:     euca2ools >= 2.0
@@ -216,7 +238,8 @@ Requires:     bitstream-vera-fonts
 %else
 Requires:     dejavu-serif-fonts
 %endif
-Group:        Applications/System
+
+%provide_abi cloud
 
 %description cloud
 Eucalyptus is a service overlay that implements elastic computing
@@ -230,6 +253,8 @@ the cloud clients.
 
 %package cc
 Summary:      Elastic Utility Computing Architecture - cluster controller
+Group:        Applications/System
+
 Requires:     %{name}    = %{version}-%{release}
 Requires:     %{name}-gl = %{version}-%{release}
 Requires:     bridge-utils
@@ -238,7 +263,8 @@ Requires:     vtun
 Requires:     %{euca_dhcp}
 Requires:     %{euca_httpd}
 Requires:     %{_sbindir}/euca_conf
-Group:        Applications/System
+
+%provide_abi cc
 
 %description cc
 Eucalyptus is a service overlay that implements elastic computing
@@ -251,6 +277,8 @@ handles a group of node controllers.
 
 %package nc
 Summary:      Elastic Utility Computing Architecture - node controller
+Group:        Applications/System
+
 Requires:     %{name}    = %{version}-%{release}
 Requires:     %{name}-gl = %{version}-%{release}
 Requires:     bridge-utils
@@ -268,7 +296,8 @@ Requires:     %{euca_hypervisor}
 Requires:     %{euca_iscsi_client}
 Requires:     %{euca_libvirt}
 Requires:     %{_sbindir}/euca_conf
-Group:        Applications/System
+
+%provide_abi nc
 
 %description nc
 Eucalyptus is a service overlay that implements elastic computing
@@ -281,9 +310,12 @@ component handles instances.
 
 %package gl
 Summary:      Elastic Utility Computing Architecture - log service
+Group:        Applications/System
+
 Requires:     %{name} = %{version}-%{release}
 Requires:     %{euca_httpd}
-Group:        Applications/System
+
+%provide_abi gl
 
 %description gl
 Eucalyptus is a service overlay that implements elastic computing
@@ -296,10 +328,14 @@ This package contains the internal log service of eucalyptus.
 %package admin-tools
 Summary:      Elastic Utility Computing Architecture - admin CLI tools
 License:      BSD
+Group:        Applications/System
+
 Requires:     %{name} = %{version}-%{release}
 Requires:     python%{?pybasever}-eucadmin = %{version}-%{release}
 Requires:     rsync
-Group:        Applications/System
+
+%provide_abi admin-tools
+
 %if ! 0%{?el5}
 BuildArch:    noarch
 %endif
@@ -316,10 +352,14 @@ Eucalyptus cluster.
 %package -n python%{?pybasever}-eucadmin
 Summary:      Elastic Utility Computing Architecture - administration Python library
 License:      BSD
+Group:        Development/Libraries
+
 Requires:     PyGreSQL
 Requires:     python%{?pybasever}-boto >= 2.1
 Requires:     rsync
-Group:        Development/Libraries
+
+%provide_abi python%{?pybasever}-boto
+
 %if ! 0%{?el5}
 BuildArch:    noarch
 %endif
