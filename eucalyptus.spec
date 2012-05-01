@@ -65,7 +65,8 @@ Group:         Applications/System
 
 BuildRequires: ant >= 1.7
 BuildRequires: ant-nodeps >= 1.7
-BuildRequires: axis2
+BuildRequires: axis2-adb-codegen
+BuildRequires: axis2-codegen
 BuildRequires: axis2c-devel >= 1.6.0
 BuildRequires: jpackage-utils
 BuildRequires: libvirt-devel >= 0.6
@@ -76,6 +77,7 @@ BuildRequires: python%{?pybasever}-setuptools
 BuildRequires: rampartc-devel >= 1.3.0
 BuildRequires: swig
 BuildRequires: velocity
+BuildRequires: xalan-j2-xsltc
 BuildRequires: /usr/bin/awk
 %if 0%{?suse_version}
 BuildRequires: xen-tools
