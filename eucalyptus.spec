@@ -356,9 +356,17 @@ Summary:      Elastic Utility Computing Architecture - administration Python lib
 License:      BSD
 Group:        Development/Libraries
 
-Requires:     PyGreSQL
 Requires:     python%{?pybasever}-boto >= 2.1
 Requires:     rsync
+%if 0%{?el5}
+Requires:     postgresql91-python26
+%endif
+%if 0%{?el6}
+Requires:     postgresql91-python
+%endif
+%if 0%{?fedora}
+Requires:     PyGreSQL
+%endif
 
 %provide_abi python%{?pybasever}-eucadmin
 
