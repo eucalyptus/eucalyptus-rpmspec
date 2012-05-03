@@ -360,11 +360,7 @@ Requires:     python%{?pybasever}-boto >= 2.1
 Requires:     rsync
 %if 0%{?el5}
 Requires:     postgresql91-python26
-%endif
-%if 0%{?el6}
-Requires:     postgresql91-python
-%endif
-%if 0%{?fedora}
+%else
 Requires:     PyGreSQL
 %endif
 
