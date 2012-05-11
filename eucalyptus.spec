@@ -226,7 +226,6 @@ Requires:     %{name}-common-java%{?_isa} = %{version}-%{release}
 Requires:     euca2ools >= 2.0
 Requires:     lvm2
 Requires:     perl(Getopt::Long)
-## FIXME:  Add the appropriate postgres executable paths to the config file
 %if 0%{?fedora}
 Requires:     postgresql-server
 %else
@@ -411,6 +410,9 @@ make # %{?_smp_mflags}
 %install
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+
+## FIXME:  this hardcodes pgrpm-91's specific path
+sed -i 's#.*CLOUD_OPTS=.*#CLOUD_OPTS="--db-home=/usr/pgsql-9.1/"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
 
 # RHEL does not include support for SCSI emulation in KVM.
 %if 0%{?rhel}
