@@ -227,8 +227,10 @@ Requires:     euca2ools >= 2.0
 Requires:     lvm2
 Requires:     perl(Getopt::Long)
 %if 0%{?fedora}
+Requires:     postgresql
 Requires:     postgresql-server
 %else
+Requires:     postgresql91
 Requires:     postgresql91-server
 %endif
 
