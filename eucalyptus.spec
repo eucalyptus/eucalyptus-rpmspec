@@ -643,13 +643,6 @@ fi
 exit 0
 
 %post
-%if 0%{?el5}
-    udevcontrol reload_rules
-    sed -i "s/node\.startup.*/node\.startup\ = manual/" /etc/iscsi/iscsid.conf
-%else
-    udevadm control --reload-rules
-%endif
-
 /usr/sbin/euca_conf -d / --instances /var/lib/eucalyptus/instances --hypervisor %{euca_hypervisor} --bridge %{euca_bridge}
 
 if [ "$1" = "2" ]; then
@@ -772,7 +765,10 @@ fi
 exit 0
 
 %changelog
-* Wed Apr 11 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
+* Wed Apr 16 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
+- Dropped old udev reload
+
+* Fri Apr 11 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
 - Depend on postgres, not mysql
 
 * Mon Mar 19 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.0.1-2
