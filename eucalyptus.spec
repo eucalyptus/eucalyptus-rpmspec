@@ -201,7 +201,6 @@ Group:        Applications/System
 Requires:     %{name}             = %{version}-%{release}
 Requires:     %{name}-common-java = %{version}-%{release}
 Requires:     lvm2
-Requires:     vblade
 Requires:     %{euca_iscsi_client}
 Requires:     %{euca_iscsi_server}
 
@@ -674,7 +673,6 @@ fi
 exit 0
 
 %post sc
-/usr/bin/killall -9 vblade >/dev/null 2>&1
 if [ -e %{_initrddir}/tgtd ]; then
     chkconfig --add tgtd
     /sbin/service tgtd start
