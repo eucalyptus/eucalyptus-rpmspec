@@ -102,7 +102,6 @@ Requires:      sudo
 Requires:      /usr/bin/which
 Requires(pre):  %{_sbindir}/groupadd
 Requires(pre):  %{_sbindir}/useradd
-Requires(post): %{_sbindir}/euca_conf
 %if 0%{?fedora} || 0%{?rhel}
 Requires:      libselinux-python
 %endif
@@ -116,11 +115,10 @@ Obsoletes:     euca-rampartc < 1.3.0-7
 BuildRoot:     %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Source0:       %{name}-%{version}.tar.gz
-Source1:       http://downloads.eucalyptus.com/devel/dependencies/3_devel/cloud-lib.tar.gz
+Source1:       cloud-lib.tar.gz
 # A version of WSDL2C.sh that respects standard classpaths
 Source2:       euca-WSDL2C.sh
 
-Patch0:        eucalyptus-3-pgpath.patch
 # Eliminate the redundant "common" config section in drbd.conf
 Patch1:        eucalyptus-3.0.0-drbd-common.patch
 
@@ -382,10 +380,6 @@ tools.  It is neither intended nor supported for use by any other programs.
 %prep
 %setup -q
 
-%if 0%{?fedora}
-%patch0 -p0
-%endif
-
 %if 0%{?rhel} >= 6 || 0%{?fedora}
 %patch1 -p1
 %endif
@@ -408,6 +402,12 @@ make # %{?_smp_mflags}
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
+sed -i -e 's#.*EUCALYPTUS=.*#EUCALYPTUS="/"#' \
+       -e 's#.*HYPERVISOR=.*#HYPERVISOR="%{euca_hypervisor}"#' \
+       -e 's#.*INSTANCE_PATH=.*#INSTANCE_PATH="/var/lib/eucalyptus/instances"#' \
+       -e 's#.*VNET_BRIDGE=.*#VNET_BRIDGE="%{euca_bridge}"#' \
+       $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
+
 # RHEL does not include support for SCSI emulation in KVM.
 %if 0%{?rhel}
 sed -i 's#.*USE_VIRTIO_DISK=.*#USE_VIRTIO_DISK="1"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
@@ -418,8 +418,6 @@ sed -i 's#.*USE_VIRTIO_ROOT=.*#USE_VIRTIO_ROOT="1"#' $RPM_BUILD_ROOT/etc/eucalyp
 %if 0%{?el6}
 sed -i 's#.*VNET_DHCPDAEMON=.*#VNET_DHCPDAEMON="/usr/sbin/dhcpd41"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
 %endif
-
-sed -i 's#.*VNET_BRIDGE=.*#VNET_BRIDGE="%{euca_bridge}"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
 
 # Eucalyptus's build scripts do not respect initrddir
 if [ %{_initrddir} != /etc/init.d ]; then
@@ -635,8 +633,6 @@ fi
 exit 0
 
 %post
-/usr/sbin/euca_conf -d / --instances /var/lib/eucalyptus/instances --hypervisor %{euca_hypervisor} --bridge %{euca_bridge}
-
 if [ "$1" = "2" ]; then
     if [ -f /tmp/eucaback.dir ]; then
         BACKDIR=`cat /tmp/eucaback.dir`
@@ -760,6 +756,7 @@ exit 0
 - Fixed bundled lib tarball explosion
 - Swapped in configure --with-db-home
 - Added extra version info
+- Cleaned up extraneous build stuff
 
 * Wed Apr 16 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
 - Dropped old udev reload
