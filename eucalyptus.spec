@@ -1,15 +1,3 @@
-%if 0%{?suse_version}
-%global euca_bridge       br0
-%global euca_build_req    vlan
-%global euca_curl         libcurl4
-%global euca_dhcp         dhcp-server
-%global euca_httpd        apache2
-%global euca_hypervisor   xen
-%global euca_iscsi_client open-iscsi
-%global euca_iscsi_server tgt
-%global euca_libcurl      libcurl-devel
-%global euca_libvirt      xen-tools, libvirt
-%endif
 %if 0%{?el5}
 %global euca_bridge       xenbr0
 %global euca_build_req    vconfig, wget, rsync
@@ -68,10 +56,12 @@ BuildRequires: ant-nodeps >= 1.7
 BuildRequires: axis2-adb-codegen
 BuildRequires: axis2-codegen
 BuildRequires: axis2c-devel >= 1.6.0
+BuildRequires: java-devel >= 1:1.6.0
 BuildRequires: jpackage-utils
 BuildRequires: libvirt-devel >= 0.6
 BuildRequires: libxml2-devel
 BuildRequires: libxslt-devel
+BuildRequires: openssl-devel
 BuildRequires: python%{?pybasever}-devel
 BuildRequires: python%{?pybasever}-setuptools
 BuildRequires: rampartc-devel >= 1.3.0
@@ -79,16 +69,6 @@ BuildRequires: swig
 BuildRequires: velocity
 BuildRequires: xalan-j2-xsltc
 BuildRequires: /usr/bin/awk
-%if 0%{?suse_version}
-BuildRequires: xen-tools
-%endif
-%if 0%{?suse_version}
-BuildRequires: java-devel >= 1.6.0
-BuildRequires: libopenssl-devel
-%else
-BuildRequires: java-devel >= 1:1.6.0
-BuildRequires: openssl-devel
-%endif
 
 BuildRequires: %{euca_iscsi_client}
 BuildRequires: %{euca_libvirt}-devel
@@ -96,15 +76,13 @@ BuildRequires: %{euca_libvirt}
 BuildRequires: %{euca_libcurl}
 
 Requires:      %{euca_build_req}
+Requires:      libselinux-python
 Requires:      perl(Crypt::OpenSSL::RSA)
 Requires:      perl(Crypt::OpenSSL::Random)
 Requires:      sudo
 Requires:      /usr/bin/which
 Requires(pre):  %{_sbindir}/groupadd
 Requires(pre):  %{_sbindir}/useradd
-%if 0%{?fedora} || 0%{?rhel}
-Requires:      libselinux-python
-%endif
 
 %provide_abi
 
@@ -138,11 +116,7 @@ Group:        Applications/System
 
 Requires:     %{name} = %{version}-%{release}
 Requires:     jpackage-utils
-%if 0%{?suse_version}
-Requires:     java >= 1.6.0
-%else
 Requires:     java >= 1:1.6.0
-%endif
 Requires:     lvm2
 Requires:     velocity
 Requires:     %{_sbindir}/euca_conf
@@ -174,9 +148,6 @@ Requires:     drbd83-kmod
 %endif
 %if 0%{?fedora}
 Requires:     drbd-utils
-%endif
-%if 0%{?suse_version}
-Requires:     drbd
 %endif
 Requires:     lvm2
 
@@ -232,7 +203,6 @@ Requires:     postgresql91-server
 %endif
 
 # For reporting web UI
-## FIXME:  What do we use on suse?
 %if 0%{?el5}
 Requires:     bitstream-vera-fonts
 %else
@@ -438,7 +408,7 @@ install -d -m 0771 $RPM_BUILD_ROOT/var/lib/eucalyptus/instances
 touch $RPM_BUILD_ROOT/etc/eucalyptus/httpd-{cc,nc,tmp}.conf
 
 # Add PolicyKit config on systems that support it
-%if 0%{?fedora} || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1140
+%if 0%{?fedora} || 0%{?rhel} >= 6
 mkdir -p $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d
 cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
 %endif
@@ -543,7 +513,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /usr/share/eucalyptus/get_xen_info
 /usr/share/eucalyptus/partition2disk
 %attr(-,eucalyptus,eucalyptus) /var/lib/eucalyptus/.libvirt/
-%if 0%{?fedora} || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1140
+%if 0%{?fedora} || 0%{?rhel} >= 6
 /var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
 %endif
 
@@ -694,13 +664,6 @@ chkconfig --add eucalyptus-nc
         echo "--port=8775:tcp" >> /etc/sysconfig/system-config-securitylevel
     fi
 fi
-%endif
-%if 0%{?suse_version}
-    if [ -e /etc/PolicyKit/PolicyKit.conf ]; then
-        if ! grep -q eucalyptus /etc/PolicyKit/PolicyKit.conf; then
-            sed -i '/<config version/ a <match action="org.libvirt.unix.manage">\n   <match user="eucalyptus">\n      <return result="yes"/>\n   </match>\n</match>' /etc/PolicyKit/PolicyKit.conf
-        fi
-    fi
 %endif
 exit 0
 
