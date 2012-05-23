@@ -402,8 +402,8 @@ export CFLAGS="%{optflags}"
 %endif
 
 # Untar the bundled cloud-lib Java dependencies.
-mkdir clc/deps
-mv %{S:1} clc/deps/cloud-lib.tar.gz
+mkdir clc/lib
+tar xf %{S:1} -C clc/lib
 
 # FIXME: storage/Makefile breaks with parallel make
 make # %{?_smp_mflags}
@@ -763,6 +763,9 @@ fi
 exit 0
 
 %changelog
+* Wed Apr 23 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
+- Fixed bundled lib tarball explosion
+
 * Wed Apr 16 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
 - Dropped old udev reload
 
