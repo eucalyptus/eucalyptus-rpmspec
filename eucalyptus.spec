@@ -395,11 +395,7 @@ export CFLAGS="%{optflags}"
 
 # Eucalyptus does not assign the usual meaning to prefix and other standard
 # configure variables, so we can't realistically use %%configure.
-%if 0%{?suse_version}
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/apache2 --with-vddk=/opt/packages/vddk
-%else
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-vddk=/opt/packages/vddk
-%endif
+./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=/usr/pgsql-9.1 --with-vddk=/opt/packages/vddk
 
 # Untar the bundled cloud-lib Java dependencies.
 mkdir clc/lib
@@ -411,9 +407,6 @@ make # %{?_smp_mflags}
 %install
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-
-## FIXME:  this hardcodes pgrpm-91's specific path
-sed -i 's#.*CLOUD_OPTS=.*#CLOUD_OPTS="--db-home=/usr/pgsql-9.1/"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
 
 # RHEL does not include support for SCSI emulation in KVM.
 %if 0%{?rhel}
@@ -765,6 +758,7 @@ exit 0
 %changelog
 * Wed Apr 23 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
 - Fixed bundled lib tarball explosion
+- Swapped in configure --with-db-home
 
 * Wed Apr 16 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
 - Dropped old udev reload
