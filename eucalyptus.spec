@@ -115,6 +115,9 @@ Summary:      Elastic Utility Computing Architecture - ws java stack
 Group:        Applications/System
 
 Requires:     %{name} = %{version}-%{release}
+# bc is needed for the eucalyptus-cloud init script's postgres semaphore
+# sub-script thing.
+Requires:     bc
 Requires:     jpackage-utils
 Requires:     java >= 1:1.6.0
 Requires:     lvm2
@@ -715,6 +718,9 @@ fi
 exit 0
 
 %changelog
+* Fri May 25 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
+- Depend on bc so the eucalyptus-cloud init script works
+
 * Wed Apr 23 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
 - Fixed bundled lib tarball explosion
 - Swapped in configure --with-db-home
