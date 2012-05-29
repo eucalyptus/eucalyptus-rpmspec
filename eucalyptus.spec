@@ -428,7 +428,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %files
 %defattr(-,root,root,-)
 %doc LICENSE INSTALL README CHANGELOG
-/etc/eucalyptus/eucalyptus.conf
+%config(noreplace) /etc/eucalyptus/eucalyptus.conf
 /etc/eucalyptus/eucalyptus-version
 /etc/eucalyptus/httpd.conf
 %ghost /etc/eucalyptus/httpd-tmp.conf
@@ -718,6 +718,9 @@ fi
 exit 0
 
 %changelog
+* Tue May 29 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
+- Treat eucalyptus.conf like a config file
+
 * Fri May 25 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
 - Depend on bc so the eucalyptus-cloud init script works
 
