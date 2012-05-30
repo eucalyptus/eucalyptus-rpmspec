@@ -527,9 +527,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %files admin-tools
 %defattr(-,root,root,-)
 %{_sbindir}/euca_conf
-%{_sbindir}/euca-clone-volume
 %{_sbindir}/euca-configure-vmware
-%{_sbindir}/euca-convert-volumes
 %{_sbindir}/euca-deregister-arbitrator
 %{_sbindir}/euca-deregister-cloud
 %{_sbindir}/euca-deregister-cluster
@@ -718,6 +716,9 @@ fi
 exit 0
 
 %changelog
+* Wed May 30 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
+- Dropped now-nonexistent volume management scripts
+
 * Tue May 29 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
 - Treat eucalyptus.conf like a config file
 
