@@ -115,9 +115,6 @@ Summary:      Elastic Utility Computing Architecture - ws java stack
 Group:        Applications/System
 
 Requires:     %{name} = %{version}-%{release}
-# bc is needed for the eucalyptus-cloud init script's postgres semaphore
-# sub-script thing.
-Requires:     bc
 Requires:     jpackage-utils
 Requires:     java >= 1:1.6.0
 Requires:     lvm2
@@ -194,6 +191,8 @@ Group:        Applications/System
 
 Requires:     %{name}                     = %{version}-%{release}
 Requires:     %{name}-common-java%{?_isa} = %{version}-%{release}
+# bc is needed for /etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
+Requires:     bc
 Requires:     euca2ools >= 2.0
 Requires:     lvm2
 Requires:     perl(Getopt::Long)
@@ -461,7 +460,19 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %{_initrddir}/eucalyptus-cloud
 # cloud.d contains random stuff used by every Java component.  Most of it
 # probably belongs in /usr/share, but moving it will be painful.
-/etc/eucalyptus/cloud.d/
+%dir /etc/eucalyptus/cloud.d
+/etc/eucalyptus/cloud.d/conf/
+/etc/eucalyptus/cloud.d/drbd/
+/etc/eucalyptus/cloud.d/eucalyptus-web-default.properties
+/etc/eucalyptus/cloud.d/eucalyptus-web.properties
+/etc/eucalyptus/cloud.d/gwt-web.xml
+%dir /etc/eucalyptus/cloud.d/init.d
+/etc/eucalyptus/cloud.d/jmx/
+/etc/eucalyptus/cloud.d/reports/
+/etc/eucalyptus/cloud.d/scripts/
+/etc/eucalyptus/cloud.d/security.policy
+/etc/eucalyptus/cloud.d/upgrade/
+/etc/eucalyptus/cloud.d/www/
 /usr/sbin/eucalyptus-cloud
 /usr/share/eucalyptus/*jar*
 %doc /usr/share/eucalyptus/licenses/
@@ -470,6 +481,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 
 %files cloud
 %defattr(-,root,root,-)
+/etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
 /usr/sbin/euca-lictool
 /usr/share/eucalyptus/lic_default
 /usr/share/eucalyptus/lic_template
@@ -716,6 +728,9 @@ fi
 exit 0
 
 %changelog
+* Fri Jun  1 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
+- Moved 01_pg_kernel_params script to -cloud package
+
 * Wed May 30 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
 - Dropped now-nonexistent volume management scripts
 
