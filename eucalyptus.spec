@@ -92,7 +92,7 @@ Obsoletes:     euca-rampartc < 1.3.0-7
 
 BuildRoot:     %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
-Source0:       %{name}-%{version}.tar.gz
+Source0:       %{name}-%{version}%{?tar_suffix}.tar.gz
 Source1:       cloud-lib.tar.gz
 # A version of WSDL2C.sh that respects standard classpaths
 Source2:       euca-WSDL2C.sh
@@ -350,7 +350,7 @@ This package contains the Python library used by Eucalyptus administration
 tools.  It is neither intended nor supported for use by any other programs.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}%{?tar_suffix}
 
 %if 0%{?rhel} >= 6 || 0%{?fedora}
 %patch1 -p1
