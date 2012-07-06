@@ -427,15 +427,20 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %files
 %defattr(-,root,root,-)
 %doc LICENSE INSTALL README CHANGELOG
+
+%dir /etc/eucalyptus
 %config(noreplace) /etc/eucalyptus/eucalyptus.conf
 /etc/eucalyptus/eucalyptus-version
 /etc/eucalyptus/httpd.conf
 %ghost /etc/eucalyptus/httpd-tmp.conf
+
+%attr(-,root,eucalyptus) %dir /usr/lib/eucalyptus
 %attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_mountwrap
 %attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_rootwrap
 
 /usr/sbin/euca_sync_key
 
+%dir /usr/share/eucalyptus
 /usr/share/eucalyptus/add_key.pl
 /usr/share/eucalyptus/connect_iscsitarget.pl
 /usr/share/eucalyptus/create-loop-devices
@@ -454,6 +459,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /var/lib/eucalyptus/keys/cc-client-policy.xml
 %attr(-,eucalyptus,eucalyptus) %dir /var/log/eucalyptus
 %attr(-,eucalyptus,eucalyptus) %dir /var/run/eucalyptus
+
 
 %files common-java
 %defattr(-,root,root,-)
