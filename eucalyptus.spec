@@ -45,7 +45,7 @@ Provides: %{name}-abi = %{abi_version} \
 
 Summary:       Elastic Utility Computing Architecture
 Name:          eucalyptus
-Version:       3.1.0
+Version:       3.1.1
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -734,6 +734,9 @@ fi
 exit 0
 
 %changelog
+* Fri Jul 20 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1.1-0
+- Version bump
+
 * Fri Jun  1 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1-0
 - Moved 01_pg_kernel_params script to -cloud package
 
