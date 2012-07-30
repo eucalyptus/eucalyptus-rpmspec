@@ -6,5 +6,5 @@
 -}
 -
  resource r0 {
-   
+ 
    on <walrus-host-1> {
