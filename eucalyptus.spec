@@ -448,6 +448,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %doc /usr/share/eucalyptus/doc/
 /usr/share/eucalyptus/euca_ipt
 /usr/share/eucalyptus/euca_upgrade
+/usr/share/eucalyptus/faults/
 /usr/share/eucalyptus/floppy
 /usr/share/eucalyptus/get_iscsitarget.pl
 /usr/share/eucalyptus/populate_arp.pl
@@ -734,6 +735,9 @@ fi
 exit 0
 
 %changelog
+* Thu Aug 23 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Added fault message dir
+
 * Mon Jul 30 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Version bump
 
