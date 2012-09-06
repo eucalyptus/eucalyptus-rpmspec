@@ -421,6 +421,13 @@ cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localaut
 mkdir $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt
 touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 
+# Install the NC hook that attempts to restart failed libvirtd on systems that
+# need it
+# https://eucalyptus.atlassian.net/browse/EUCA-3421
+%if 0%{?rhel}
+cp -p tools/nc-hooks/libvirt-check.sh $RPM_BUILD_ROOT/etc/eucalyptus/nc-hooks/libvirt-check.sh
+%endif
+
 %clean
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 
@@ -521,6 +528,9 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %config(noreplace) /etc/eucalyptus/libvirt.xsl
 %dir /etc/eucalyptus/nc-hooks
 /etc/eucalyptus/nc-hooks/example.sh
+%if 0%{?rhel}
+/etc/eucalyptus/nc-hooks/libvirt-check.sh
+%endif
 %{_initrddir}/eucalyptus-nc
 %{axis2c_home}/services/EucalyptusNC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
@@ -736,6 +746,7 @@ exit 0
 %changelog
 * Thu Sep  6 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1.2-0
 - Version bump
+- Added libvirt-check NC hook [EUCA-3421]
 
 * Fri Jul 20 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1.1-0
 - Version bump
