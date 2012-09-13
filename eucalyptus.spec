@@ -113,10 +113,8 @@ node controller (nc), storage controller (sc), or walrus packages as well.
 %package common-java
 Summary:      Elastic Utility Computing Architecture - ws java stack
 Group:        Applications/System
-
 Requires:     %{name} = %{version}-%{release}
-Requires:     jpackage-utils
-Requires:     java >= 1:1.6.0
+Requires:     %{name}-common-java-libs = %{version}-%{release}
 Requires:     lvm2
 Requires:     velocity
 Requires:     %{_sbindir}/euca_conf
@@ -125,6 +123,24 @@ Requires:     %{_sbindir}/euca_conf
 
 
 %description common-java
+Eucalyptus is a service overlay that implements elastic computing
+using existing resources. The goal of Eucalyptus is to allow sites
+with existing clusters and server infrastructure to co-host an elastic
+computing service that is interface-compatible with Amazon AWS.
+
+This package contains the common-java files.
+
+%package common-java-libs
+Summary:      Elastic Utility Computing Architecture - ws java stack libs
+Group:        Applications/System
+
+Requires:     jpackage-utils
+Requires:     java >= 1:1.6.0
+
+%provide_abi common-java-libs
+
+
+%description common-java-libs
 Eucalyptus is a service overlay that implements elastic computing
 using existing resources. The goal of Eucalyptus is to allow sites
 with existing clusters and server infrastructure to co-host an elastic
@@ -481,10 +497,13 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /etc/eucalyptus/cloud.d/upgrade/
 /etc/eucalyptus/cloud.d/www/
 /usr/sbin/eucalyptus-cloud
-/usr/share/eucalyptus/*jar*
-%doc /usr/share/eucalyptus/licenses/
 %ghost /var/lib/eucalyptus/services
 %attr(-,eucalyptus,eucalyptus) /var/lib/eucalyptus/webapps/
+
+%files common-java-libs
+%defattr(-,root,root,-)
+/usr/share/eucalyptus/*jar*
+%doc /usr/share/eucalyptus/licenses/
 
 %files cloud
 %defattr(-,root,root,-)
@@ -736,6 +755,9 @@ fi
 exit 0
 
 %changelog
+* Wed Sep 12 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Split java-common into java-common and java-common-libs
+
 * Tue Sep  4 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added report generation tool
 
