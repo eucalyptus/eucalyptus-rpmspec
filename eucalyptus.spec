@@ -508,7 +508,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %files cloud
 %defattr(-,root,root,-)
 /etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
-/usr/sbin/euca-reports-export
 /usr/sbin/euca-lictool
 /usr/share/eucalyptus/lic_default
 /usr/share/eucalyptus/lic_template
@@ -595,6 +594,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %{_sbindir}/euca-register-storage-controller
 %{_sbindir}/euca-register-vmware-broker
 %{_sbindir}/euca-register-walrus
+%{_sbindir}/euca-reports-export
 
 %files -n python%{?pybasever}-eucadmin
 %defattr(-,root,root,-)
@@ -755,6 +755,9 @@ fi
 exit 0
 
 %changelog
+* Wed Sep 12 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Split java-common into java-common and java-common-libs
+
 * Thu Aug 23 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added fault message dir
 
