@@ -303,6 +303,7 @@ License:      BSD
 Group:        Applications/System
 
 Requires:     %{name} = %{version}-%{release}
+Requires:     openssh-clients
 Requires:     python%{?pybasever}-eucadmin = %{version}-%{release}
 Requires:     rsync
 
@@ -744,6 +745,9 @@ fi
 exit 0
 
 %changelog
+* Thu Sep 20 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1.2-0
+- Added openssh-clients dependency to admin-tools package
+
 * Thu Sep  6 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1.2-0
 - Version bump
 - Added libvirt-check NC hook [EUCA-3421]
