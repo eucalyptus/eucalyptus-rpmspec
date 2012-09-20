@@ -4,7 +4,6 @@
 %global euca_curl         curl
 %global euca_dhcp         dhcp
 %global euca_httpd        httpd
-%global euca_hypervisor   xen
 %global euca_iscsi_client iscsi-initiator-utils
 %global euca_iscsi_server scsi-target-utils
 %global euca_libcurl      curl-devel
@@ -19,7 +18,6 @@
 %global euca_build_req    vconfig, wget, rsync
 %global euca_curl         curl
 %global euca_httpd        httpd
-%global euca_hypervisor   kvm
 %global euca_iscsi_client iscsi-initiator-utils
 %global euca_iscsi_server scsi-target-utils
 %global euca_libcurl      curl-devel
@@ -264,10 +262,14 @@ Requires:     parted
 Requires:     util-linux
 Requires:     %{euca_curl}
 Requires:     %{euca_httpd}
-Requires:     %{euca_hypervisor}
 Requires:     %{euca_iscsi_client}
 Requires:     %{euca_libvirt}
 Requires:     %{_sbindir}/euca_conf
+%if 0%{?el5}
+Requires:     xen
+%else
+Requires:     qemu-kvm
+%endif
 
 %provide_abi nc
 
@@ -376,7 +378,11 @@ make # %{?_smp_mflags}
 make install DESTDIR=$RPM_BUILD_ROOT
 
 sed -i -e 's#.*EUCALYPTUS=.*#EUCALYPTUS="/"#' \
-       -e 's#.*HYPERVISOR=.*#HYPERVISOR="%{euca_hypervisor}"#' \
+%if 0%{?el5}
+       -e 's#.*HYPERVISOR=.*#HYPERVISOR="xen"#' \
+%else
+       -e 's#.*HYPERVISOR=.*#HYPERVISOR="kvm"#' \
+%endif
        -e 's#.*INSTANCE_PATH=.*#INSTANCE_PATH="/var/lib/eucalyptus/instances"#' \
        -e 's#.*VNET_BRIDGE=.*#VNET_BRIDGE="%{euca_bridge}"#' \
        $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
@@ -747,6 +753,7 @@ exit 0
 %changelog
 * Thu Sep 20 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1.2-0
 - Added openssh-clients dependency to admin-tools package
+- Depend on qemu-kvm, not kvm
 
 * Thu Sep  6 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1.2-0
 - Version bump
