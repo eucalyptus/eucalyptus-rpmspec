@@ -284,6 +284,9 @@ Requires:     %{euca_hypervisor}
 Requires:     %{euca_iscsi_client}
 Requires:     %{euca_libvirt}
 Requires:     %{_sbindir}/euca_conf
+Requires:     perl(Time::HiRes)
+Requires:     perl(Sys::Virt)
+Requires:     perl(XML::Simple)
 
 %provide_abi nc
 
