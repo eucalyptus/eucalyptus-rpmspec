@@ -597,7 +597,8 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %{_sbindir}/euca-register-storage-controller
 %{_sbindir}/euca-register-vmware-broker
 %{_sbindir}/euca-register-walrus
-%{_sbindir}/euca-reports-export
+%{_sbindir}/eureport-generate-report
+%{_sbindir}/eureport-export-data
 
 %files -n python%{?pybasever}-eucadmin
 %defattr(-,root,root,-)
@@ -758,6 +759,9 @@ fi
 exit 0
 
 %changelog
+* Fri Sep 21 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Updated reporting CLI tool names
+
 * Wed Sep 12 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Split java-common into java-common and java-common-libs
 
