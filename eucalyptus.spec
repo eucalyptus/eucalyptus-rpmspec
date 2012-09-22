@@ -272,6 +272,9 @@ Requires:     %{name}-gl = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     device-mapper
 Requires:     euca2ools >= 2.0
+Requires:     perl(Sys::Virt)
+Requires:     perl(Time::HiRes)
+Requires:     perl(XML::Simple)
 # The next six come from storage/diskutil.c, which shells out to lots of stuff.
 Requires:     coreutils
 Requires:     e2fsprogs
@@ -761,6 +764,7 @@ exit 0
 %changelog
 * Fri Sep 21 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Updated reporting CLI tool names
+- Added new perl dependencies for reporting
 
 * Wed Sep 12 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Split java-common into java-common and java-common-libs
