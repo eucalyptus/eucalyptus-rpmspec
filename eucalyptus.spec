@@ -447,7 +447,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %defattr(-,root,root,-)
 %doc LICENSE INSTALL README CHANGELOG
 
-%dir /etc/eucalyptus
+%attr(-,eucalyptus,eucalyptus) %dir /etc/eucalyptus
 %config(noreplace) /etc/eucalyptus/eucalyptus.conf
 /etc/eucalyptus/eucalyptus-version
 /etc/eucalyptus/httpd.conf
@@ -759,6 +759,10 @@ fi
 exit 0
 
 %changelog
+* Mon Sep 24 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Change ownership on /etc/eucalyptus to eucalyptus:eucalyptus
+  This is a temporary fix for issue BROKER-9
+
 * Fri Sep 21 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Updated reporting CLI tool names
 - Added new perl dependencies for reporting
