@@ -442,7 +442,7 @@ cp -p tools/nc-hooks/libvirt-check.sh $RPM_BUILD_ROOT/etc/eucalyptus/nc-hooks/li
 %defattr(-,root,root,-)
 %doc LICENSE INSTALL README CHANGELOG
 
-%dir /etc/eucalyptus
+%attr(-,eucalyptus,eucalyptus) %dir /etc/eucalyptus
 %config(noreplace) /etc/eucalyptus/eucalyptus.conf
 /etc/eucalyptus/eucalyptus-version
 /etc/eucalyptus/httpd.conf
@@ -751,6 +751,10 @@ fi
 exit 0
 
 %changelog
+* Mon Sep 24 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1.2-0
+- Change ownership on /etc/eucalyptus to eucalyptus:eucalyptus
+  This is a temporary fix for issue BROKER-9
+
 * Thu Sep 20 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.1.2-0
 - Added openssh-clients dependency to admin-tools package
 - Depend on qemu-kvm, not kvm
