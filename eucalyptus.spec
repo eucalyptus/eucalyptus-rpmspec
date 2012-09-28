@@ -458,6 +458,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_rootwrap
 
 /usr/sbin/euca_sync_key
+/usr/sbin/euca-generate-fault
 
 %dir /usr/share/eucalyptus
 /usr/share/eucalyptus/add_key.pl
