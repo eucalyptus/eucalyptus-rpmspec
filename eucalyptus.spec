@@ -377,6 +377,32 @@ tools.  It is neither intended nor supported for use by any other programs.
 %patch1 -p1
 %endif
 
+# Filter unwanted perl provides
+cat << \EOF > %{name}-prov
+#!/bin/sh
+%{__perl_provides} $* |\
+sed -e '/perl(disconnect_iscsitarget_main.pl)/d' \
+    -e '/perl(connect_iscsitarget_main.pl)/d' \
+    -e '/perl(iscsitarget_common.pl)/d'
+EOF
+
+%global __perl_provides %{_builddir}/%{name}-%{version}%{?tar_suffix}/%{name}-prov
+chmod +x %{__perl_provides}
+
+
+# Filter unwanted perl requires
+cat << \EOF > %{name}-req
+#!/bin/sh
+%{__perl_requires} $* |\
+sed -e '/perl(disconnect_iscsitarget_main.pl)/d' \
+    -e '/perl(connect_iscsitarget_main.pl)/d' \
+    -e '/perl(iscsitarget_common.pl)/d'
+EOF
+
+%global __perl_requires %{_builddir}/%{name}-%{version}%{?tar_suffix}/%{name}-req
+chmod +x %{__perl_requires}
+
+
 %build
 export CFLAGS="%{optflags}"
 
