@@ -463,14 +463,17 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %dir /usr/share/eucalyptus
 /usr/share/eucalyptus/add_key.pl
 /usr/share/eucalyptus/connect_iscsitarget.pl
+/usr/share/eucalyptus/connect_iscsitarget_main.pl
 /usr/share/eucalyptus/create-loop-devices
 /usr/share/eucalyptus/disconnect_iscsitarget.pl
+/usr/share/eucalyptus/disconnect_iscsitarget_main.pl
 %doc /usr/share/eucalyptus/doc/
 /usr/share/eucalyptus/euca_ipt
 /usr/share/eucalyptus/euca_upgrade
 /usr/share/eucalyptus/faults/
 /usr/share/eucalyptus/floppy
 /usr/share/eucalyptus/get_iscsitarget.pl
+/usr/share/eucalyptus/iscsitarget_common.pl
 /usr/share/eucalyptus/populate_arp.pl
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/db
