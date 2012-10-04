@@ -185,6 +185,7 @@ Group:        Applications/System
 
 Requires:     %{name}             = %{version}-%{release}
 Requires:     %{name}-common-java = %{version}-%{release}
+Requires:     device-mapper-multipath
 Requires:     lvm2
 Requires:     %{euca_iscsi_client}
 Requires:     %{euca_iscsi_server}
@@ -271,6 +272,7 @@ Requires:     %{name}    = %{version}-%{release}
 Requires:     %{name}-gl = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     device-mapper
+Requires:     device-mapper-multipath
 Requires:     euca2ools >= 2.0
 Requires:     perl(Sys::Virt)
 Requires:     perl(Time::HiRes)
@@ -763,6 +765,9 @@ fi
 exit 0
 
 %changelog
+* Thu Oct  4 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Added device-mapper-multipath dependencies to sc and nc packages
+
 * Mon Sep 24 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Change ownership on /etc/eucalyptus to eucalyptus:eucalyptus
   This is a temporary fix for issue BROKER-9
