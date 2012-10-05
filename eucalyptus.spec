@@ -462,6 +462,11 @@ mkdir -p $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d
 cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
 %endif
 
+# Put udev rules in the right place
+mkdir -p $RPM_BUILD_ROOT/etc/udev/rules.d
+cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/12-dm-permissions.rules $RPM_BUILD_ROOT/etc/udev/rules.d/12-dm-permissions.rules
+rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/udev
+
 # Work around a regression in libvirtd.conf file handling that appears
 # in at least RHEL 6.2
 # https://www.redhat.com/archives/libvirt-users/2011-July/msg00039.html
@@ -480,6 +485,8 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /etc/eucalyptus/eucalyptus-version
 /etc/eucalyptus/httpd.conf
 %ghost /etc/eucalyptus/httpd-tmp.conf
+# Needed for multipath on NCs and SAN-enabled SCs
+/etc/udev/rules.d/12-dm-permissions.rules
 
 %attr(-,root,eucalyptus) %dir /usr/lib/eucalyptus
 %attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_mountwrap
@@ -794,6 +801,7 @@ exit 0
 * Thu Oct  4 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added device-mapper-multipath dependencies to sc and nc packages
 - Added missing perl requires
+- Added udev rules for multipath support
 
 * Mon Sep 24 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Change ownership on /etc/eucalyptus to eucalyptus:eucalyptus
