@@ -793,6 +793,7 @@ exit 0
 %changelog
 * Thu Oct  4 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added device-mapper-multipath dependencies to sc and nc packages
+- Added missing perl requires
 
 * Mon Sep 24 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Change ownership on /etc/eucalyptus to eucalyptus:eucalyptus
