@@ -638,6 +638,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %{_sbindir}/euca-register-walrus
 %{_sbindir}/eureport-generate-report
 %{_sbindir}/eureport-export-data
+%{_sbindir}/eureport-delete-data
 
 %files -n python%{?pybasever}-eucadmin
 %defattr(-,root,root,-)
@@ -798,6 +799,9 @@ fi
 exit 0
 
 %changelog
+* Sat Oct  6 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Added eureport-delete-data to files section
+
 * Thu Oct  4 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added device-mapper-multipath dependencies to sc and nc packages
 - Added missing perl requires
