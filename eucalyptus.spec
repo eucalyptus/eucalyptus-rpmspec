@@ -465,6 +465,7 @@ cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localaut
 # Put udev rules in the right place
 mkdir -p $RPM_BUILD_ROOT/etc/udev/rules.d
 cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/12-dm-permissions.rules $RPM_BUILD_ROOT/etc/udev/rules.d/12-dm-permissions.rules
+cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/65-drbd-owner.rules $RPM_BUILD_ROOT/etc/udev/rules.d/65-drbd-owner.rules
 rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/udev
 
 # Work around a regression in libvirtd.conf file handling that appears
@@ -799,6 +800,9 @@ fi
 exit 0
 
 %changelog
+* Mon Oct  8 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Added udev rules for drbd
+
 * Sat Oct  6 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added eureport-delete-data to files section
 
