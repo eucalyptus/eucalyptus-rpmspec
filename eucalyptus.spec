@@ -701,6 +701,9 @@ fi
 # Clean up after old releases that didn't enumerate all admin-tools files
 rm -rf /usr/sbin/euca_admin
 
+# Reload udev rules
+/sbin/service udev-post reload || :
+
 exit 0
 
 %post common-java
@@ -753,6 +756,12 @@ fi
 %endif
 exit 0
 
+%preun
+# Reload udev rules on uninstall
+if [ "$1" = "0" ]; then
+    /sbin/service udev-post reload || :
+fi
+
 %if 0%{?el5}
 %preun cloud
 if [ "$1" = "0" ]; then
@@ -803,6 +812,7 @@ exit 0
 %changelog
 * Mon Oct  8 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added udev rules for drbd
+- Reload udev rules on install and uninstall
 
 * Sat Oct  6 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added eureport-delete-data to files section
