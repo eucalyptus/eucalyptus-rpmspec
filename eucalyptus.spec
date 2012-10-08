@@ -488,6 +488,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %ghost /etc/eucalyptus/httpd-tmp.conf
 # Needed for multipath on NCs and SAN-enabled SCs
 /etc/udev/rules.d/12-dm-permissions.rules
+/etc/udev/rules.d/65-drbd-owner.rules
 
 %attr(-,root,eucalyptus) %dir /usr/lib/eucalyptus
 %attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_mountwrap
