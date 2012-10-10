@@ -566,6 +566,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/volumes
 /usr/share/eucalyptus/connect_iscsitarget_sc.pl
 /usr/share/eucalyptus/disconnect_iscsitarget_sc.pl
+/usr/lib/eucalyptus/libdascontrol.so
 /usr/lib/eucalyptus/liblvm2control.so
 
 %files cc
@@ -810,6 +811,9 @@ fi
 exit 0
 
 %changelog
+* Wed Oct 10 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Moved DASManager to the sc package
+
 * Mon Oct  8 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added udev rules for drbd
 - Reload udev rules on install and uninstall
