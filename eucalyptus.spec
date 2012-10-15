@@ -578,6 +578,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /etc/eucalyptus/vtunall.conf.template
 /usr/lib/eucalyptus/shutdownCC
 /usr/share/eucalyptus/dynserv.pl
+/usr/share/eucalyptus/getstats_net.pl
 # Is this used?
 /var/lib/eucalyptus/keys/nc-client-policy.xml
 
@@ -811,6 +812,9 @@ fi
 exit 0
 
 %changelog
+* Mon Oct 15 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Added getstats_net.pl to the CC subpackage
+
 * Wed Oct 10 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Moved DASManager to the sc package
 
