@@ -247,6 +247,7 @@ Group:        Applications/System
 Requires:     %{name}    = %{version}-%{release}
 Requires:     %{name}-gl = %{version}-%{release}
 Requires:     bridge-utils
+Requires:     iproute
 Requires:     iptables
 Requires:     vtun
 Requires:     %{euca_dhcp}
@@ -812,6 +813,9 @@ fi
 exit 0
 
 %changelog
+* Tue Oct 16 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Added iproute dependency to the cc package
+
 * Mon Oct 15 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added getstats_net.pl to the CC subpackage
 
