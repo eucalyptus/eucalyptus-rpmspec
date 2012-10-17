@@ -475,6 +475,11 @@ rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/udev
 mkdir $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt
 touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 
+# Temporarily remove jasperreports and dependencies
+# These will be removed from cloud-libs in the future
+# Fixes EUCA-3773
+rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/{batik,jasperreports,iText}*.jar*
+
 %clean
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 
@@ -536,7 +541,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /etc/eucalyptus/cloud.d/gwt-web.xml
 %dir /etc/eucalyptus/cloud.d/init.d
 /etc/eucalyptus/cloud.d/jmx/
-/etc/eucalyptus/cloud.d/reports/
 /etc/eucalyptus/cloud.d/scripts/
 /etc/eucalyptus/cloud.d/security.policy
 /etc/eucalyptus/cloud.d/upgrade/
@@ -813,6 +817,10 @@ fi
 exit 0
 
 %changelog
+* Tue Oct 16 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Added temporary fix for jasperreports jar removal
+- Removed /etc/eucalyptus/cloud.d/reports directory
+
 * Tue Oct 16 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added iproute dependency to the cc package
 
