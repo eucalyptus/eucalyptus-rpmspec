@@ -543,7 +543,6 @@ rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/{batik,jasperreports,iText}*.jar*
 /etc/eucalyptus/cloud.d/jmx/
 /etc/eucalyptus/cloud.d/scripts/
 /etc/eucalyptus/cloud.d/security.policy
-/etc/eucalyptus/cloud.d/upgrade/
 /etc/eucalyptus/cloud.d/www/
 /usr/sbin/eucalyptus-cloud
 %ghost /var/lib/eucalyptus/services
