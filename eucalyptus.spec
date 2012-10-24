@@ -75,6 +75,16 @@ BuildRequires: %{euca_libvirt}-devel
 BuildRequires: %{euca_libvirt}
 BuildRequires: %{euca_libcurl}
 
+%if 0%{?el5}
+BuildRequires:  python%{?pybasever}-m2crypto >= 0.20.2
+%endif
+%if 0%{?rhel} > 5 || 0%{?fedora}
+BuildRequires:  m2crypto
+%endif
+%if !0%{?rhel} && !0%{?fedora}
+BuildRequires:  python-m2crypto >= 0.20.2
+%endif
+
 Requires:      %{euca_build_req}
 Requires:      libselinux-python
 Requires:      perl(Crypt::OpenSSL::RSA)
@@ -371,6 +381,34 @@ computing service that is interface-compatible with Amazon AWS.
 This package contains the Python library used by Eucalyptus administration
 tools.  It is neither intended nor supported for use by any other programs.
 
+%package console
+Summary:        Client user interface for Eucalyptus
+License:        GPLv3 and BSD
+Group:          Applications/System
+
+Requires:       python%{?pybasever}-tornado
+Requires:       python%{?pybasever}-boto >= 2.1
+
+%if 0%{?el5}
+Requires:       python%{?pybasever}-m2crypto >= 0.20.2
+%endif
+%if 0%{?rhel} > 5 || 0%{?fedora}
+Requires:       m2crypto
+%endif
+%if !0%{?rhel} && !0%{?fedora}
+Requires:       python-m2crypto >= 0.20.2
+%endif
+
+%provide_abi console
+
+%if ! 0%{?el5}
+BuildArch:    noarch
+%endif
+
+%description console
+Client user interface for Eucalyptus.
+
+
 %prep
 %setup -q -n %{name}-%{version}%{?tar_suffix}
 
@@ -417,6 +455,11 @@ tar xf %{S:1} -C clc/lib
 
 # FIXME: storage/Makefile breaks with parallel make
 make # %{?_smp_mflags}
+
+# Build the Eucalyptus Console
+pushd console
+%{__python} setup.py build
+popd console
 
 %install
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
@@ -479,6 +522,34 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 # These will be removed from cloud-libs in the future
 # Fixes EUCA-3773
 rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/{batik,jasperreports,iText}*.jar*
+
+# Install Eucalyptus Console
+pushd console
+%{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
+
+# Install init script
+install -d $RPM_BUILD_ROOT%{_initrddir}
+install -m 755 ../tools/eucalyptus-console-init $RPM_BUILD_ROOT%{_initrddir}/eucalyptus-console
+
+# Install sysconfig file
+install -d $RPM_BUILD_ROOT/etc/sysconfig
+install -m 644 ../tools/eucalyptus-console.sysconfig $RPM_BUILD_ROOT/etc/sysconfig/eucalyptus-console
+
+echo "
+[paths]
+staticpath: /usr/share/eucalyptus-console/static
+" >> $RPM_BUILD_ROOT/etc/eucalyptus-console/console.ini
+
+# Enable SSL support by default
+# NOTE: The certificate and key are not packaged, but will be generated
+#       on the first run of the service.
+#
+# Fixes EUCA-3901
+sed -i -e 's@^#sslcert:.*$@sslcert: /etc/eucalyptus-console/console.crt@' \
+       -e 's@^#sslkey:.*$@sslkey: /etc/eucalyptus-console/console.key@' \
+       $RPM_BUILD_ROOT/etc/eucalyptus-console/console.ini
+popd console
+ 
 
 %clean
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
@@ -652,6 +723,20 @@ rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/{batik,jasperreports,iText}*.jar*
 %defattr(-,root,root,-)
 %{python_sitelib}/eucadmin*
 
+%files console
+%defattr(-,root,root,-)
+%doc console/README.md
+%{python_sitelib}/esapi*
+%{python_sitelib}/server*
+%{python_sitelib}/Eucalyptus_Management_Console*.egg-info
+%{_bindir}/euca-console-server
+%{_initrddir}/eucalyptus-console
+%{_datadir}/eucalyptus-console
+%dir /etc/eucalyptus-console
+%config /etc/eucalyptus-console/console.ini
+%config /etc/sysconfig/eucalyptus-console
+
+
 %pre
 getent group eucalyptus >/dev/null || groupadd -r eucalyptus
 ## FIXME:  Make QA (and Eucalyptus proper?) work with /sbin/nologin as the shell [RT:2092]
@@ -693,6 +778,12 @@ if [ "$1" = "2" ]; then
     tar cf - $EUCABACKUPS 2>/dev/null | tar xf - -C "$BACKUPDIR" 2>/dev/null
 fi
 exit 0
+
+%pre console
+# Stop running service on upgrade
+if [ "$1" = "2" ]; then
+   [ -x %{_initrddir}/eucalyptus-console ] && /sbin/service eucalyptus-console stop || :
+fi
 
 %post
 if [ "$1" = "2" ]; then
@@ -762,6 +853,9 @@ fi
 %endif
 exit 0
 
+%post console
+chkconfig --add eucalyptus-console
+
 %preun
 # Reload udev rules on uninstall
 if [ "$1" = "0" ]; then
@@ -815,7 +909,17 @@ if [ "$1" = "0" ]; then
 fi
 exit 0
 
+%preun console
+# Stop running service and remove on uninstall
+if [ "$1" = "0" ]; then
+   [ -x %{_initrddir}/eucalyptus-console ] && /sbin/service eucalyptus-console stop || :
+   chkconfig --del eucalyptus-console || :
+fi
+
 %changelog
+* Wed Oct 24 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Merged spec file content for Eucalyptus Console
+
 * Tue Oct 16 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added temporary fix for jasperreports jar removal
 - Removed /etc/eucalyptus/cloud.d/reports directory
