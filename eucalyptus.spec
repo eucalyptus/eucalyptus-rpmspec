@@ -355,7 +355,8 @@ Eucalyptus cluster.
 
 %package -n python%{?pybasever}-eucadmin
 Summary:      Elastic Utility Computing Architecture - administration Python library
-License:      BSD
+# A patched version of python's gzip is included, so we add the Python license
+License:      BSD and Python
 Group:        Development/Libraries
 
 Requires:     python%{?pybasever}-boto >= 2.1
@@ -917,6 +918,9 @@ if [ "$1" = "0" ]; then
 fi
 
 %changelog
+* Fri Oct 26 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Updated eucadmin license tag
+
 * Wed Oct 24 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Merged spec file content for Eucalyptus Console
 
