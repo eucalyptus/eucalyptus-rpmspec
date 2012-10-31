@@ -728,7 +728,7 @@ popd console
 %defattr(-,root,root,-)
 %doc console/README.md
 %{python_sitelib}/esapi*
-%{python_sitelib}/server*
+%{python_sitelib}/eucaconsole*
 %{python_sitelib}/Eucalyptus_Management_Console*.egg-info
 %{_bindir}/euca-console-server
 %{_initrddir}/eucalyptus-console
@@ -918,6 +918,9 @@ if [ "$1" = "0" ]; then
 fi
 
 %changelog
+* Wed Oct 31 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- User Console python package changed from server => eucaconsole
+
 * Fri Oct 26 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Updated eucadmin license tag
 
