@@ -918,6 +918,9 @@ if [ "$1" = "0" ]; then
 fi
 
 %changelog
+* Wed Nov 13 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Reload udev rules in postun instead of preun
+
 * Wed Oct 31 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - User Console python package changed from server => eucaconsole
 
