@@ -857,7 +857,7 @@ exit 0
 %post console
 chkconfig --add eucalyptus-console
 
-%preun
+%postun
 # Reload udev rules on uninstall
 if [ "$1" = "0" ]; then
     /sbin/service udev-post reload || :
