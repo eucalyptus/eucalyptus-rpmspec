@@ -558,6 +558,7 @@ popd console
 %files
 %defattr(-,root,root,-)
 %doc LICENSE INSTALL README CHANGELOG
+%doc tools/multipath.conf.example
 
 %attr(-,eucalyptus,eucalyptus) %dir /etc/eucalyptus
 %config(noreplace) /etc/eucalyptus/eucalyptus.conf
@@ -918,6 +919,9 @@ if [ "$1" = "0" ]; then
 fi
 
 %changelog
+* Mon Nov 19 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Added sample multipath.conf docfile
+
 * Wed Nov 13 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Reload udev rules in postun instead of preun
 
