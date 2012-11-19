@@ -651,7 +651,7 @@ popd console
 %{axis2c_home}/services/EucalyptusCC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/CC
 %ghost /etc/eucalyptus/httpd-cc.conf
-/etc/eucalyptus/vtunall.conf.template
+/usr/share/eucalyptus/vtunall.conf.template
 /usr/lib/eucalyptus/shutdownCC
 /usr/share/eucalyptus/dynserv.pl
 /usr/share/eucalyptus/getstats_net.pl
