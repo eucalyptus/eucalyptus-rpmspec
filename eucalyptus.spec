@@ -549,6 +549,9 @@ staticpath: /usr/share/eucalyptus-console/static
 sed -i -e 's@^#sslcert:.*$@sslcert: /etc/eucalyptus-console/console.crt@' \
        -e 's@^#sslkey:.*$@sslkey: /etc/eucalyptus-console/console.key@' \
        $RPM_BUILD_ROOT/etc/eucalyptus-console/console.ini
+
+# Create directory for pid file
+install -d $RPM_BUILD_ROOT/var/run/eucalyptus-console
 popd console
  
 
@@ -733,9 +736,10 @@ popd console
 %{python_sitelib}/Eucalyptus_Management_Console*.egg-info
 %{_bindir}/euca-console-server
 %{_initrddir}/eucalyptus-console
-%{_datadir}/eucalyptus-console
-%dir /etc/eucalyptus-console
-%config /etc/eucalyptus-console/console.ini
+%attr(-,eucaconsole,eucaconsole) %{_datadir}/eucalyptus-console
+%attr(-,eucaconsole,eucaconsole) %dir /etc/eucalyptus-console
+%attr(-,eucaconsole,eucaconsole) %config /etc/eucalyptus-console/console.ini
+%attr(-,eucaconsole,eucaconsole) %dir /var/run/eucalyptus-console
 %config /etc/sysconfig/eucalyptus-console
 
 
@@ -786,6 +790,11 @@ exit 0
 if [ "$1" = "2" ]; then
    [ -x %{_initrddir}/eucalyptus-console ] && /sbin/service eucalyptus-console stop || :
 fi
+
+getent group eucaconsole >/dev/null || groupadd -r eucaconsole
+getent passwd eucaconsole >/dev/null || \
+    useradd -r -g eucaconsole -d /etc/eucalyptus-console \
+    -c 'Eucalyptus Console' eucaconsole
 
 %post
 if [ "$1" = "2" ]; then
@@ -919,6 +928,11 @@ if [ "$1" = "0" ]; then
 fi
 
 %changelog
+* Tue Nov 27 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Added eucaconsole user and group
+- Change ownership for console package files and directories
+- Added /var/run/eucalyptus-console directory for writing pidfile
+
 * Mon Nov 19 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added sample multipath.conf docfile
 
