@@ -561,7 +561,7 @@ popd console
 %files
 %defattr(-,root,root,-)
 %doc LICENSE INSTALL README CHANGELOG
-%doc tools/multipath.conf.example
+%doc tools/multipath.conf.example tools/iscsid.conf.example
 
 %attr(-,eucalyptus,eucalyptus) %dir /etc/eucalyptus
 %config(noreplace) /etc/eucalyptus/eucalyptus.conf
@@ -928,6 +928,9 @@ if [ "$1" = "0" ]; then
 fi
 
 %changelog
+* Fri Nov 30 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
+- Added sample iscsid.conf docfile
+
 * Tue Nov 27 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added eucaconsole user and group
 - Change ownership for console package files and directories
