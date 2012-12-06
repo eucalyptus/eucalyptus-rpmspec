@@ -476,6 +476,7 @@ sed -i -e 's#.*EUCALYPTUS=.*#EUCALYPTUS="/"#' \
 %if 0%{?rhel}
 sed -i 's#.*USE_VIRTIO_DISK=.*#USE_VIRTIO_DISK="1"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
 sed -i 's#.*USE_VIRTIO_ROOT=.*#USE_VIRTIO_ROOT="1"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
+sed -i 's#.*USE_VIRTIO_NET=.*#USE_VIRTIO_NET="1"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
 %endif
 
 # Use patched dhcpd on el6
