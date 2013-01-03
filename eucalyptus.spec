@@ -738,9 +738,9 @@ popd console
 %{_initrddir}/eucalyptus-console
 %attr(-,eucaconsole,eucaconsole) %{_datadir}/eucalyptus-console
 %attr(-,eucaconsole,eucaconsole) %dir /etc/eucalyptus-console
-%attr(-,eucaconsole,eucaconsole) %config /etc/eucalyptus-console/console.ini
+%attr(-,eucaconsole,eucaconsole) %config(noreplace) /etc/eucalyptus-console/console.ini
 %attr(-,eucaconsole,eucaconsole) %dir /var/run/eucalyptus-console
-%config /etc/sysconfig/eucalyptus-console
+%config(noreplace) /etc/sysconfig/eucalyptus-console
 
 
 %pre
