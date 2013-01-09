@@ -843,6 +843,11 @@ if [ -e /etc/sysconfig/system-config-securitylevel ]; then
         echo "--port=8774:tcp" >> /etc/sysconfig/system-config-securitylevel
     fi
 fi
+
+if [ $1 -eq 2 -a ! -e /etc/eucalyptus/iptables-preload -a -f /var/run/eucalyptus/iptables-preload ]; then
+    # Migrate /var/run/eucalyptus/iptables-preload (EUCA-3693, for eucalyptus 3.2.1)
+    mv /var/run/eucalyptus/iptables-preload /etc/eucalyptus/iptables-preload
+fi
 %endif
 exit 0
 
