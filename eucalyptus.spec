@@ -547,8 +547,8 @@ staticpath: /usr/share/eucalyptus-console/static
 #       on the first run of the service.
 #
 # Fixes EUCA-3901
-sed -i -e 's@^#sslcert:.*$@sslcert: /etc/eucalyptus-console/console.crt@' \
-       -e 's@^#sslkey:.*$@sslkey: /etc/eucalyptus-console/console.key@' \
+sed -i -e 's@^#sslcert=.*$@sslcert=/etc/eucalyptus-console/console.crt@' \
+       -e 's@^#sslkey=.*$@sslkey=/etc/eucalyptus-console/console.key@' \
        $RPM_BUILD_ROOT/etc/eucalyptus-console/console.ini
 
 # Create directory for pid file
