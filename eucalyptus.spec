@@ -259,6 +259,7 @@ Requires:     %{name}-gl = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     iproute
 Requires:     iptables
+Requires:     iputils
 Requires:     vtun
 Requires:     %{euca_dhcp}
 Requires:     %{euca_httpd}
