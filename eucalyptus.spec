@@ -259,6 +259,7 @@ Requires:     %{name}-gl = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     iproute
 Requires:     iptables
+Requires:     iputils
 Requires:     vtun
 Requires:     %{euca_dhcp}
 Requires:     %{euca_httpd}
@@ -739,7 +740,7 @@ popd console
 %{_initrddir}/eucalyptus-console
 %attr(-,eucaconsole,eucaconsole) %{_datadir}/eucalyptus-console
 %attr(-,eucaconsole,eucaconsole) %dir /etc/eucalyptus-console
-%attr(-,eucaconsole,eucaconsole) %config(noreplace) /etc/eucalyptus-console/console.ini
+%attr(0644,root,eucaconsole) %config(noreplace) /etc/eucalyptus-console/console.ini
 %attr(-,eucaconsole,eucaconsole) %dir /var/run/eucalyptus-console
 %config(noreplace) /etc/sysconfig/eucalyptus-console
 
@@ -844,12 +845,12 @@ if [ -e /etc/sysconfig/system-config-securitylevel ]; then
         echo "--port=8774:tcp" >> /etc/sysconfig/system-config-securitylevel
     fi
 fi
+%endif
 
 if [ $1 -eq 2 -a ! -e /etc/eucalyptus/iptables-preload -a -f /var/run/eucalyptus/iptables-preload ]; then
     # Migrate /var/run/eucalyptus/iptables-preload (EUCA-3693, for eucalyptus 3.2.1)
     mv /var/run/eucalyptus/iptables-preload /etc/eucalyptus/iptables-preload
 fi
-%endif
 exit 0
 
 %post nc
