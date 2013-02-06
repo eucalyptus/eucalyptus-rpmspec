@@ -53,6 +53,7 @@ Group:         Applications/System
 
 BuildRequires: ant >= 1.7
 BuildRequires: ant-nodeps >= 1.7
+BuildRequires: apache-ivy
 BuildRequires: axis2-adb-codegen
 BuildRequires: axis2-codegen
 BuildRequires: axis2c-devel >= 1.6.0
