@@ -527,6 +527,9 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 # Fixes EUCA-3773
 rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/{batik,jasperreports,iText,hsqldb}*.jar*
 
+# Remove README file if one exists
+rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
+
 # Install Eucalyptus Console
 pushd console
 %{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
