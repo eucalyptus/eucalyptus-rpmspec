@@ -708,6 +708,7 @@ popd console
 %{_sbindir}/euca-describe-clouds
 %{_sbindir}/euca-describe-clusters
 %{_sbindir}/euca-describe-components
+%{_sbindir}/euca-describe-instance-types
 %{_sbindir}/euca-describe-nodes
 %{_sbindir}/euca-describe-properties
 %{_sbindir}/euca-describe-services
