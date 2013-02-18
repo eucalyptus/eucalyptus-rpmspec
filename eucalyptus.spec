@@ -768,8 +768,6 @@ if [ "$1" = "2" ]; then
 
     # Back up important data as well as all of the previous installation's jars.
     BACKUPDIR="/var/lib/eucalyptus/upgrade/eucalyptus.backup.`date +%%s`"
-    ## FIXME:  What cleans this file up?
-    echo "$BACKUPDIR" > /tmp/eucaback.dir
     mkdir -p "$BACKUPDIR"
     EUCABACKUPS=""
     for i in /var/lib/eucalyptus/keys/ /var/lib/eucalyptus/db/ /var/lib/eucalyptus/services /etc/eucalyptus/eucalyptus.conf /etc/eucalyptus/eucalyptus-version /usr/share/eucalyptus/; do
@@ -798,18 +796,6 @@ getent passwd eucaconsole >/dev/null || \
     -c 'Eucalyptus Console' eucaconsole
 
 %post
-if [ "$1" = "2" ]; then
-    if [ -f /tmp/eucaback.dir ]; then
-        BACKDIR=`cat /tmp/eucaback.dir`
-        if [ -d "$BACKDIR" ]; then
-            /usr/share/eucalyptus/euca_upgrade --old $BACKDIR --new / --conf >/var/log/eucalyptus/upgrade-config.log 2>&1
-        fi
-    fi
-fi
-
-# Clean up after old releases that didn't enumerate all admin-tools files
-rm -rf /usr/sbin/euca_admin
-
 # Reload udev rules
 /sbin/service udev-post reload || :
 
