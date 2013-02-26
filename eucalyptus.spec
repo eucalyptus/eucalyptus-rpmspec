@@ -716,6 +716,7 @@ popd console
 %{_sbindir}/euca-describe-vmware-brokers
 %{_sbindir}/euca-describe-walruses
 %{_sbindir}/euca-get-credentials
+%{_sbindir}/euca-migrate-instances
 %{_sbindir}/euca-modify-cluster
 %{_sbindir}/euca-modify-property
 %{_sbindir}/euca-modify-service
