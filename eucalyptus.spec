@@ -285,7 +285,7 @@ Requires:     %{name}-gl = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     device-mapper
 Requires:     device-mapper-multipath
-Requires:     euca2ools >= 2.0
+Requires:     euca2ools >= 2.1.3
 Requires:     perl(Sys::Virt)
 Requires:     perl(Time::HiRes)
 Requires:     perl(XML::Simple)
