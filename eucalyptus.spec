@@ -146,7 +146,7 @@ Summary:      Elastic Utility Computing Architecture - ws java stack libs
 Group:        Applications/System
 
 Requires:     jpackage-utils
-Requires:     java >= 1:1.6.0
+Requires:     java7 >= 1:1.7.0
 
 %provide_abi common-java-libs
 
