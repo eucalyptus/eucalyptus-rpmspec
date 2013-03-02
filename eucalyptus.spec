@@ -57,7 +57,7 @@ BuildRequires: apache-ivy
 BuildRequires: axis2-adb-codegen
 BuildRequires: axis2-codegen
 BuildRequires: axis2c-devel >= 1.6.0
-BuildRequires: java-devel >= 1:1.6.0
+BuildRequires: java7-devel >= 1:1.7.0
 BuildRequires: jpackage-utils
 BuildRequires: libvirt-devel >= 0.6
 BuildRequires: libxml2-devel
