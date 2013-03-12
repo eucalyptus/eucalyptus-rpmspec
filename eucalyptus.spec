@@ -456,6 +456,9 @@ export CFLAGS="%{optflags}"
 mkdir clc/lib
 tar xf %{S:1} -C clc/lib
 
+# Don't bother with git since we're using a cloud-libs tarball
+touch clc/.nogit
+
 # FIXME: storage/Makefile breaks with parallel make
 make # %{?_smp_mflags}
 
