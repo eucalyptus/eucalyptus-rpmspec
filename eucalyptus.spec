@@ -67,7 +67,6 @@ BuildRequires: python%{?pybasever}-devel
 BuildRequires: python%{?pybasever}-setuptools
 BuildRequires: rampartc-devel >= 1.3.0
 BuildRequires: swig
-BuildRequires: velocity
 BuildRequires: xalan-j2-xsltc
 BuildRequires: /usr/bin/awk
 
@@ -127,7 +126,6 @@ Group:        Applications/System
 Requires:     %{name} = %{version}-%{release}
 Requires:     %{name}-common-java-libs = %{version}-%{release}
 Requires:     lvm2
-Requires:     velocity
 Requires:     %{_sbindir}/euca_conf
 
 %provide_abi common-java
@@ -927,6 +925,9 @@ if [ "$1" = "0" ]; then
 fi
 
 %changelog
+* Tue Mar 19 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.0-0
+- remove velocity Requires
+
 * Fri Nov 30 2012 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.2.0-0
 - Added sample iscsid.conf docfile
 
