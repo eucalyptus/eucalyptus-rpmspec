@@ -729,6 +729,7 @@ popd console
 %{_sbindir}/euca-register-storage-controller
 %{_sbindir}/euca-register-vmware-broker
 %{_sbindir}/euca-register-walrus
+%{_sbindir}/euca-validator
 %{_sbindir}/eureport-generate-report
 %{_sbindir}/eureport-export-data
 %{_sbindir}/eureport-delete-data
@@ -736,6 +737,7 @@ popd console
 %files -n python%{?pybasever}-eucadmin
 %defattr(-,root,root,-)
 %{python_sitelib}/eucadmin*
+/usr/lib/eucadmin/
 
 %files console
 %defattr(-,root,root,-)
