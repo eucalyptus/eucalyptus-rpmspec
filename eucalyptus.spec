@@ -568,7 +568,7 @@ popd console
 %files
 %defattr(-,root,root,-)
 %doc LICENSE INSTALL README CHANGELOG
-%doc tools/multipath.conf.example tools/iscsid.conf.example
+%doc tools/multipath.conf.example.* tools/iscsid.conf.example
 
 %attr(-,eucalyptus,eucalyptus) %dir /etc/eucalyptus
 %config(noreplace) /etc/eucalyptus/eucalyptus.conf
