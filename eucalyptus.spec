@@ -593,6 +593,8 @@ popd console
 /usr/share/eucalyptus/create-loop-devices
 /usr/share/eucalyptus/disconnect_iscsitarget.pl
 /usr/share/eucalyptus/disconnect_iscsitarget_main.pl
+/usr/share/eucalyptus/generate-migration-keys.sh
+/usr/share/eucalyptus/authorize-migration-keys.pl
 %doc /usr/share/eucalyptus/doc/
 /usr/share/eucalyptus/euca_ipt
 /usr/share/eucalyptus/euca_upgrade
