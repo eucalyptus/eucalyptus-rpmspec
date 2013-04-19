@@ -609,6 +609,7 @@ popd console
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/upgrade
 # Can this file go into a single-component package?  What uses it?
 /var/lib/eucalyptus/keys/cc-client-policy.xml
+/var/lib/eucalyptus/keys/sc-client-policy.xml
 %attr(-,eucalyptus,eucalyptus) %dir /var/log/eucalyptus
 %attr(-,eucalyptus,eucalyptus) %dir /var/run/eucalyptus
 
