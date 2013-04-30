@@ -583,6 +583,10 @@ popd console
 %attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_mountwrap
 %attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_rootwrap
 
+# Kernel parameters required to be set for CC and NC
+%attr(-,root,eucalyptus) %dir /usr/libexec/eucalyptus
+%attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
+
 /usr/sbin/euca_sync_key
 /usr/sbin/euca-generate-fault
 
