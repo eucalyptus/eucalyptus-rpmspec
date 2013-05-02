@@ -737,7 +737,6 @@ popd console
 %{_sbindir}/euca-register-vmware-broker
 %{_sbindir}/euca-register-walrus
 %{_sbindir}/euca-validator
-%{_sbindir}/euca-modify-instance-type-attribute
 %{_sbindir}/eureport-generate-report
 %{_sbindir}/eureport-export-data
 %{_sbindir}/eureport-delete-data
