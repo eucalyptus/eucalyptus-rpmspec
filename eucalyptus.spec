@@ -716,7 +716,6 @@ popd console
 %{_sbindir}/euca-describe-clouds
 %{_sbindir}/euca-describe-clusters
 %{_sbindir}/euca-describe-components
-%{_sbindir}/euca-describe-instance-types
 %{_sbindir}/euca-describe-nodes
 %{_sbindir}/euca-describe-properties
 %{_sbindir}/euca-describe-services
@@ -737,7 +736,6 @@ popd console
 %{_sbindir}/euca-register-vmware-broker
 %{_sbindir}/euca-register-walrus
 %{_sbindir}/euca-validator
-%{_sbindir}/euca-modify-instance-type-attribute
 %{_sbindir}/eureport-generate-report
 %{_sbindir}/eureport-export-data
 %{_sbindir}/eureport-delete-data
