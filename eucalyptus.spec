@@ -523,11 +523,6 @@ rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/udev
 mkdir $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt
 touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 
-# Temporarily remove jasperreports and dependencies
-# These will be removed from cloud-libs in the future
-# Fixes EUCA-3773
-rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/{batik,jasperreports,iText,hsqldb}*.jar*
-
 # Remove README file if one exists
 rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
