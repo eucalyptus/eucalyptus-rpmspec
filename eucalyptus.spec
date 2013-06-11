@@ -45,7 +45,7 @@ Provides: %{name}-abi = %{abi_version} \
 
 Summary:       Elastic Utility Computing Architecture
 Name:          eucalyptus
-Version:       3.3.0
+Version:       3.4.0
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -931,6 +931,9 @@ if [ "$1" = "0" ]; then
 fi
 
 %changelog
+* Mon Jun 10 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
+- Updated to 3.4.0
+
 * Tue Mar 19 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.0-0
 - remove velocity Requires
 
