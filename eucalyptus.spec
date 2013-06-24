@@ -935,6 +935,12 @@ fi
 * Mon Jun 10 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
 - Updated to 3.4.0
 
+* Thu Jun 20 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.1-0
+- Version bump
+
+* Thu Jun 20 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.0.1-0
+- Version bump
+
 * Tue Mar 19 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.0-0
 - remove velocity Requires
 
