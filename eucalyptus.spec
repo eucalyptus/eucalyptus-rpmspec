@@ -361,6 +361,7 @@ Group:        Development/Libraries
 
 Requires:     python%{?pybasever}-boto >= 2.1
 Requires:     rsync
+Requires:     m2crypto
 %if 0%{?el5}
 Requires:     postgresql91-python26
 %else
