@@ -932,7 +932,7 @@ if [ "$1" = "0" ]; then
 fi
 
 %changelog
-* Mon Jun 10 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
+* Mon Jun 21 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
 - Updated to 3.4.0
 
 * Thu Jun 20 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.1-0
