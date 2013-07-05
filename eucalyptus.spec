@@ -459,6 +459,7 @@ cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/12-dm-permissions.rules 
 cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/55-openiscsi.rules $RPM_BUILD_ROOT/etc/udev/rules.d/55-openiscsi.rules
 cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/65-drbd-owner.rules $RPM_BUILD_ROOT/etc/udev/rules.d/65-drbd-owner.rules
 # FIXME:  iscsidev.sh belongs in /usr/share/eucalyptus [RT:2093]
+mkdir -p $RPM_BUILD_ROOT/etc/udev/scripts
 install -m 0755 $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/iscsidev.sh $RPM_BUILD_ROOT/etc/udev/scripts/iscsidev.sh
 rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/udev
 
