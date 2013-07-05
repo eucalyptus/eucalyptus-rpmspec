@@ -100,6 +100,9 @@ Group:        Applications/System
 Requires:     jpackage-utils
 Requires:     java7 >= 1:1.7.0
 
+Obsoletes:    eucalyptus-enterprise-storage-san-common-libs < 3.4.0
+Provides:     eucalyptus-enterprise-storage-san-common-libs = %{version}-%{release}
+
 %provide_abi common-java-libs
 
 %description common-java-libs
@@ -153,6 +156,9 @@ Requires:     device-mapper-multipath
 Requires:     iscsi-initiator-utils
 Requires:     lvm2
 Requires:     scsi-target-utils
+
+Obsoletes:    eucalyptus-enterprise-storage-san-common < 3.4.0
+Provides:     eucalyptus-enterprise-storage-san-common = %{version}-%{release}
 
 %provide_abi sc
 
@@ -450,7 +456,10 @@ cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localaut
 # Put udev rules in the right place
 mkdir -p $RPM_BUILD_ROOT/etc/udev/rules.d
 cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/12-dm-permissions.rules $RPM_BUILD_ROOT/etc/udev/rules.d/12-dm-permissions.rules
+cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/55-openiscsi.rules $RPM_BUILD_ROOT/etc/udev/rules.d/55-openiscsi.rules
 cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/65-drbd-owner.rules $RPM_BUILD_ROOT/etc/udev/rules.d/65-drbd-owner.rules
+# FIXME:  iscsidev.sh belongs in /usr/share/eucalyptus [RT:2093]
+install -m 0755 $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/iscsidev.sh $RPM_BUILD_ROOT/etc/udev/scripts/iscsidev.sh
 rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/udev
 
 # Work around a regression in libvirtd.conf file handling that appears
@@ -593,6 +602,8 @@ popd console
 
 %files sc
 %defattr(-,root,root,-)
+/etc/udev/rules.d/55-openiscsi*.rules
+/etc/udev/scripts/iscsidev.sh
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/volumes
 /usr/share/eucalyptus/connect_iscsitarget_sc.pl
 /usr/share/eucalyptus/disconnect_iscsitarget_sc.pl
@@ -842,6 +853,9 @@ fi
 
 
 %changelog
+* Fri Jul  5 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
+- Added files for SAN common stuff
+
 * Tue Jul  2 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
 - Dropped RHEL 5 support
 
