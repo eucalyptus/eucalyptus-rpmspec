@@ -608,8 +608,6 @@ popd console
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/volumes
 /usr/share/eucalyptus/connect_iscsitarget_sc.pl
 /usr/share/eucalyptus/disconnect_iscsitarget_sc.pl
-/usr/lib/eucalyptus/libdascontrol.so
-/usr/lib/eucalyptus/liblvm2control.so
 
 
 %files cc
