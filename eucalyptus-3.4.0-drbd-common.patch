@@ -1,0 +1,12 @@
+Index: eucalyptus/clc/modules/object-storage/conf/drbd/drbd.conf.example
+===================================================================
+--- eucalyptus.orig/clc/modules/object-storage/conf/drbd/drbd.conf.example
++++ eucalyptus/clc/modules/object-storage/conf/drbd/drbd.conf.example
+@@ -1,7 +1,3 @@
+-common {
+-  protocol C;
+-}
+-
+ resource r0 {
+ 
+   on <walrus-host-1> {

@@ -61,7 +61,7 @@ Source1:       cloud-lib.tar.gz
 Source2:       euca-WSDL2C.sh
 
 # Eliminate the redundant "common" config section in drbd.conf
-Patch1:        eucalyptus-3.0.0-drbd-common.patch
+Patch1:        eucalyptus-3.4.0-drbd-common.patch
 
 %description
 Eucalyptus is a service overlay that implements elastic computing
