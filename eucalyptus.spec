@@ -187,11 +187,11 @@ Requires:     euca2ools >= 2.0
 Requires:     lvm2
 Requires:     perl(Getopt::Long)
 %if 0%{?fedora}
-Requires:     postgresql
-Requires:     postgresql-server
+Requires:     postgresql >= 9.1.9
+Requires:     postgresql-server >= 9.1.9
 %else
-Requires:     postgresql91
-Requires:     postgresql91-server
+Requires:     postgresql91 >= 9.1.9
+Requires:     postgresql91-server >= 9.1.9
 %endif
 
 %provide_abi cloud
@@ -852,6 +852,9 @@ fi
 
 
 %changelog
+* Wed Jul 17 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.0-0
+- Require postgresql >= 9.1.9
+
 * Fri Jul  5 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
 - Added files for SAN common stuff
 
