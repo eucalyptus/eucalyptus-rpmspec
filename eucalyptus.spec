@@ -223,11 +223,11 @@ Requires:     euca2ools >= 2.0
 Requires:     lvm2
 Requires:     perl(Getopt::Long)
 %if 0%{?fedora}
-Requires:     postgresql
-Requires:     postgresql-server
+Requires:     postgresql >= 9.1.9
+Requires:     postgresql-server >= 9.1.9
 %else
-Requires:     postgresql91
-Requires:     postgresql91-server
+Requires:     postgresql91 >= 9.1.9
+Requires:     postgresql91-server >= 9.1.9
 %endif
 
 # For reporting web UI
@@ -932,11 +932,15 @@ if [ "$1" = "0" ]; then
 fi
 
 %changelog
+* Wed Jul 17 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.0-0
+- Require postgresql >= 9.1.9
+
 * Thu Jun 20 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.1-0
 - Version bump
 
 * Thu Jun 20 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.0.1-0
 - Version bump
+
 
 * Tue Mar 19 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.0-0
 - remove velocity Requires
