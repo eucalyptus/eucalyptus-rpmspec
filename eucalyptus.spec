@@ -389,7 +389,7 @@ License:        GPLv3 and BSD
 Group:          Applications/System
 
 Requires:       python%{?pybasever}-tornado
-Requires:       python%{?pybasever}-boto >= 2.1
+Requires:       python%{?pybasever}-boto >= 2.9.9-2
 
 %if 0%{?el5}
 Requires:       python%{?pybasever}-m2crypto >= 0.20.2
@@ -932,6 +932,9 @@ if [ "$1" = "0" ]; then
 fi
 
 %changelog
+* Mon Aug 26 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.1-0
+- Require python-boto >= 2.9.9-2 for console subpackage
+
 * Wed Jul 17 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.0-0
 - Require postgresql >= 9.1.9
 
