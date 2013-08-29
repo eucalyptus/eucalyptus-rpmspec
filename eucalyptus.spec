@@ -356,6 +356,25 @@ BuildArch:    noarch
 Client user interface for Eucalyptus.
 
 
+%package eucanet
+Summary:        Edge networking for Eucalyptus
+License:        BSD
+Group:          Applications/System
+
+Requires:       %{name}-nc = %{version}
+Requires:       iptables
+Requires:       ipset
+Requires:       ebtables
+Requires:       dhcp41
+
+BuildArch:      noarch
+
+%provide_abi eucanet
+
+%description eucanet
+Edge networking for Eucalyptus.
+
+
 %prep
 %setup -q -n %{name}-%{version}%{?tar_suffix}
 %patch1 -p1
@@ -710,6 +729,12 @@ popd console
 %config(noreplace) /etc/sysconfig/eucalyptus-console
 
 
+%files eucanet
+%defattr(-,root,root,-)
+%{_sbindir}/eucanetd
+%{_initrddir}/eucalyptus-eucanetd
+
+
 %pre
 getent group eucalyptus >/dev/null || groupadd -r eucalyptus
 ## FIXME:  Make QA (and Eucalyptus proper?) work with /sbin/nologin as the shell [RT:2092]
@@ -852,6 +877,9 @@ fi
 
 
 %changelog
+* Wed Aug 28 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
+- Add eucanetd tech preview
+
 * Wed Jul 17 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.3.0-0
 - Require postgresql >= 9.1.9
 
