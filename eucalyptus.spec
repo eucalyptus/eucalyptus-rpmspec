@@ -367,8 +367,6 @@ Requires:       ipset
 Requires:       ebtables
 Requires:       dhcp41
 
-BuildArch:      noarch
-
 %provide_abi eucanet
 
 %description eucanet
