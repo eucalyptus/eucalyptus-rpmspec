@@ -361,11 +361,11 @@ Summary:        Edge networking for Eucalyptus
 License:        BSD
 Group:          Applications/System
 
-Requires:       %{name}-nc = %{version}
-Requires:       iptables
-Requires:       ipset
-Requires:       ebtables
+Requires:       %{name}-nc >= %{version}
 Requires:       dhcp41
+Requires:       ebtables
+Requires:       ipset
+Requires:       iptables
 
 %provide_abi eucanet
 
