@@ -754,6 +754,9 @@ if [ "$1" = "2" ]; then
     if [ -x %{_initrddir}/eucalyptus-nc ]; then
          /sbin/service eucalyptus-nc stop
     fi
+    if [ -x %{_initrddir}/eucalyptus-eucanetd ]; then
+         /sbin/service eucalyptus-eucanetd stop
+    fi
 
     # Back up important data as well as all of the previous installation's jars.
     BACKUPDIR="/var/lib/eucalyptus/upgrade/eucalyptus.backup.`date +%%s`"
@@ -824,6 +827,10 @@ usermod -a -G kvm eucalyptus
 exit 0
 
 
+%post eucanet
+chkconfig --add eucalyptus-eucanetd
+
+
 %post console
 chkconfig --add eucalyptus-console
 exit 0
@@ -865,6 +872,14 @@ if [ "$1" = "0" ]; then
 fi
 exit 0
 
+%preun eucanet
+if [ "$1" = "0" ]; then
+    if [ -f /etc/eucalyptus/eucalyptus.conf ]; then
+        /sbin/service eucalyptus-eucanetd stop
+    fi
+    chkconfig --del eucalyptus-eucanetd
+fi
+exit 0
 
 %preun console
 # Stop running service and remove on uninstall
