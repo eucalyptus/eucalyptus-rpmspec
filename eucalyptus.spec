@@ -339,23 +339,6 @@ This package contains the Python library used by Eucalyptus administration
 tools.  It is neither intended nor supported for use by any other programs.
 
 
-%package console
-Summary:        Client user interface for Eucalyptus
-License:        GPLv3 and BSD
-Group:          Applications/System
-
-Requires:       m2crypto
-Requires:       python-tornado
-Requires:       python-boto >= 2.1
-
-BuildArch:    noarch
-
-%provide_abi console
-
-%description console
-Client user interface for Eucalyptus.
-
-
 %package eucanet
 Summary:        Edge networking for Eucalyptus
 License:        BSD
@@ -420,11 +403,6 @@ touch clc/.nogit
 # FIXME: storage/Makefile breaks with parallel make
 make # %{?_smp_mflags}
 
-# Build the Eucalyptus Console
-pushd console
-%{__python} setup.py build
-popd console
-
 
 %install
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
@@ -488,36 +466,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 
 # Remove README file if one exists
 rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
-
-# Install Eucalyptus Console
-pushd console
-%{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
-
-# Install init script
-install -d $RPM_BUILD_ROOT%{_initrddir}
-install -m 755 ../tools/eucalyptus-console-init $RPM_BUILD_ROOT%{_initrddir}/eucalyptus-console
-
-# Install sysconfig file
-install -d $RPM_BUILD_ROOT/etc/sysconfig
-install -m 644 ../tools/eucalyptus-console.sysconfig $RPM_BUILD_ROOT/etc/sysconfig/eucalyptus-console
-
-echo "
-[paths]
-staticpath: /usr/share/eucalyptus-console/static
-" >> $RPM_BUILD_ROOT/etc/eucalyptus-console/console.ini
-
-# Enable SSL support by default
-# NOTE: The certificate and key are not packaged, but will be generated
-#       on the first run of the service.
-#
-# Fixes EUCA-3901
-sed -i -e 's@^#sslcert=.*$@sslcert=/etc/eucalyptus-console/console.crt@' \
-       -e 's@^#sslkey=.*$@sslkey=/etc/eucalyptus-console/console.key@' \
-       $RPM_BUILD_ROOT/etc/eucalyptus-console/console.ini
-
-# Create directory for pid file
-install -d $RPM_BUILD_ROOT/var/run/eucalyptus-console
-popd console
 
 
 %clean
@@ -712,21 +660,6 @@ popd console
 /usr/lib/eucadmin/
 
 
-%files console
-%defattr(-,root,root,-)
-%doc console/README.md
-%{python_sitelib}/esapi*
-%{python_sitelib}/eucaconsole*
-%{python_sitelib}/Eucalyptus_Management_Console*.egg-info
-%{_bindir}/euca-console-server
-%{_initrddir}/eucalyptus-console
-%attr(-,eucaconsole,eucaconsole) %{_datadir}/eucalyptus-console
-%attr(-,eucaconsole,eucaconsole) %dir /etc/eucalyptus-console
-%attr(0644,root,eucaconsole) %config(noreplace) /etc/eucalyptus-console/console.ini
-%attr(-,eucaconsole,eucaconsole) %dir /var/run/eucalyptus-console
-%config(noreplace) /etc/sysconfig/eucalyptus-console
-
-
 %files eucanet
 %defattr(-,root,root,-)
 %{_sbindir}/eucanetd
@@ -777,18 +710,6 @@ fi
 exit 0
 
 
-%pre console
-# Stop running service on upgrade
-if [ "$1" = "2" ]; then
-   [ -x %{_initrddir}/eucalyptus-console ] && /sbin/service eucalyptus-console stop || :
-fi
-
-getent group eucaconsole >/dev/null || groupadd -r eucaconsole
-getent passwd eucaconsole >/dev/null || \
-    useradd -r -g eucaconsole -d /etc/eucalyptus-console \
-    -c 'Eucalyptus Console' eucaconsole
-
-
 %post
 # Reload udev rules
 /sbin/service udev-post reload || :
@@ -829,11 +750,6 @@ exit 0
 
 %post eucanet
 chkconfig --add eucalyptus-eucanetd
-
-
-%post console
-chkconfig --add eucalyptus-console
-exit 0
 
 
 %postun
@@ -881,15 +797,11 @@ if [ "$1" = "0" ]; then
 fi
 exit 0
 
-%preun console
-# Stop running service and remove on uninstall
-if [ "$1" = "0" ]; then
-   [ -x %{_initrddir}/eucalyptus-console ] && /sbin/service eucalyptus-console stop || :
-   chkconfig --del eucalyptus-console || :
-fi
-
 
 %changelog
+* Tue Sep 10 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
+- Remove console sub-package
+
 * Wed Aug 28 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
 - Add eucanetd tech preview
 
