@@ -577,6 +577,8 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %files cc
 %defattr(-,root,root,-)
+%doc tools/iptables-preload.template
+
 %{_initrddir}/eucalyptus-cc
 %{axis2c_home}/services/EucalyptusCC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/CC
@@ -799,6 +801,9 @@ exit 0
 
 
 %changelog
+* Tue Sep 24 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
+- Added iptables-preload example to CC package
+
 * Tue Sep 10 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
 - Remove console sub-package
 
