@@ -340,7 +340,7 @@ tools.  It is neither intended nor supported for use by any other programs.
 
 %package eucanet
 Summary:        Edge networking for Eucalyptus
-License:        BSD
+License:        GPLv3 and BSD
 Group:          Applications/System
 
 Requires:       %{name}-nc >= %{version}
