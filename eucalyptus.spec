@@ -556,6 +556,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %defattr(-,root,root,-)
 /etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
 /usr/sbin/euca-lictool
+/usr/sbin/eucalyptus-backup-restore
 /usr/share/eucalyptus/lic_default
 /usr/share/eucalyptus/lic_template
 
