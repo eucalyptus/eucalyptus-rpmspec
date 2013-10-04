@@ -802,6 +802,12 @@ exit 0
 
 
 %changelog
+* Fri Oct 04 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
+- Add eucalyptus-backup-restore
+
+* Tue Sep 24 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
+- Added iptables-preload example to CC package
+
 * Tue Sep 10 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
 - Remove console sub-package
 
