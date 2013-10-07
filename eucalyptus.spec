@@ -652,6 +652,9 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/eureport-generate-report
 %{_sbindir}/eureport-export-data
 %{_sbindir}/eureport-delete-data
+%{_sbindir}/euca-deregister-object-storage-gateway
+%{_sbindir}/euca-describe-object-storage-gateways
+%{_sbindir}/euca-register-object-storage-gateway
 
 
 %files -n python-eucadmin
