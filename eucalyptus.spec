@@ -244,7 +244,7 @@ Requires:     %{name}-gl = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     device-mapper
 Requires:     device-mapper-multipath
-Requires:     euca2ools >= 2.1.3
+Requires:     euca2ools >= 3.0.2
 Requires:     httpd
 Requires:     iscsi-initiator-utils
 Requires:     kvm
@@ -801,6 +801,9 @@ exit 0
 
 
 %changelog
+* Thu Oct 17 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
+- nc sub-package now requires euca2ools 3.0.2 or later
+
 * Fri Oct 04 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
 - Add eucalyptus-backup-restore
 
