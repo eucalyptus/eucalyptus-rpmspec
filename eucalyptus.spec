@@ -244,7 +244,7 @@ Requires:     %{name}-gl = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     device-mapper
 Requires:     device-mapper-multipath
-Requires:     euca2ools >= 2.1.3
+Requires:     euca2ools >= 3.0.2
 Requires:     httpd
 Requires:     iscsi-initiator-utils
 Requires:     kvm
@@ -493,6 +493,9 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 # Kernel parameters required to be set for CC and NC
 %attr(-,root,eucalyptus) %dir /usr/libexec/eucalyptus
 %attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
+
+# Common logrotate configuration for CC and NC
+/etc/logrotate.d/eucalyptus
 
 /usr/sbin/euca_sync_key
 /usr/sbin/euca-generate-fault
@@ -803,6 +806,12 @@ exit 0
 
 
 %changelog
+* Thu Oct 31 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.1-0
+- Add logrotate for CC/NC
+
+* Thu Oct 17 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
+- nc sub-package now requires euca2ools 3.0.2 or later
+
 * Fri Oct 04 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.0-0
 - Add eucalyptus-backup-restore
 
