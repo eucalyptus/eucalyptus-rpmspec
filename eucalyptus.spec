@@ -11,7 +11,7 @@ Provides: %{name}-abi = %{abi_version} \
 
 Summary:       Elastic Utility Computing Architecture
 Name:          eucalyptus
-Version:       3.4.0
+Version:       3.4.1
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -804,6 +804,9 @@ exit 0
 
 
 %changelog
+* Mon Nov 11 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.1-0
+- Update version to 3.4.1
+
 * Thu Oct 31 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.1-0
 - Add logrotate for CC/NC
 
