@@ -517,6 +517,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /usr/share/eucalyptus/get_iscsitarget.pl
 /usr/share/eucalyptus/iscsitarget_common.pl
 /usr/share/eucalyptus/populate_arp.pl
+/usr/share/eucalyptus/get_bundle
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/db
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/keys
@@ -804,6 +805,9 @@ exit 0
 
 
 %changelog
+* Tue Nov 19 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
+- Add get_bundle tool
+
 * Mon Nov 11 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Update to version 4.0.0
 
