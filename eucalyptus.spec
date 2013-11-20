@@ -207,6 +207,24 @@ controller needs to be reachable by both the cluster controller and from
 the cloud clients.
 
 
+%package osg
+Summary:      Elastic Utility Computing Architecture - object storage gateway
+Group:        Applications/System
+
+Requires:     %{name}                          = %{version}-%{release}
+Requires:     %{name}-common-java-libs%{?_isa} = %{version}-%{release}
+
+%provide_abi osg
+
+%description osg
+Eucalyptus is a service overlay that implements elastic computing
+using existing resources. The goal of Eucalyptus is to allow sites
+with existing clusters and server infrastructure to co-host an elastic
+computing service that is interface-compatible with Amazon AWS.
+
+This package contains the object storage gateway of eucalyptus.
+
+
 %package cc
 Summary:      Elastic Utility Computing Architecture - cluster controller
 Group:        Applications/System
@@ -577,6 +595,10 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/volumes
 /usr/share/eucalyptus/connect_iscsitarget_sc.pl
 /usr/share/eucalyptus/disconnect_iscsitarget_sc.pl
+
+
+%files osg
+# No files
 
 
 %files cc
