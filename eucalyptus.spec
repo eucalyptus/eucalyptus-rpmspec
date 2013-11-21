@@ -26,7 +26,7 @@ BuildRequires: axis2c-devel >= 1.6.0
 BuildRequires: curl-devel
 # This used to BuildRequire iscsi-initiator-utils for no adequately explained
 # reason, so I removed it.  If that causes problems feel free to re-add it.
-BuildRequires: java7-devel >= 1:1.7.0
+BuildRequires: java-1.7.0-openjdk-devel >= 1:1.7.0
 BuildRequires: jpackage-utils
 BuildRequires: libvirt-devel >= 0.6
 BuildRequires: libxml2-devel
@@ -98,7 +98,7 @@ Summary:      Elastic Utility Computing Architecture - ws java stack libs
 Group:        Applications/System
 
 Requires:     jpackage-utils
-Requires:     java7 >= 1:1.7.0
+Requires:     java-1.7.0-openjdk >= 1:1.7.0
 
 Obsoletes:    eucalyptus-enterprise-storage-san-common-libs < 3.4.0
 Provides:     eucalyptus-enterprise-storage-san-common-libs = %{version}-%{release}
@@ -828,6 +828,9 @@ exit 0
 
 
 %changelog
+* Thu Nov 21 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.1-0
+- Update java requires and build requires for RHEL 6.5 support
+
 * Thu Oct 31 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.1-0
 - Add logrotate for CC/NC
 
