@@ -207,6 +207,24 @@ controller needs to be reachable by both the cluster controller and from
 the cloud clients.
 
 
+%package osg
+Summary:      Elastic Utility Computing Architecture - object storage gateway
+Group:        Applications/System
+
+Requires:     %{name}                          = %{version}-%{release}
+Requires:     %{name}-common-java-libs%{?_isa} = %{version}-%{release}
+
+%provide_abi osg
+
+%description osg
+Eucalyptus is a service overlay that implements elastic computing
+using existing resources. The goal of Eucalyptus is to allow sites
+with existing clusters and server infrastructure to co-host an elastic
+computing service that is interface-compatible with Amazon AWS.
+
+This package contains the object storage gateway of eucalyptus.
+
+
 %package cc
 Summary:      Elastic Utility Computing Architecture - cluster controller
 Group:        Applications/System
@@ -560,6 +578,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %defattr(-,root,root,-)
 /etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
 /usr/sbin/euca-lictool
+/usr/sbin/eucalyptus-backup-restore
 /usr/share/eucalyptus/lic_default
 /usr/share/eucalyptus/lic_template
 
@@ -579,10 +598,12 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /usr/share/eucalyptus/disconnect_iscsitarget_sc.pl
 
 
+%files osg
+# No files
+
+
 %files cc
 %defattr(-,root,root,-)
-%doc tools/iptables-preload.template
-
 %{_initrddir}/eucalyptus-cc
 %{axis2c_home}/services/EucalyptusCC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/CC
@@ -658,6 +679,9 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/eureport-generate-report
 %{_sbindir}/eureport-export-data
 %{_sbindir}/eureport-delete-data
+%{_sbindir}/euca-deregister-object-storage-gateway
+%{_sbindir}/euca-describe-object-storage-gateways
+%{_sbindir}/euca-register-object-storage-gateway
 
 
 %files -n python-eucadmin
