@@ -646,19 +646,36 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca_conf
 %{_sbindir}/euca-configure-vmware
 %{_sbindir}/euca-deregister-arbitrator
+%{_sbindir}/euca-deregister-autoscaling
 %{_sbindir}/euca-deregister-cloud
+%{_sbindir}/euca-deregister-cloudformation
+%{_sbindir}/euca-deregister-cloudwatch
 %{_sbindir}/euca-deregister-cluster
+%{_sbindir}/euca-deregister-compute
+%{_sbindir}/euca-deregister-euare
+%{_sbindir}/euca-deregister-loadbalancing
+%{_sbindir}/euca-deregister-object-storage-gateway
 %{_sbindir}/euca-deregister-storage-controller
+%{_sbindir}/euca-deregister-tokens
 %{_sbindir}/euca-deregister-vmware-broker
 %{_sbindir}/euca-deregister-walrus
 %{_sbindir}/euca-describe-arbitrators
+%{_sbindir}/euca-describe-autoscaling
+%{_sbindir}/euca-describe-cloudformation
 %{_sbindir}/euca-describe-clouds
+%{_sbindir}/euca-describe-cloudwatch
 %{_sbindir}/euca-describe-clusters
+%{_sbindir}/euca-describe-compute
 %{_sbindir}/euca-describe-components
+%{_sbindir}/euca-describe-euare
+%{_sbindir}/euca-describe-loadbalancing
 %{_sbindir}/euca-describe-nodes
+%{_sbindir}/euca-describe-object-storage-gateways
 %{_sbindir}/euca-describe-properties
 %{_sbindir}/euca-describe-services
 %{_sbindir}/euca-describe-storage-controllers
+%{_sbindir}/euca-describe-tokens
+%{_sbindir}/euca-describe-user-services
 %{_sbindir}/euca-describe-vmware-brokers
 %{_sbindir}/euca-describe-walruses
 %{_sbindir}/euca-get-credentials
@@ -669,18 +686,23 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-modify-storage-controller
 %{_sbindir}/euca-modify-walrus
 %{_sbindir}/euca-register-arbitrator
+%{_sbindir}/euca-register-autoscaling
 %{_sbindir}/euca-register-cloud
+%{_sbindir}/euca-register-cloudformation
+%{_sbindir}/euca-register-cloudwatch
 %{_sbindir}/euca-register-cluster
+%{_sbindir}/euca-register-compute
+%{_sbindir}/euca-register-euare
+%{_sbindir}/euca-register-loadbalancing
+%{_sbindir}/euca-register-object-storage-gateway
 %{_sbindir}/euca-register-storage-controller
+%{_sbindir}/euca-register-tokens
 %{_sbindir}/euca-register-vmware-broker
 %{_sbindir}/euca-register-walrus
 %{_sbindir}/euca-validator
 %{_sbindir}/eureport-generate-report
 %{_sbindir}/eureport-export-data
 %{_sbindir}/eureport-delete-data
-%{_sbindir}/euca-deregister-object-storage-gateway
-%{_sbindir}/euca-describe-object-storage-gateways
-%{_sbindir}/euca-register-object-storage-gateway
 
 
 %files -n python-eucadmin
@@ -828,6 +850,9 @@ exit 0
 
 
 %changelog
+* Fri Feb 14 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
+- Add new admin tool executables
+
 * Thu Nov 21 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Update java requires and build requires for RHEL 6.5 support
 
