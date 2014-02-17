@@ -675,7 +675,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-describe-services
 %{_sbindir}/euca-describe-storage-controllers
 %{_sbindir}/euca-describe-tokens
-%{_sbindir}/euca-describe-user-services
 %{_sbindir}/euca-describe-vmware-brokers
 %{_sbindir}/euca-describe-walruses
 %{_sbindir}/euca-get-credentials
@@ -697,6 +696,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-register-object-storage-gateway
 %{_sbindir}/euca-register-storage-controller
 %{_sbindir}/euca-register-tokens
+%{_sbindir}/euca-register-user-services
 %{_sbindir}/euca-register-vmware-broker
 %{_sbindir}/euca-register-walrus
 %{_sbindir}/euca-validator
