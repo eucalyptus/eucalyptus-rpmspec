@@ -492,7 +492,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %files
 %defattr(-,root,root,-)
-%doc LICENSE INSTALL README CHANGELOG
+%doc LICENSE INSTALL README
 %doc tools/multipath.conf.example.* tools/iscsid.conf.example
 
 %attr(-,eucalyptus,eucalyptus) %dir /etc/eucalyptus
