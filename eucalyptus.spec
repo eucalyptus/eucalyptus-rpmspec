@@ -230,8 +230,7 @@ Group:        Applications/System
 Requires:     %{name}    = %{version}-%{release}
 Requires:     %{name}-gl = %{version}-%{release}
 Requires:     bridge-utils
-# Requires:     dhcp >= 4.1.1-33.P1
-Requires:     dhcp41
+Requires:     dhcp >= 4.1.1-33.P1
 Requires:     httpd
 Requires:     iproute
 Requires:     iptables
@@ -362,7 +361,7 @@ License:        GPLv3 and BSD
 Group:          Applications/System
 
 Requires:       %{name}-nc = %{version}-%{release}
-Requires:       dhcp41
+Requires:       dhcp >= 4.1.1-33.P1
 Requires:       ebtables
 Requires:       ipset
 Requires:       iptables
@@ -467,11 +466,6 @@ sed -i -e 's#.*EUCALYPTUS=.*#EUCALYPTUS="/"#' \
 sed -i 's#.*USE_VIRTIO_DISK=.*#USE_VIRTIO_DISK="1"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
 sed -i 's#.*USE_VIRTIO_ROOT=.*#USE_VIRTIO_ROOT="1"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
 sed -i 's#.*USE_VIRTIO_NET=.*#USE_VIRTIO_NET="1"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
-%endif
-
-# Use patched dhcpd on el6
-%if 0%{?el6}
-sed -i 's#.*VNET_DHCPDAEMON=.*#VNET_DHCPDAEMON="/usr/sbin/dhcpd41"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
 %endif
 
 # Eucalyptus's build scripts do not respect initrddir
@@ -888,6 +882,7 @@ exit 0
 %changelog
 * Thu Feb 20 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Added new eucalyptus-imaging-toolkit subpackage
+- Switched to stock dhcpd package (EUCA-6869)
 
 * Fri Feb 14 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Add new admin tool executables
