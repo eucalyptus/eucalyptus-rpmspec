@@ -356,8 +356,8 @@ tools.  It is neither intended nor supported for use by any other programs.
 
 
 %package eucanet
-Summary:        Edge networking for Eucalyptus
-License:        GPLv3 and BSD
+Summary:        Elastic Utility Computing Architecture - edge networking daemon
+License:        GPLv3
 Group:          Applications/System
 
 Requires:       %{name}-nc = %{version}-%{release}
@@ -369,7 +369,14 @@ Requires:       iptables
 %provide_abi eucanet
 
 %description eucanet
-Edge networking for Eucalyptus.
+Eucalyptus is a service overlay that implements elastic computing
+using existing resources. The goal of Eucalyptus is to allow sites
+with existing clusters and server infrastructure to co-host an elastic
+computing service that is interface-compatible with Amazon AWS.
+
+This package contains the daemon that controls the edge networking mode.
+To use edge networking mode, all node controllers must have this package
+installed.
 
 
 %package imaging-toolkit
