@@ -355,7 +355,7 @@ This package contains the Python library used by Eucalyptus administration
 tools.  It is neither intended nor supported for use by any other programs.
 
 
-%package eucanet
+%package -n eucanetd
 Summary:        Elastic Utility Computing Architecture - edge networking daemon
 License:        GPLv3
 Group:          Applications/System
@@ -366,9 +366,11 @@ Requires:       ebtables
 Requires:       ipset
 Requires:       iptables
 
-%provide_abi eucanet
+%provide_abi eucanetd
 
-%description eucanet
+Obsoletes:      eucalyptus-eucanet < 4.0
+
+%description eucanetd
 Eucalyptus is a service overlay that implements elastic computing
 using existing resources. The goal of Eucalyptus is to allow sites
 with existing clusters and server infrastructure to co-host an elastic
@@ -742,10 +744,10 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /usr/lib/eucadmin/
 
 
-%files eucanet
+%files -n eucanetd
 %defattr(-,root,root,-)
 %{_sbindir}/eucanetd
-%{_initrddir}/eucalyptus-eucanetd
+%{_initrddir}/eucanetd
 
 
 %files imaging-toolkit
@@ -775,8 +777,8 @@ if [ "$1" = "2" ]; then
     if [ -x %{_initrddir}/eucalyptus-nc ]; then
          /sbin/service eucalyptus-nc stop
     fi
-    if [ -x %{_initrddir}/eucalyptus-eucanetd ]; then
-         /sbin/service eucalyptus-eucanetd stop
+    if [ -x %{_initrddir}/eucanetd ]; then
+         /sbin/service eucanetd stop
     fi
 
     # Back up important data as well as all of the previous installation's jars.
@@ -837,7 +839,7 @@ exit 0
 
 
 %post eucanet
-chkconfig --add eucalyptus-eucanetd
+chkconfig --add eucanetd
 
 
 %postun
@@ -879,9 +881,9 @@ exit 0
 %preun eucanet
 if [ "$1" = "0" ]; then
     if [ -f /etc/eucalyptus/eucalyptus.conf ]; then
-        /sbin/service eucalyptus-eucanetd stop
+        /sbin/service eucanetd stop
     fi
-    chkconfig --del eucalyptus-eucanetd
+    chkconfig --del eucanetd
 fi
 exit 0
 
@@ -890,6 +892,7 @@ exit 0
 * Thu Feb 20 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Added new eucalyptus-imaging-toolkit subpackage
 - Switched to stock dhcpd package (EUCA-6869)
+- Renamed -eucanet subpackage to eucanetd (EUCA-8768)
 
 * Fri Feb 14 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Add new admin tool executables
