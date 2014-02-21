@@ -838,7 +838,7 @@ usermod -a -G kvm eucalyptus
 exit 0
 
 
-%post eucanet
+%post -n eucanetd
 chkconfig --add eucanetd
 
 
@@ -878,7 +878,7 @@ if [ "$1" = "0" ]; then
 fi
 exit 0
 
-%preun eucanet
+%preun -n eucanetd
 if [ "$1" = "0" ]; then
     if [ -f /etc/eucalyptus/eucalyptus.conf ]; then
         /sbin/service eucanetd stop
