@@ -24,8 +24,6 @@ BuildRequires: axis2-adb-codegen
 BuildRequires: axis2-codegen
 BuildRequires: axis2c-devel >= 1.6.0
 BuildRequires: curl-devel
-# This used to BuildRequire iscsi-initiator-utils for no adequately explained
-# reason, so I removed it.  If that causes problems feel free to re-add it.
 BuildRequires: java-1.7.0-openjdk-devel >= 1:1.7.0
 BuildRequires: jpackage-utils
 BuildRequires: libvirt-devel >= 0.6
@@ -259,6 +257,7 @@ Group:        Applications/System
 
 Requires:     %{name}    = %{version}-%{release}
 Requires:     %{name}-gl = %{version}-%{release}
+Requires:     %{name}-imaging-toolkit = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     device-mapper
 Requires:     device-mapper-multipath
@@ -362,7 +361,7 @@ Summary:        Edge networking for Eucalyptus
 License:        GPLv3 and BSD
 Group:          Applications/System
 
-Requires:       %{name}-nc >= %{version}
+Requires:       %{name}-nc = %{version}-%{release}
 Requires:       dhcp41
 Requires:       ebtables
 Requires:       ipset
@@ -372,6 +371,37 @@ Requires:       iptables
 
 %description eucanet
 Edge networking for Eucalyptus.
+
+
+%package imaging-toolkit
+Summary:      Elastic Utility Computing Architecture - image manipulation tookit
+License:      ASL 2.0
+
+# This includes both things under tools/imaging and storage.
+## FIXME:  euca2ools should require version >= 3.1
+Requires:     euca2ools >= 3.0
+Requires:     python-argparse
+Requires:     python-lxml
+Requires:     python-requests
+# The next seven come from euca-imager (storage/diskutil.c), which shells
+# out to lots of stuff
+Requires:     coreutils
+Requires:     e2fsprogs
+Requires:     file
+Requires:     grub
+Requires:     httpd
+Requires:     parted
+Requires:     util-linux
+
+%provide_abi imaging-toolkit
+
+%description
+Eucalyptus is a service overlay that implements elastic computing
+using existing resources. The goal of Eucalyptus is to allow sites
+with existing clusters and server infrastructure to co-host an elastic
+computing service that is interface-compatible with Amazon AWS.
+
+This package contains a toolkit used internally by Eucalyptus to download and upload virtual machine images and to convert them between formats.
 
 
 %prep
@@ -717,6 +747,12 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_initrddir}/eucalyptus-eucanetd
 
 
+%files imaging-toolkit
+# TODO:  something should own %{_libexecdir}/eucalyptus
+%{_libexecdir}/eucalyptus/euca-imager
+%{python_sitelib}/eucatoolkit*
+
+
 %pre
 getent group eucalyptus >/dev/null || groupadd -r eucalyptus
 ## FIXME:  Make QA (and Eucalyptus proper?) work with /sbin/nologin as the shell [RT:2092]
@@ -850,6 +886,9 @@ exit 0
 
 
 %changelog
+* Thu Feb 20 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
+- Added new eucalyptus-imaging-toolkit subpackage
+
 * Fri Feb 14 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Add new admin tool executables
 
