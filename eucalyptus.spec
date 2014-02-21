@@ -370,7 +370,7 @@ Requires:       iptables
 
 Obsoletes:      eucalyptus-eucanet < 4.0
 
-%description eucanetd
+%description -n eucanetd
 Eucalyptus is a service overlay that implements elastic computing
 using existing resources. The goal of Eucalyptus is to allow sites
 with existing clusters and server infrastructure to co-host an elastic
