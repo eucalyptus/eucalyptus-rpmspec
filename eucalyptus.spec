@@ -403,13 +403,14 @@ Requires:     util-linux
 
 %provide_abi imaging-toolkit
 
-%description
+%description imaging-toolkit
 Eucalyptus is a service overlay that implements elastic computing
 using existing resources. The goal of Eucalyptus is to allow sites
 with existing clusters and server infrastructure to co-host an elastic
 computing service that is interface-compatible with Amazon AWS.
 
-This package contains a toolkit used internally by Eucalyptus to download and upload virtual machine images and to convert them between formats.
+This package contains a toolkit used internally by Eucalyptus to download
+and upload virtual machine images and to convert them between formats.
 
 
 %prep
