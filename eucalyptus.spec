@@ -754,6 +754,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %files imaging-toolkit
 # TODO:  something should own %{_libexecdir}/eucalyptus
 %{_libexecdir}/eucalyptus/euca-imager
+%{_libexecdir}/eucalyptus/euca-run-workflow
 %{python_sitelib}/eucatoolkit*
 
 
@@ -890,6 +891,9 @@ exit 0
 
 
 %changelog
+* Thu Feb 27 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
+- Added euca-run-workflow
+
 * Thu Feb 20 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Added new eucalyptus-imaging-toolkit subpackage
 - Switched to stock dhcpd package (EUCA-6869)
