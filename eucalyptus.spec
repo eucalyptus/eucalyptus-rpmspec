@@ -692,7 +692,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-deregister-storage-controller
 %{_sbindir}/euca-deregister-tokens
 %{_sbindir}/euca-deregister-vmware-broker
-%{_sbindir}/euca-deregister-walrus
+%{_sbindir}/euca-deregister-walrusbackend
 %{_sbindir}/euca-describe-arbitrators
 %{_sbindir}/euca-describe-autoscaling
 %{_sbindir}/euca-describe-cloudformation
@@ -710,7 +710,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-describe-storage-controllers
 %{_sbindir}/euca-describe-tokens
 %{_sbindir}/euca-describe-vmware-brokers
-%{_sbindir}/euca-describe-walruses
+%{_sbindir}/euca-describe-walrusbackends
 %{_sbindir}/euca-get-credentials
 %{_sbindir}/euca-migrate-instances
 %{_sbindir}/euca-modify-cluster
@@ -732,7 +732,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-register-tokens
 %{_sbindir}/euca-register-user-services
 %{_sbindir}/euca-register-vmware-broker
-%{_sbindir}/euca-register-walrus
+%{_sbindir}/euca-register-walrusbackend
 %{_sbindir}/euca-validator
 %{_sbindir}/eureport-generate-report
 %{_sbindir}/eureport-export-data
