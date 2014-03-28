@@ -535,9 +535,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 
-%files filesystem
-
-
 %files
 %defattr(-,root,root,-)
 %doc LICENSE INSTALL README
