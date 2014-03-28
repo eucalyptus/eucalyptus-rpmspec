@@ -505,7 +505,8 @@ done
 install -d -m 0771 $RPM_BUILD_ROOT/var/lib/eucalyptus/instances
 
 # Touch httpd config files that the init scripts create so we can %ghost them
-touch $RPM_BUILD_ROOT/etc/eucalyptus/httpd-{cc,nc,tmp}.conf
+touch $RPM_BUILD_ROOT/etc/eucalyptus/httpd-{cc,nc}.conf
+touch $RPM_BUILD_ROOT/var/run/eucalyptus/httpd-tmp.conf
 
 # Add PolicyKit config on systems that support it
 mkdir -p $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d
@@ -570,7 +571,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /var/lib/eucalyptus/keys/cc-client-policy.xml
 /var/lib/eucalyptus/keys/nc-client-policy.xml
 /var/lib/eucalyptus/keys/sc-client-policy.xml
-%attr(0644,eucalyptus,eucalyptus) %ghost /var/run/eucalyptus/httpd-tmp.conf
+%ghost /var/run/eucalyptus/httpd-tmp.conf
 /usr/share/eucalyptus/euca_ipt
 /usr/share/eucalyptus/floppy
 /usr/share/eucalyptus/populate_arp.pl
