@@ -9,7 +9,7 @@ Provides: %{name}-abi = %{abi_version} \
 %endif \
 %{nil}
 
-Summary:       Elastic Utility Computing Architecture
+Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
 Version:       4.0.0
 Release:       0%{?build_id:.%build_id}%{?dist}
@@ -38,16 +38,7 @@ BuildRequires: swig
 BuildRequires: xalan-j2-xsltc
 BuildRequires: /usr/bin/awk
 
-Requires:      libselinux-python
-Requires:      perl(Crypt::OpenSSL::RSA)
-Requires:      perl(Crypt::OpenSSL::Random)
-Requires:      rsync
-Requires:      sudo
-Requires:      vconfig
-Requires:      wget
-Requires:      /usr/bin/which
-Requires(pre):  %{_sbindir}/groupadd
-Requires(pre):  %{_sbindir}/useradd
+Requires(pre): shadow-utils
 
 %provide_abi
 
@@ -67,17 +58,66 @@ using existing resources. The goal of Eucalyptus is to allow sites
 with existing clusters and server infrastructure to co-host an elastic
 computing service that is interface-compatible with Amazon AWS.
 
-This package contains the common parts; you will need to install at
-least one of the cloud controller (cloud), cluster controller (cc),
-node controller (nc), storage controller (sc), or walrus packages as well.
+This package contains bits that are shared by all Eucalyptus components
+and is not particularly useful on its own -- to get a usable cloud you
+will need to install Eucalyptus services as well.
+
+
+%package axis2c-common
+Summary:      Eucalyptus cloud platform - Axis2/C shared components
+Group:        Applications/System
+
+Requires:     %{name} = %{version}-%{release}
+Requires:     httpd
+Requires:     perl(Digest::MD5)
+Requires:     perl(MIME::Base64)
+
+Obsoletes:    %{name}-gl < 4
+Provides:     %{name}-gl = %{version}-%{release}
+
+%provide_abi axis2c-common
+%provide_abi gl
+
+%description axis2c-common
+Eucalyptus is a service overlay that implements elastic computing
+using existing resources. The goal of Eucalyptus is to allow sites
+with existing clusters and server infrastructure to co-host an elastic
+computing service that is interface-compatible with Amazon AWS.
+
+This package contains shared components used by all eucalyptus services
+that are based on Axis2/C.
+
+
+%package blockdev-utils
+Summary:      Eucalyptus cloud platform - shared block device utilities
+Group:        Applications/System
+
+Requires:     %{name} = %{version}-%{release}
+Requires:     libselinux-python
+Requires:     perl(Crypt::OpenSSL::RSA)
+Requires:     perl(Crypt::OpenSSL::Random)
+Requires:     perl(MIME::Base64)
+Requires:     /usr/bin/which
+
+%provide_abi blockdev-utils
+
+%description blockdev-utils
+Eucalyptus is a service overlay that implements elastic computing
+using existing resources. The goal of Eucalyptus is to allow sites
+with existing clusters and server infrastructure to co-host an elastic
+computing service that is interface-compatible with Amazon AWS.
+
+This package contains shared components used by all eucalyptus services
+that connect to iSCSI targets.
 
 
 %package common-java
-Summary:      Elastic Utility Computing Architecture - ws java stack
+Summary:      Eucalyptus cloud platform - ws java stack
 Group:        Applications/System
 Requires:     %{name} = %{version}-%{release}
 Requires:     %{name}-common-java-libs = %{version}-%{release}
 Requires:     lvm2
+Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
 
 %provide_abi common-java
@@ -92,7 +132,7 @@ This package contains the common-java files.
 
 
 %package common-java-libs
-Summary:      Elastic Utility Computing Architecture - ws java stack libs
+Summary:      Eucalyptus cloud platform - ws java stack libs
 Group:        Applications/System
 
 Requires:     jpackage-utils
@@ -113,7 +153,7 @@ This package contains the java WS stack.
 
 
 %package walrus
-Summary:      Elastic Utility Computing Architecture - walrus
+Summary:      Eucalyptus cloud platform - walrus
 Group:        Applications/System
 
 Requires:     %{name}             = %{version}-%{release}
@@ -145,10 +185,11 @@ cloud controller.
 
 
 %package sc
-Summary:      Elastic Utility Computing Architecture - storage controller
+Summary:      Eucalyptus cloud platform - storage controller
 Group:        Applications/System
 
-Requires:     %{name}             = %{version}-%{release}
+Requires:     %{name} = %{version}-%{release}
+Requires:     %{name}-blockdev-utils = %{version}-%{release}
 Requires:     %{name}-common-java = %{version}-%{release}
 Requires:     device-mapper-multipath
 Requires:     iscsi-initiator-utils
@@ -172,7 +213,7 @@ alongside the cluster controller.
 
 
 %package cloud
-Summary:      Elastic Utility Computing Architecture - cloud controller
+Summary:      Eucalyptus cloud platform - cloud controller
 Group:        Applications/System
 
 Requires:     %{name}                     = %{version}-%{release}
@@ -206,7 +247,7 @@ the cloud clients.
 
 
 %package osg
-Summary:      Elastic Utility Computing Architecture - object storage gateway
+Summary:      Eucalyptus cloud platform - object storage gateway
 Group:        Applications/System
 
 Requires:     %{name}                          = %{version}-%{release}
@@ -224,18 +265,20 @@ This package contains the object storage gateway of eucalyptus.
 
 
 %package cc
-Summary:      Elastic Utility Computing Architecture - cluster controller
+Summary:      Eucalyptus cloud platform - cluster controller
 Group:        Applications/System
 
-Requires:     %{name}    = %{version}-%{release}
-Requires:     %{name}-gl = %{version}-%{release}
+Requires:     %{name} = %{version}-%{release}
+Requires:     %{name}-axis2c-common = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     dhcp >= 4.1.1-33.P1
 Requires:     httpd
 Requires:     iproute
 Requires:     iptables
 Requires:     iputils
+Requires:     vconfig
 Requires:     vtun
+Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
 
 %provide_abi cc
@@ -251,11 +294,12 @@ handles a group of node controllers.
 
 
 %package nc
-Summary:      Elastic Utility Computing Architecture - node controller
+Summary:      Eucalyptus cloud platform - node controller
 Group:        Applications/System
 
-Requires:     %{name}    = %{version}-%{release}
-Requires:     %{name}-gl = %{version}-%{release}
+Requires:     %{name} = %{version}-%{release}
+Requires:     %{name}-axis2c-common = %{version}-%{release}
+Requires:     %{name}-blockdev-utils = %{version}-%{release}
 Requires:     %{name}-imaging-toolkit = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     device-mapper
@@ -274,7 +318,9 @@ Requires:     curl
 Requires:     e2fsprogs
 Requires:     file
 Requires:     parted
+Requires:     vconfig
 Requires:     util-linux
+Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
 
 %provide_abi nc
@@ -289,36 +335,26 @@ This package contains the node controller part of eucalyptus. This
 component handles instances.
 
 
-%package gl
-Summary:      Elastic Utility Computing Architecture - log service
-Group:        Applications/System
-
-Requires:     %{name} = %{version}-%{release}
-Requires:     httpd
-
-%provide_abi gl
-
-%description gl
-Eucalyptus is a service overlay that implements elastic computing
-using existing resources. The goal of Eucalyptus is to allow sites
-with existing clusters and server infrastructure to co-host an elastic
-computing service that is interface-compatible with Amazon AWS.
-
-This package contains the internal log service of eucalyptus.
-
-
 %package admin-tools
-Summary:      Elastic Utility Computing Architecture - admin CLI tools
-License:      BSD
+Summary:      Eucalyptus cloud platform - admin CLI tools
+# A patched version of python's gzip is included, so we add the Python license
+License:      BSD and Python
 Group:        Applications/System
 
 Requires:     %{name} = %{version}-%{release}
-Requires:     python-eucadmin = %{version}-%{release}
+Requires:     m2crypto
+Requires:     PyGreSQL
+Requires:     python-boto >= 2.1
 Requires:     rsync
+Requires:     /usr/bin/which
+
+Obsoletes:    python-eucadmin < 4
+Provides:     python-eucadmin = %{version}-%{release}
 
 BuildArch:    noarch
 
 %provide_abi admin-tools
+%provide_abi python-eucadmin
 
 %description admin-tools
 Eucalyptus is a service overlay that implements elastic computing
@@ -330,33 +366,8 @@ This package contains command line tools necessary for managing a
 Eucalyptus cluster.
 
 
-%package -n python-eucadmin
-Summary:      Elastic Utility Computing Architecture - administration Python library
-# A patched version of python's gzip is included, so we add the Python license
-License:      BSD and Python
-Group:        Development/Libraries
-
-Requires:     PyGreSQL
-Requires:     python-boto >= 2.1
-Requires:     rsync
-Requires:     m2crypto
-
-BuildArch:    noarch
-
-%provide_abi python-eucadmin
-
-%description -n python-eucadmin
-Eucalyptus is a service overlay that implements elastic computing
-using existing resources. The goal of Eucalyptus is to allow sites
-with existing clusters and server infrastructure to co-host an elastic
-computing service that is interface-compatible with Amazon AWS.
-
-This package contains the Python library used by Eucalyptus administration
-tools.  It is neither intended nor supported for use by any other programs.
-
-
 %package -n eucanetd
-Summary:        Elastic Utility Computing Architecture - edge networking daemon
+Summary:        Eucalyptus cloud platform - edge networking daemon
 License:        GPLv3
 Group:          Applications/System
 
@@ -365,6 +376,7 @@ Requires:       dhcp >= 4.1.1-33.P1
 Requires:       ebtables
 Requires:       ipset
 Requires:       iptables
+Requires:       /usr/bin/which
 
 %provide_abi eucanetd
 
@@ -382,12 +394,12 @@ installed.
 
 
 %package imaging-toolkit
-Summary:      Elastic Utility Computing Architecture - image manipulation tookit
+Summary:      Eucalyptus cloud platform - image manipulation tookit
 License:      ASL 2.0
 
+Requires:     %{name} = %{version}-%{release}
 # This includes both things under tools/imaging and storage.
-## FIXME:  euca2ools should require version >= 3.1
-Requires:     euca2ools >= 3.0
+Requires:     euca2ools >= 3.1
 Requires:     python-argparse
 Requires:     python-lxml
 Requires:     python-requests
@@ -429,7 +441,6 @@ EOF
 %global __perl_provides %{_builddir}/%{name}-%{version}%{?tar_suffix}/%{name}-prov
 chmod +x %{__perl_provides}
 
-
 # Filter unwanted perl requires
 cat << \EOF > %{name}-req
 #!/bin/sh
@@ -452,7 +463,7 @@ export CFLAGS="%{optflags}"
 
 # Untar the bundled cloud-lib Java dependencies.
 mkdir clc/lib
-tar xf %{S:1} -C clc/lib
+tar xf %{SOURCE1} -C clc/lib
 
 # Don't bother with git since we're using a cloud-libs tarball
 touch clc/.nogit
@@ -501,10 +512,10 @@ mkdir -p $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d
 cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
 
 # Put udev rules in the right place
-mkdir -p $RPM_BUILD_ROOT/etc/udev/rules.d
-cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/12-dm-permissions.rules $RPM_BUILD_ROOT/etc/udev/rules.d/12-dm-permissions.rules
-cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/55-openiscsi.rules $RPM_BUILD_ROOT/etc/udev/rules.d/55-openiscsi.rules
-cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/65-drbd-owner.rules $RPM_BUILD_ROOT/etc/udev/rules.d/65-drbd-owner.rules
+mkdir -p $RPM_BUILD_ROOT/lib/udev/rules.d
+cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/12-dm-permissions.rules $RPM_BUILD_ROOT/lib/udev/rules.d/12-dm-permissions.rules
+cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/55-openiscsi.rules $RPM_BUILD_ROOT/lib/udev/rules.d/55-openiscsi.rules
+cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/65-drbd-owner.rules $RPM_BUILD_ROOT/lib/udev/rules.d/65-drbd-owner.rules
 # FIXME:  iscsidev.sh belongs in /usr/share/eucalyptus [RT:2093]
 mkdir -p $RPM_BUILD_ROOT/etc/udev/scripts
 install -m 0755 $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/iscsidev.sh $RPM_BUILD_ROOT/etc/udev/scripts/iscsidev.sh
@@ -524,61 +535,61 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 
+%files filesystem
+
+
 %files
 %defattr(-,root,root,-)
 %doc LICENSE INSTALL README
-%doc tools/multipath.conf.example.* tools/iscsid.conf.example
 
 %attr(-,eucalyptus,eucalyptus) %dir /etc/eucalyptus
-%config(noreplace) /etc/eucalyptus/eucalyptus.conf
-/etc/eucalyptus/eucalyptus-version
-/etc/eucalyptus/httpd.conf
-%ghost /etc/eucalyptus/httpd-tmp.conf
-# Needed for multipath on NCs and SAN-enabled SCs
-/etc/udev/rules.d/12-dm-permissions.rules
-/etc/udev/rules.d/65-drbd-owner.rules
-
 %attr(-,root,eucalyptus) %dir /usr/lib/eucalyptus
-%attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_mountwrap
-%attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_rootwrap
-
-# Kernel parameters required to be set for CC and NC
 %attr(-,root,eucalyptus) %dir /usr/libexec/eucalyptus
-%attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
-
-# Common logrotate configuration for CC and NC
-/etc/logrotate.d/eucalyptus
-
-/usr/sbin/euca_sync_key
-/usr/sbin/euca-generate-fault
-
 %dir /usr/share/eucalyptus
-/usr/share/eucalyptus/add_key.pl
-/usr/share/eucalyptus/connect_iscsitarget.pl
-/usr/share/eucalyptus/connect_iscsitarget_main.pl
-/usr/share/eucalyptus/create-loop-devices
-/usr/share/eucalyptus/disconnect_iscsitarget.pl
-/usr/share/eucalyptus/disconnect_iscsitarget_main.pl
-/usr/share/eucalyptus/generate-migration-keys.sh
-/usr/share/eucalyptus/authorize-migration-keys.pl
 %doc /usr/share/eucalyptus/doc/
-/usr/share/eucalyptus/euca_ipt
-/usr/share/eucalyptus/euca_upgrade
-/usr/share/eucalyptus/faults/
-/usr/share/eucalyptus/floppy
-/usr/share/eucalyptus/get_iscsitarget.pl
-/usr/share/eucalyptus/iscsitarget_common.pl
-/usr/share/eucalyptus/populate_arp.pl
-/usr/share/eucalyptus/get_bundle
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus
-%attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/db
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/keys
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/upgrade
-# Can this file go into a single-component package?  What uses it?
-/var/lib/eucalyptus/keys/cc-client-policy.xml
-/var/lib/eucalyptus/keys/sc-client-policy.xml
 %attr(-,eucalyptus,eucalyptus) %dir /var/log/eucalyptus
 %attr(-,eucalyptus,eucalyptus) %dir /var/run/eucalyptus
+
+%config(noreplace) /etc/eucalyptus/eucalyptus.conf
+/etc/eucalyptus/eucalyptus-version
+
+# This is currently used for CC and NC httpd logs.
+/etc/logrotate.d/eucalyptus
+
+%attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_mountwrap
+%attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_rootwrap
+/usr/libexec/eucalyptus/euca-upgrade
+
+/usr/sbin/euca-generate-fault
+/usr/share/eucalyptus/faults/
+
+
+%files axis2c-common
+# CC and NC
+/etc/eucalyptus/httpd.conf
+/var/lib/eucalyptus/keys/cc-client-policy.xml
+/var/lib/eucalyptus/keys/nc-client-policy.xml
+/var/lib/eucalyptus/keys/sc-client-policy.xml
+%ghost /var/run/eucalyptus/httpd-tmp.conf
+/usr/share/eucalyptus/euca_ipt
+/usr/share/eucalyptus/floppy
+/usr/share/eucalyptus/populate_arp.pl
+%{axis2c_home}/services/EucalyptusGL/
+
+
+%files blockdev-utils
+# SC and NC
+%doc tools/multipath.conf.example.* tools/iscsid.conf.example
+/usr/share/eucalyptus/create-loop-devices
+/usr/share/eucalyptus/connect_iscsitarget.pl
+/usr/share/eucalyptus/connect_iscsitarget_main.pl
+/usr/share/eucalyptus/disconnect_iscsitarget.pl
+/usr/share/eucalyptus/disconnect_iscsitarget_main.pl
+/usr/share/eucalyptus/get_iscsitarget.pl
+/usr/share/eucalyptus/iscsitarget_common.pl
 
 
 %files common-java
@@ -614,18 +625,21 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /usr/sbin/euca-lictool
 /usr/share/eucalyptus/lic_default
 /usr/share/eucalyptus/lic_template
+%attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/db
 
 
 %files walrus
 %defattr(-,root,root,-)
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/bukkits
 /etc/eucalyptus/drbd.conf.example
+/lib/udev/rules.d/65-drbd-owner.rules
 
 
 %files sc
 %defattr(-,root,root,-)
 /etc/udev/rules.d/55-openiscsi*.rules
 /etc/udev/scripts/iscsidev.sh
+/lib/udev/rules.d/12-dm-permissions.rules
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/volumes
 /usr/share/eucalyptus/connect_iscsitarget_sc.pl
 /usr/share/eucalyptus/disconnect_iscsitarget_sc.pl
@@ -641,12 +655,11 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{axis2c_home}/services/EucalyptusCC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/CC
 %ghost /etc/eucalyptus/httpd-cc.conf
-/usr/share/eucalyptus/vtunall.conf.template
 /usr/lib/eucalyptus/shutdownCC
+%attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
+/usr/share/eucalyptus/vtunall.conf.template
 /usr/share/eucalyptus/dynserv.pl
 /usr/share/eucalyptus/getstats_net.pl
-# Is this used?
-/var/lib/eucalyptus/keys/nc-client-policy.xml
 
 
 %files nc
@@ -658,11 +671,16 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{axis2c_home}/services/EucalyptusNC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
 %ghost /etc/eucalyptus/httpd-nc.conf
+/lib/udev/rules.d/12-dm-permissions.rules
+%attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
 /usr/sbin/euca_test_nc
+/usr/share/eucalyptus/authorize-migration-keys.pl
 /usr/share/eucalyptus/detach.pl
 /usr/share/eucalyptus/gen_kvm_libvirt_xml
 /usr/share/eucalyptus/gen_libvirt_xml
+/usr/share/eucalyptus/generate-migration-keys.sh
 /usr/share/eucalyptus/getstats.pl
+/usr/share/eucalyptus/get_bundle
 /usr/share/eucalyptus/get_sys_info
 /usr/share/eucalyptus/get_xen_info
 /usr/share/eucalyptus/partition2disk
@@ -670,13 +688,10 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
 
 
-%files gl
-%defattr(-,root,root,-)
-%{axis2c_home}/services/EucalyptusGL/
-
-
 %files admin-tools
 %defattr(-,root,root,-)
+%{python_sitelib}/eucadmin*
+/usr/lib/eucadmin/
 %{_sbindir}/euca_conf
 %{_sbindir}/euca-configure-vmware
 %{_sbindir}/euca-deregister-arbitrator
@@ -739,12 +754,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/eureport-delete-data
 
 
-%files -n python-eucadmin
-%defattr(-,root,root,-)
-%{python_sitelib}/eucadmin*
-/usr/lib/eucadmin/
-
-
 %files -n eucanetd
 %defattr(-,root,root,-)
 %{_sbindir}/eucanetd
@@ -752,7 +761,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 
 %files imaging-toolkit
-# TODO:  something should own %{_libexecdir}/eucalyptus
 %{_libexecdir}/eucalyptus/euca-imager
 %{_libexecdir}/eucalyptus/euca-run-workflow
 %{python_sitelib}/eucatoolkit*
