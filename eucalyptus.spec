@@ -580,11 +580,16 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %files blockdev-utils
 # SC and NC
 %doc tools/multipath.conf.example.* tools/iscsid.conf.example
+/etc/udev/scripts/iscsidev.sh
+/lib/udev/rules.d/12-dm-permissions.rules
+/lib/udev/rules.d/55-openiscsi*.rules
 /usr/share/eucalyptus/create-loop-devices
 /usr/share/eucalyptus/connect_iscsitarget.pl
 /usr/share/eucalyptus/connect_iscsitarget_main.pl
+/usr/share/eucalyptus/connect_iscsitarget_sc.pl
 /usr/share/eucalyptus/disconnect_iscsitarget.pl
 /usr/share/eucalyptus/disconnect_iscsitarget_main.pl
+/usr/share/eucalyptus/disconnect_iscsitarget_sc.pl
 /usr/share/eucalyptus/get_iscsitarget.pl
 /usr/share/eucalyptus/iscsitarget_common.pl
 
@@ -634,12 +639,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %files sc
 %defattr(-,root,root,-)
-/etc/udev/rules.d/55-openiscsi*.rules
-/etc/udev/scripts/iscsidev.sh
-/lib/udev/rules.d/12-dm-permissions.rules
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/volumes
-/usr/share/eucalyptus/connect_iscsitarget_sc.pl
-/usr/share/eucalyptus/disconnect_iscsitarget_sc.pl
 
 
 %files osg
@@ -668,7 +668,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{axis2c_home}/services/EucalyptusNC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
 %ghost /etc/eucalyptus/httpd-nc.conf
-/lib/udev/rules.d/12-dm-permissions.rules
 %attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
 /usr/sbin/euca_test_nc
 /usr/share/eucalyptus/authorize-migration-keys.pl
@@ -807,7 +806,7 @@ fi
 exit 0
 
 
-%post
+%post blockdev-utils
 # Reload udev rules
 /sbin/service udev-post reload || :
 exit 0
@@ -849,11 +848,12 @@ exit 0
 chkconfig --add eucanetd
 
 
-%postun
+%postun blockdev-utils
 # Reload udev rules on uninstall
 if [ "$1" = "0" ]; then
     /sbin/service udev-post reload || :
 fi
+exit 0
 
 
 %preun common-java
