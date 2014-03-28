@@ -814,6 +814,7 @@ exit 0
 
 %post common-java
 chkconfig --add eucalyptus-cloud
+exit 0
 
 
 %post sc
@@ -826,11 +827,6 @@ exit 0
 
 %post cc
 chkconfig --add eucalyptus-cc
-
-if [ $1 -eq 2 -a ! -e /etc/eucalyptus/iptables-preload -a -f /var/run/eucalyptus/iptables-preload ]; then
-    # Migrate /var/run/eucalyptus/iptables-preload (EUCA-3693, for eucalyptus 3.2.1)
-    mv /var/run/eucalyptus/iptables-preload /etc/eucalyptus/iptables-preload
-fi
 exit 0
 
 
@@ -846,6 +842,7 @@ exit 0
 
 %post -n eucanetd
 chkconfig --add eucanetd
+exit 0
 
 
 %postun blockdev-utils
@@ -884,6 +881,7 @@ if [ "$1" = "0" ]; then
     chkconfig --del eucalyptus-nc
 fi
 exit 0
+
 
 %preun -n eucanetd
 if [ "$1" = "0" ]; then
