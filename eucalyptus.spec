@@ -570,7 +570,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /var/lib/eucalyptus/keys/cc-client-policy.xml
 /var/lib/eucalyptus/keys/nc-client-policy.xml
 /var/lib/eucalyptus/keys/sc-client-policy.xml
-%attr(-,eucalyptus,eucalyptus) %ghost /var/run/eucalyptus/httpd-tmp.conf
+%attr(0644,eucalyptus,eucalyptus) %ghost /var/run/eucalyptus/httpd-tmp.conf
 /usr/share/eucalyptus/euca_ipt
 /usr/share/eucalyptus/floppy
 /usr/share/eucalyptus/populate_arp.pl
