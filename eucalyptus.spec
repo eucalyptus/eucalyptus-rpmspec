@@ -688,7 +688,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %files admin-tools
 %defattr(-,root,root,-)
 %{python_sitelib}/eucadmin*
-/usr/lib/eucadmin/
 %{_sbindir}/euca_conf
 %{_sbindir}/euca-configure-vmware
 %{_sbindir}/euca-deregister-arbitrator
@@ -745,7 +744,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-register-user-services
 %{_sbindir}/euca-register-vmware-broker
 %{_sbindir}/euca-register-walrusbackend
-%{_sbindir}/euca-validator
 %{_sbindir}/eureport-generate-report
 %{_sbindir}/eureport-export-data
 %{_sbindir}/eureport-delete-data
@@ -895,6 +893,9 @@ exit 0
 
 
 %changelog
+* Fri Apr  4 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
+- Dropped unused validation stuff (EUCA-8569)
+
 * Thu Feb 27 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Added euca-run-workflow
 
