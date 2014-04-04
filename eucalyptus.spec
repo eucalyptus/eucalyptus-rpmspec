@@ -603,9 +603,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %dir /etc/eucalyptus/cloud.d
 /etc/eucalyptus/cloud.d/conf/
 /etc/eucalyptus/cloud.d/drbd/
-/etc/eucalyptus/cloud.d/eucalyptus-web-default.properties
-/etc/eucalyptus/cloud.d/eucalyptus-web.properties
-/etc/eucalyptus/cloud.d/gwt-web.xml
 %dir /etc/eucalyptus/cloud.d/init.d
 /etc/eucalyptus/cloud.d/jmx/
 /etc/eucalyptus/cloud.d/scripts/
@@ -895,6 +892,7 @@ exit 0
 %changelog
 * Fri Apr  4 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Dropped unused validation stuff (EUCA-8569)
+- Dropped old admin web UI stuff (EUCA-8616)
 
 * Thu Feb 27 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Added euca-run-workflow
