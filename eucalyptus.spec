@@ -697,6 +697,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-deregister-euare
 %{_sbindir}/euca-deregister-loadbalancing
 %{_sbindir}/euca-deregister-object-storage-gateway
+%{_sbindir}/euca-deregister-service
 %{_sbindir}/euca-deregister-storage-controller
 %{_sbindir}/euca-deregister-tokens
 %{_sbindir}/euca-deregister-vmware-broker
@@ -715,6 +716,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-describe-object-storage-gateways
 %{_sbindir}/euca-describe-properties
 %{_sbindir}/euca-describe-services
+%{_sbindir}/euca-describe-service-types
 %{_sbindir}/euca-describe-storage-controllers
 %{_sbindir}/euca-describe-tokens
 %{_sbindir}/euca-describe-vmware-brokers
@@ -736,6 +738,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-register-euare
 %{_sbindir}/euca-register-loadbalancing
 %{_sbindir}/euca-register-object-storage-gateway
+%{_sbindir}/euca-register-service
 %{_sbindir}/euca-register-storage-controller
 %{_sbindir}/euca-register-tokens
 %{_sbindir}/euca-register-user-services
@@ -890,6 +893,9 @@ exit 0
 
 
 %changelog
+* Tue Apr 29 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
+- Added euca-(de)register service and euca-describe-service-types
+
 * Fri Apr  4 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Dropped unused validation stuff (EUCA-8569)
 - Dropped old admin web UI stuff (EUCA-8616)
