@@ -688,18 +688,10 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca_conf
 %{_sbindir}/euca-configure-vmware
 %{_sbindir}/euca-deregister-arbitrator
-%{_sbindir}/euca-deregister-autoscaling
 %{_sbindir}/euca-deregister-cloud
-%{_sbindir}/euca-deregister-cloudformation
-%{_sbindir}/euca-deregister-cloudwatch
 %{_sbindir}/euca-deregister-cluster
-%{_sbindir}/euca-deregister-compute
-%{_sbindir}/euca-deregister-euare
-%{_sbindir}/euca-deregister-loadbalancing
-%{_sbindir}/euca-deregister-object-storage-gateway
 %{_sbindir}/euca-deregister-service
 %{_sbindir}/euca-deregister-storage-controller
-%{_sbindir}/euca-deregister-tokens
 %{_sbindir}/euca-deregister-vmware-broker
 %{_sbindir}/euca-deregister-walrusbackend
 %{_sbindir}/euca-describe-arbitrators
@@ -729,19 +721,10 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-modify-storage-controller
 %{_sbindir}/euca-modify-walrus
 %{_sbindir}/euca-register-arbitrator
-%{_sbindir}/euca-register-autoscaling
 %{_sbindir}/euca-register-cloud
-%{_sbindir}/euca-register-cloudformation
-%{_sbindir}/euca-register-cloudwatch
 %{_sbindir}/euca-register-cluster
-%{_sbindir}/euca-register-compute
-%{_sbindir}/euca-register-euare
-%{_sbindir}/euca-register-loadbalancing
-%{_sbindir}/euca-register-object-storage-gateway
 %{_sbindir}/euca-register-service
 %{_sbindir}/euca-register-storage-controller
-%{_sbindir}/euca-register-tokens
-%{_sbindir}/euca-register-user-services
 %{_sbindir}/euca-register-vmware-broker
 %{_sbindir}/euca-register-walrusbackend
 %{_sbindir}/eureport-generate-report
@@ -893,6 +876,9 @@ exit 0
 
 
 %changelog
+* Thu May  8 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
+- Dropped most new admin tool executables (EUCA-9064)
+
 * Tue Apr 29 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Added euca-(de)register service and euca-describe-service-types
 
