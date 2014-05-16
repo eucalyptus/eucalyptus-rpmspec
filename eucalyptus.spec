@@ -185,6 +185,8 @@ Requires:     bc
 Requires:     dejavu-serif-fonts
 Requires:     euca2ools >= 2.0
 Requires:     lvm2
+# Older openssl had a handshake bug that fails credential download
+Requires:     openssl%{?_isa} >= 1.0.1e-16
 Requires:     perl(Getopt::Long)
 %if 0%{?fedora}
 Requires:     postgresql >= 9.1.9
@@ -828,6 +830,9 @@ exit 0
 
 
 %changelog
+* Fri May 16 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
+- Ensure openssl allows for credential download
+
 * Thu Nov 21 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Update java requires and build requires for RHEL 6.5 support
 
