@@ -555,9 +555,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %files axis2c-common
 # CC and NC
 /etc/eucalyptus/httpd.conf
-/var/lib/eucalyptus/keys/cc-client-policy.xml
-/var/lib/eucalyptus/keys/nc-client-policy.xml
-/var/lib/eucalyptus/keys/sc-client-policy.xml
+/usr/share/eucalyptus/policies
 %ghost /var/run/eucalyptus/httpd-tmp.conf
 /usr/share/eucalyptus/euca_ipt
 /usr/share/eucalyptus/floppy
@@ -862,6 +860,7 @@ exit 0
 * Mon Jun 13 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.1-0
 - Moved httpd-cc.conf and httpd-nc.conf to /var/run/eucalyptus
 - Dropped osg package (EUCA-9468)
+- Moved WS-Security client policies to /usr/share/eucalyptus/policies (EUCA-8706)
 
 * Fri May 16 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Ensure openssl allows for credential download
