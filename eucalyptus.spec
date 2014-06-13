@@ -120,7 +120,11 @@ Requires:     lvm2
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
 
+Obsoletes:    eucalyptus-osg < 4.0.1
+Provides:     eucalyptus-osg = %{version}-%{release}
+
 %provide_abi common-java
+%provide_abi osg
 
 %description common-java
 Eucalyptus is a service overlay that implements elastic computing
@@ -246,24 +250,6 @@ computing service that is interface-compatible with Amazon AWS.
 This package contains the cloud controller part of eucalyptus. The cloud
 controller needs to be reachable by both the cluster controller and from
 the cloud clients.
-
-
-%package osg
-Summary:      Eucalyptus cloud platform - object storage gateway
-Group:        Applications/System
-
-Requires:     %{name}                          = %{version}-%{release}
-Requires:     %{name}-common-java-libs%{?_isa} = %{version}-%{release}
-
-%provide_abi osg
-
-%description osg
-Eucalyptus is a service overlay that implements elastic computing
-using existing resources. The goal of Eucalyptus is to allow sites
-with existing clusters and server infrastructure to co-host an elastic
-computing service that is interface-compatible with Amazon AWS.
-
-This package contains the object storage gateway of eucalyptus.
 
 
 %package cc
@@ -641,10 +627,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/volumes
 
 
-%files osg
-# No files
-
-
 %files cc
 %defattr(-,root,root,-)
 %{_initrddir}/eucalyptus-cc
@@ -879,6 +861,7 @@ exit 0
 %changelog
 * Mon Jun 13 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.1-0
 - Moved httpd-cc.conf and httpd-nc.conf to /var/run/eucalyptus
+- Dropped osg package (EUCA-9468)
 
 * Fri May 16 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Ensure openssl allows for credential download
