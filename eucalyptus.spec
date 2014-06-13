@@ -507,8 +507,7 @@ done
 install -d -m 0771 $RPM_BUILD_ROOT/var/lib/eucalyptus/instances
 
 # Touch httpd config files that the init scripts create so we can %ghost them
-touch $RPM_BUILD_ROOT/etc/eucalyptus/httpd-{cc,nc}.conf
-touch $RPM_BUILD_ROOT/var/run/eucalyptus/httpd-tmp.conf
+touch $RPM_BUILD_ROOT/var/run/eucalyptus/httpd-{cc,nc,tmp}.conf
 
 # Add PolicyKit config on systems that support it
 mkdir -p $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d
@@ -651,7 +650,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_initrddir}/eucalyptus-cc
 %{axis2c_home}/services/EucalyptusCC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/CC
-%ghost /etc/eucalyptus/httpd-cc.conf
+%ghost /var/run/eucalyptus/httpd-cc.conf
 /usr/lib/eucalyptus/shutdownCC
 %attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
 /usr/share/eucalyptus/vtunall.conf.template
@@ -667,7 +666,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_initrddir}/eucalyptus-nc
 %{axis2c_home}/services/EucalyptusNC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
-%ghost /etc/eucalyptus/httpd-nc.conf
+%ghost /var/run/eucalyptus/httpd-nc.conf
 %attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
 /usr/sbin/euca_test_nc
 /usr/share/eucalyptus/authorize-migration-keys.pl
@@ -878,6 +877,9 @@ exit 0
 
 
 %changelog
+* Mon Jun 13 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.1-0
+- Moved httpd-cc.conf and httpd-nc.conf to /var/run/eucalyptus
+
 * Fri May 16 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.0-0
 - Ensure openssl allows for credential download
 
