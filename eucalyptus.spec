@@ -44,8 +44,8 @@ Requires(pre): shadow-utils
 
 BuildRoot:     %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
-Source0:       %{name}-%{version}%{?tar_suffix}.tar.gz
-Source1:       cloud-lib.tar.gz
+Source0:       %{tarball_basedir}.tar.xz
+Source1:       %{cloud_lib_tarball}
 # A version of WSDL2C.sh that respects standard classpaths
 Source2:       euca-WSDL2C.sh
 
@@ -414,7 +414,7 @@ and upload virtual machine images and to convert them between formats.
 
 
 %prep
-%setup -q -n %{name}-%{version}%{?tar_suffix}
+%setup -q -n %{tarball_basedir}
 %patch1 -p1
 
 # Filter unwanted perl provides
@@ -426,7 +426,7 @@ sed -e '/perl(disconnect_iscsitarget_main.pl)/d' \
     -e '/perl(iscsitarget_common.pl)/d'
 EOF
 
-%global __perl_provides %{_builddir}/%{name}-%{version}%{?tar_suffix}/%{name}-prov
+%global __perl_provides %{_builddir}/%{tarball_basedir}/%{name}-prov
 chmod +x %{__perl_provides}
 
 # Filter unwanted perl requires
@@ -438,7 +438,7 @@ sed -e '/perl(disconnect_iscsitarget_main.pl)/d' \
     -e '/perl(iscsitarget_common.pl)/d'
 EOF
 
-%global __perl_requires %{_builddir}/%{name}-%{version}%{?tar_suffix}/%{name}-req
+%global __perl_requires %{_builddir}/%{tarball_basedir}/%{name}-req
 chmod +x %{__perl_requires}
 
 
@@ -857,6 +857,9 @@ exit 0
 
 
 %changelog
+* Tue Jun 17 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.1-0
+- Switched to monolithic source tarball naming
+
 * Mon Jun 13 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.1-0
 - Moved httpd-cc.conf and httpd-nc.conf to /var/run/eucalyptus
 - Dropped osg package (EUCA-9468)
