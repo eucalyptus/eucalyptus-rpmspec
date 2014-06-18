@@ -55,8 +55,8 @@ Requires(pre):  %{_sbindir}/useradd
 
 BuildRoot:     %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
-Source0:       %{name}-%{version}%{?tar_suffix}.tar.gz
-Source1:       cloud-lib.tar.gz
+Source0:       %{tarball_basedir}.tar.xz
+Source1:       %{cloud_lib_tarball}
 # A version of WSDL2C.sh that respects standard classpaths
 Source2:       euca-WSDL2C.sh
 
@@ -356,7 +356,7 @@ Edge networking for Eucalyptus.
 
 
 %prep
-%setup -q -n %{name}-%{version}%{?tar_suffix}
+%setup -q -n %{tarball_basedir}
 %patch1 -p1
 
 # Filter unwanted perl provides
@@ -368,7 +368,7 @@ sed -e '/perl(disconnect_iscsitarget_main.pl)/d' \
     -e '/perl(iscsitarget_common.pl)/d'
 EOF
 
-%global __perl_provides %{_builddir}/%{name}-%{version}%{?tar_suffix}/%{name}-prov
+%global __perl_provides %{_builddir}/%{tarball_basedir}/%{name}-prov
 chmod +x %{__perl_provides}
 
 
@@ -381,7 +381,7 @@ sed -e '/perl(disconnect_iscsitarget_main.pl)/d' \
     -e '/perl(iscsitarget_common.pl)/d'
 EOF
 
-%global __perl_requires %{_builddir}/%{name}-%{version}%{?tar_suffix}/%{name}-req
+%global __perl_requires %{_builddir}/%{tarball_basedir}/%{name}-req
 chmod +x %{__perl_requires}
 
 
@@ -798,6 +798,9 @@ exit 0
 
 
 %changelog
+* Thu Jun 26 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.3-0
+- Switched to monolithic source tarball naming
+
 * Fri Jun 20 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.3-0
 - Updated to version 3.4.3
 
