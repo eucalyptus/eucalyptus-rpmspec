@@ -11,7 +11,7 @@ Provides: %{name}-abi = %{abi_version} \
 
 Summary:       Elastic Utility Computing Architecture
 Name:          eucalyptus
-Version:       3.4.2
+Version:       3.4.3
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -798,7 +798,10 @@ exit 0
 
 
 %changelog
-* Wed Jun 11 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.3-0
+* Fri Jun 20 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.3-0
+- Updated to version 3.4.3
+
+* Wed Jun 11 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.2-0
 - Use dhcp shipped by distro
 
 * Thu Nov 21 2013 Eucalyptus Release Engineering <support@eucalyptus.com> - 3.4.1-0
