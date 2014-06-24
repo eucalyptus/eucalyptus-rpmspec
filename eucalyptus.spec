@@ -214,7 +214,7 @@ Group:        Applications/System
 Requires:     %{name}    = %{version}-%{release}
 Requires:     %{name}-gl = %{version}-%{release}
 Requires:     bridge-utils
-Requires:     dhcp
+Requires:     dhcp >= 4.1.1-33.P1
 Requires:     httpd
 Requires:     iproute
 Requires:     iptables
@@ -344,7 +344,7 @@ License:        GPLv3 and BSD
 Group:          Applications/System
 
 Requires:       %{name}-nc >= %{version}
-Requires:       dhcp41
+Requires:       dhcp >= 4.1.1-33.P1
 Requires:       ebtables
 Requires:       ipset
 Requires:       iptables
