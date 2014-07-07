@@ -11,7 +11,7 @@ Provides: %{name}-abi = %{abi_version} \
 
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
-Version:       4.0.0
+Version:       4.0.1
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
