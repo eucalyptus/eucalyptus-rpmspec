@@ -231,12 +231,15 @@ Requires:     lvm2
 # Older openssl had a handshake bug that fails credential download
 Requires:     openssl%{?_isa} >= 1.0.1e-16
 Requires:     perl(Getopt::Long)
-%if 0%{?fedora}
-Requires:     postgresql >= 9.1.9
-Requires:     postgresql-server >= 9.1.9
-%else
+%if 0%{?el6}
+# See https://eucalyptus.atlassian.net/browse/EUCA-8767
 Requires:     postgresql91 >= 9.1.9
 Requires:     postgresql91-server >= 9.1.9
+Requires:     postgresql92
+Requires:     postgresql92
+%else
+Requires:     postgresql >= 9.1.9
+Requires:     postgresql-server >= 9.1.9
 %endif
 
 %provide_abi cloud
@@ -447,7 +450,7 @@ export CFLAGS="%{optflags}"
 
 # Eucalyptus does not assign the usual meaning to prefix and other standard
 # configure variables, so we can't realistically use %%configure.
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=/usr/pgsql-9.1 --with-extra-version=%{release}
+./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
 
 # Untar the bundled cloud-lib Java dependencies.
 mkdir clc/lib
@@ -859,6 +862,7 @@ exit 0
 %changelog
 * Thu Jun 19 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0-0
 - Version bump (4.1.0)
+- Added dependency on postgresql92 (EUCA-9700)
 
 * Tue Jun 17 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.1-0
 - Switched to monolithic source tarball naming
