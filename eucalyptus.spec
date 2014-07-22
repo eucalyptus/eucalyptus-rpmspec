@@ -26,6 +26,7 @@ BuildRequires: axis2c-devel >= 1.6.0
 BuildRequires: curl-devel
 BuildRequires: java-1.7.0-openjdk-devel >= 1:1.7.0
 BuildRequires: jpackage-utils
+BuildRequires: json-c-devel
 BuildRequires: libvirt-devel >= 0.6
 BuildRequires: libxml2-devel
 BuildRequires: libxslt-devel
@@ -860,6 +861,9 @@ exit 0
 
 
 %changelog
+* Tue Jul 22 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0-0
+- Added build-time dependency on json-c-devel
+
 * Thu Jun 19 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0-0
 - Version bump (4.1.0)
 - Added dependency on postgresql92 (EUCA-9700)
