@@ -237,7 +237,7 @@ Requires:     perl(Getopt::Long)
 Requires:     postgresql91 >= 9.1.9
 Requires:     postgresql91-server >= 9.1.9
 Requires:     postgresql92
-Requires:     postgresql92
+Requires:     postgresql92-server
 %else
 Requires:     postgresql >= 9.1.9
 Requires:     postgresql-server >= 9.1.9
