@@ -11,7 +11,7 @@ Provides: %{name}-abi = %{abi_version} \
 
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
-Version:       4.0.1
+Version:       4.0.2
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -857,6 +857,9 @@ exit 0
 
 
 %changelog
+* Tue Sep  5 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.2
+- Version bump (4.0.2)
+
 * Tue Jun 17 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.0.1-0
 - Switched to monolithic source tarball naming
 
