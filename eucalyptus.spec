@@ -495,6 +495,7 @@ for dir in bukkits CC db keys ldap upgrade vmware volumes webapps; do
     install -d -m 0700 $RPM_BUILD_ROOT/var/lib/eucalyptus/$dir
 done
 install -d -m 0771 $RPM_BUILD_ROOT/var/lib/eucalyptus/instances
+install -d -m 0750 $RPM_BUILD_ROOT/var/run/eucalyptus/status
 
 # Touch httpd config files that the init scripts create so we can %ghost them
 touch $RPM_BUILD_ROOT/var/run/eucalyptus/httpd-{cc,nc,tmp}.conf
@@ -541,6 +542,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/upgrade
 %attr(-,eucalyptus,eucalyptus) %dir /var/log/eucalyptus
 %attr(-,eucalyptus,eucalyptus) %dir /var/run/eucalyptus
+%attr(-,eucalyptus,eucalyptus-status) %dir /var/run/eucalyptus/status
 
 %config(noreplace) /etc/eucalyptus/eucalyptus.conf
 /etc/eucalyptus/eucalyptus-version
@@ -731,6 +733,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %pre
 getent group eucalyptus >/dev/null || groupadd -r eucalyptus
+getent group eucalyptus-status >/dev/null || groupadd -r eucalyptus-status
 ## FIXME:  Make QA (and Eucalyptus proper?) work with /sbin/nologin as the shell [RT:2092]
 #getent passwd eucalyptus >/dev/null || \
 #    useradd -r -g eucalyptus -d /var/lib/eucalyptus -s /sbin/nologin \
@@ -861,6 +864,10 @@ exit 0
 
 
 %changelog
+* Fri Sep  5 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
+- Added eucalyptus-status group (EUCA-9958)
+- Added /var/run/eucalyptus/status dir (EUCA-9958)
+
 * Tue Jul 22 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0-0
 - Added build-time dependency on json-c-devel
 
