@@ -232,16 +232,8 @@ Requires:     lvm2
 # Older openssl had a handshake bug that fails credential download
 Requires:     openssl%{?_isa} >= 1.0.1e-16
 Requires:     perl(Getopt::Long)
-%if 0%{?el6}
-# See https://eucalyptus.atlassian.net/browse/EUCA-8767
-Requires:     postgresql91 >= 9.1.9
-Requires:     postgresql91-server >= 9.1.9
 Requires:     postgresql92
 Requires:     postgresql92-server
-%else
-Requires:     postgresql >= 9.1.9
-Requires:     postgresql-server >= 9.1.9
-%endif
 
 %provide_abi cloud
 
@@ -866,6 +858,7 @@ exit 0
 %changelog
 * Fri Oct  3 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Bumped nc's euca2ools dependency to >= 3.2
+- Removed postgresql 9.1 dependencies (EUCA-9703)
 
 * Fri Sep  5 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Added eucalyptus-status group (EUCA-9958)
