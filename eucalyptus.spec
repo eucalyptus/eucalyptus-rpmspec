@@ -296,7 +296,7 @@ Requires:     %{name}-imaging-toolkit = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     device-mapper
 Requires:     device-mapper-multipath
-Requires:     euca2ools >= 3.0.2
+Requires:     euca2ools >= 3.2
 Requires:     httpd
 Requires:     iscsi-initiator-utils
 Requires:     kvm
@@ -864,6 +864,9 @@ exit 0
 
 
 %changelog
+* Fri Oct  3 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
+- Bumped nc's euca2ools dependency to >= 3.2
+
 * Fri Sep  5 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Added eucalyptus-status group (EUCA-9958)
 - Added /var/run/eucalyptus/status dir (EUCA-9958)
