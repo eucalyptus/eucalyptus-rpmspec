@@ -715,6 +715,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %defattr(-,root,root,-)
 %{_sbindir}/eucanetd
 %{_initrddir}/eucanetd
+/usr/share/eucalyptus/nginx_proxy.conf
 
 
 %files imaging-toolkit
@@ -856,6 +857,9 @@ exit 0
 
 
 %changelog
+* Wed Oct  8 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
+- Added nginx_proxy.conf to eucanetd package
+
 * Fri Oct  3 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Bumped nc's euca2ools dependency to >= 3.2
 - Removed postgresql 9.1 dependencies (EUCA-9703)
