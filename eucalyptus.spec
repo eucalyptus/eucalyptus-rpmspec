@@ -225,6 +225,8 @@ Requires:     %{name}-blockdev-utils = %{version}-%{release}
 Requires:     %{name}-common-java = %{version}-%{release}
 Requires:     device-mapper-multipath
 Requires:     iscsi-initiator-utils
+Requires:     librados2%{?_isa}
+Requires:     librbd1%{?_isa}
 Requires:     lvm2
 Requires:     scsi-target-utils
 
@@ -319,6 +321,9 @@ Requires:     euca2ools >= 3.2
 Requires:     httpd
 Requires:     iscsi-initiator-utils
 Requires:     kvm
+# Ceph support requires librados2, librbd1, and *also* qemu-kvm-rhev.
+Requires:     librados2%{?_isa}
+Requires:     librbd1%{?_isa}
 Requires:     libvirt
 Requires:     perl(Sys::Virt)
 Requires:     perl(Time::HiRes)
@@ -884,6 +889,9 @@ exit 0
 
 
 %changelog
+* Mon Nov  3 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
+- Added librados2 and librbd1 deps to sc and nc packages (EUCA-10099)
+
 * Wed Oct  8 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Added nginx_proxy.conf to eucanetd package
 
