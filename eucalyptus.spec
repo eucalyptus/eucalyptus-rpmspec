@@ -77,9 +77,6 @@ Source1:       %{cloud_lib_tarball}
 # A version of WSDL2C.sh that respects standard classpaths
 Source2:       euca-WSDL2C.sh
 
-# Eliminate the redundant "common" config section in drbd.conf
-Patch1:        eucalyptus-3.4.0-drbd-common.patch
-
 %description
 Eucalyptus is a service overlay that implements elastic computing
 using existing resources. The goal of Eucalyptus is to allow sites
@@ -190,17 +187,6 @@ Group:        Applications/System
 
 Requires:     %{name}             = %{version}-%{release}
 Requires:     %{name}-common-java = %{version}-%{release}
-%if 0%{?rhel}
-# CentOS Extras and ELRepo have differing package names, but compatible Provides
-#
-# Watch out for yum pulling in modules for the wrong kernel on systems that run
-# kernel-xen, kernel-PAE, etc.
-Requires:     drbd83
-Requires:     drbd83-kmod
-%endif
-%if 0%{?fedora}
-Requires:     drbd-utils
-%endif
 Requires:     lvm2
 
 %provide_abi walrus
@@ -443,7 +429,6 @@ and upload virtual machine images and to convert them between formats.
 
 %prep
 %setup -q -n %{tarball_basedir}
-%patch1 -p1
 
 # Filter unwanted perl provides
 cat << \EOF > %{name}-prov
@@ -532,7 +517,6 @@ cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localaut
 mkdir -p $RPM_BUILD_ROOT/lib/udev/rules.d
 cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/12-dm-permissions.rules $RPM_BUILD_ROOT/lib/udev/rules.d/12-dm-permissions.rules
 cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/55-openiscsi.rules $RPM_BUILD_ROOT/lib/udev/rules.d/55-openiscsi.rules
-cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/65-drbd-owner.rules $RPM_BUILD_ROOT/lib/udev/rules.d/65-drbd-owner.rules
 # FIXME:  iscsidev.sh belongs in /usr/share/eucalyptus [RT:2093]
 mkdir -p $RPM_BUILD_ROOT/etc/udev/scripts
 install -m 0755 $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/iscsidev.sh $RPM_BUILD_ROOT/etc/udev/scripts/iscsidev.sh
@@ -617,7 +601,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 # probably belongs in /usr/share, but moving it will be painful.
 %dir /etc/eucalyptus/cloud.d
 /etc/eucalyptus/cloud.d/conf/
-/etc/eucalyptus/cloud.d/drbd/
 %dir /etc/eucalyptus/cloud.d/init.d
 /etc/eucalyptus/cloud.d/jmx/
 /etc/eucalyptus/cloud.d/scripts/
@@ -646,8 +629,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %files walrus
 %defattr(-,root,root,-)
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/bukkits
-/etc/eucalyptus/drbd.conf.example
-/lib/udev/rules.d/65-drbd-owner.rules
 
 
 %files sc
@@ -891,6 +872,7 @@ exit 0
 %changelog
 * Mon Nov  3 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Added librados2 and librbd1 deps to sc and nc packages (EUCA-10099)
+- Dropped drbd
 
 * Wed Oct  8 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Added nginx_proxy.conf to eucanetd package
