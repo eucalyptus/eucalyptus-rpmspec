@@ -564,6 +564,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 /usr/sbin/euca-generate-fault
 /usr/share/eucalyptus/faults/
+/usr/share/eucalyptus/status/
 
 
 %files axis2c-common
@@ -870,6 +871,9 @@ exit 0
 
 
 %changelog
+* Tue Dec  2 2014 Eucalyptus Release Engineering <support@euclayptus.com> - 4.1.0
+- Added /usr/share/eucalyptus/status
+
 * Mon Nov  3 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Added librados2 and librbd1 deps to sc and nc packages (EUCA-10099)
 - Dropped drbd
