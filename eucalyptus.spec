@@ -344,9 +344,11 @@ License:      BSD and Python
 Group:        Applications/System
 
 Requires:     %{name} = %{version}-%{release}
+Requires:     euca2ools >= 3.2
 Requires:     m2crypto
 Requires:     PyGreSQL
 Requires:     python-boto >= 2.1
+Requires:     PyYAML
 Requires:     rsync
 Requires:     /usr/bin/which
 
@@ -707,6 +709,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-describe-vmware-brokers
 %{_sbindir}/euca-describe-walrusbackends
 %{_sbindir}/euca-get-credentials
+%{_sbindir}/euca-install-service-image
 %{_sbindir}/euca-migrate-instances
 %{_sbindir}/euca-modify-cluster
 %{_sbindir}/euca-modify-property
@@ -871,7 +874,12 @@ exit 0
 
 
 %changelog
-* Tue Dec  2 2014 Eucalyptus Release Engineering <support@euclayptus.com> - 4.1.0
+* Fri Dec 19 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
+- Added euca-install-service-image to admin tools (EUCA-10201)
+- Added service-images.yml for euca-install-service-image (EUCA-10202)
+- Added PyYAML and euca2ools dependencies to support euca-install-service-image
+
+* Tue Dec  2 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Added /usr/share/eucalyptus/status
 
 * Mon Nov  3 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
