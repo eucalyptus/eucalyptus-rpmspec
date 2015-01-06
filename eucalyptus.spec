@@ -1,4 +1,4 @@
-# Copyright 2009-2014 Eucalyptus Systems, Inc.
+# Copyright 2009-2015 Eucalyptus Systems, Inc.
 #
 # Redistribution and use of this software in source and binary forms, with or
 # without modification, are permitted provided that the following conditions
@@ -304,6 +304,7 @@ Requires:     bridge-utils
 Requires:     device-mapper
 Requires:     device-mapper-multipath
 Requires:     euca2ools >= 3.2
+Requires:     eucanetd = %{version}-%{release}
 Requires:     httpd
 Requires:     iscsi-initiator-utils
 Requires:     kvm
@@ -375,7 +376,6 @@ Summary:        Eucalyptus cloud platform - edge networking daemon
 License:        GPLv3
 Group:          Applications/System
 
-Requires:       %{name}-nc = %{version}-%{release}
 Requires:       dhcp >= 4.1.1-33.P1
 Requires:       ebtables
 Requires:       ipset
@@ -874,6 +874,9 @@ exit 0
 
 
 %changelog
+* Tue Jan  6 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
+- Reversed eucanetd -> eucalyptus-nc dependency (EUCA-10219)
+
 * Fri Dec 19 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Added euca-install-service-image to admin tools (EUCA-10201)
 - Added service-images.yml for euca-install-service-image (EUCA-10202)
