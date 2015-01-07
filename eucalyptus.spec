@@ -241,6 +241,7 @@ Requires:     %{name}-common-java%{?_isa} = %{version}-%{release}
 # bc is needed for /etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
 Requires:     bc
 Requires:     euca2ools >= 2.0
+Requires:     eucanetd = %{version}-%{release}
 Requires:     lvm2
 # Older openssl had a handshake bug that fails credential download
 Requires:     openssl%{?_isa} >= 1.0.1e-16
