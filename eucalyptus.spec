@@ -240,8 +240,6 @@ Requires:     %{name}                     = %{version}-%{release}
 Requires:     %{name}-common-java%{?_isa} = %{version}-%{release}
 # bc is needed for /etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
 Requires:     bc
-# For reporting web UI
-Requires:     dejavu-serif-fonts
 Requires:     euca2ools >= 2.0
 Requires:     lvm2
 # Older openssl had a handshake bug that fails credential download
@@ -876,6 +874,7 @@ exit 0
 %changelog
 * Tue Jan  6 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Reversed eucanetd -> eucalyptus-nc dependency (EUCA-10219)
+- Removed unused font dependency
 
 * Fri Dec 19 2014 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Added euca-install-service-image to admin tools (EUCA-10201)
