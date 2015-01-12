@@ -464,7 +464,7 @@ export CFLAGS="%{optflags}"
 
 # Eucalyptus does not assign the usual meaning to prefix and other standard
 # configure variables, so we can't realistically use %%configure.
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=/usr/pgsql-9.2 --with-old-db-home=/usr/pgsql-9.1 --with-extra-version=%{release}
+./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=/usr/pgsql-9.2 --with-db-old-home=/usr/pgsql-9.1 --with-extra-version=%{release}
 
 # Untar the bundled cloud-lib Java dependencies.
 mkdir clc/lib
@@ -876,6 +876,9 @@ exit 0
 
 
 %changelog
+* Mon Jan 12 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
+- Fixed typo in old db-home configure script option (EUCA-10319)
+
 * Tue Jan  6 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Reversed eucanetd -> eucalyptus-nc dependency (EUCA-10219)
 - Removed unused font dependency
