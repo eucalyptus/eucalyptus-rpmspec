@@ -648,7 +648,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/CC
 %ghost /var/run/eucalyptus/httpd-cc.conf
 /usr/lib/eucalyptus/shutdownCC
-%attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
 /usr/share/eucalyptus/vtunall.conf.template
 /usr/share/eucalyptus/dynserv.pl
 /usr/share/eucalyptus/getstats_net.pl
@@ -663,7 +662,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{axis2c_home}/services/EucalyptusNC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
 %ghost /var/run/eucalyptus/httpd-nc.conf
-%attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
 /usr/sbin/euca_test_nc
 /usr/share/eucalyptus/authorize-migration-keys.pl
 /usr/share/eucalyptus/detach.pl
@@ -734,6 +732,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %defattr(-,root,root,-)
 %{_sbindir}/eucanetd
 %{_initrddir}/eucanetd
+%attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
 /usr/share/eucalyptus/nginx_proxy.conf
 
 
@@ -876,6 +875,9 @@ exit 0
 
 
 %changelog
+* Tue Jan 13 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
+- Moved conntrack_kernel_params to eucanetd package (EUCA-10314)
+
 * Mon Jan 12 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Fixed typo in old db-home configure script option (EUCA-10319)
 
