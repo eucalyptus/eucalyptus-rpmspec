@@ -655,6 +655,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %files nc
 %defattr(-,root,root,-)
+%doc tools/nc-hooks
 %config(noreplace) /etc/eucalyptus/libvirt.xsl
 %dir /etc/eucalyptus/nc-hooks
 /etc/eucalyptus/nc-hooks/example.sh
@@ -875,6 +876,9 @@ exit 0
 
 
 %changelog
+* Thu Jan 15 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
+- Added sample NC hooks as doc files (EUCA-9680)
+
 * Tue Jan 13 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Moved conntrack_kernel_params to eucanetd package (EUCA-10314)
 
