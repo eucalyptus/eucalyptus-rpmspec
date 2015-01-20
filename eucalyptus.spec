@@ -273,6 +273,7 @@ Requires:     %{name} = %{version}-%{release}
 Requires:     %{name}-axis2c-common = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     dhcp >= 4.1.1-33.P1
+Requires:     eucanetd = %{version}-%{release}
 Requires:     httpd
 Requires:     iproute
 Requires:     iptables
@@ -876,6 +877,9 @@ exit 0
 
 
 %changelog
+* Tue Jan 20 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
+- Made eucalyptus-cc depend on eucanetd for conntrack_kernel_params (EUCA-10405)
+
 * Thu Jan 15 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Added sample NC hooks as doc files (EUCA-9680)
 
