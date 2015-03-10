@@ -711,7 +711,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-describe-vmware-brokers
 %{_sbindir}/euca-describe-walrusbackends
 %{_sbindir}/euca-get-credentials
-%{_sbindir}/euca-install-service-image
 %{_sbindir}/euca-migrate-instances
 %{_sbindir}/euca-modify-cluster
 %{_sbindir}/euca-modify-property
@@ -877,6 +876,9 @@ exit 0
 
 
 %changelog
+* Mon Mar  9 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.1
+- Dropped euca-install-service-image (EUCA-10369)
+
 * Tue Jan 20 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.0
 - Made eucalyptus-cc depend on eucanetd for conntrack_kernel_params (EUCA-10405)
 
