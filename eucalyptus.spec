@@ -54,6 +54,7 @@ BuildRequires: curl-devel
 BuildRequires: java-1.7.0-openjdk-devel >= 1:1.7.0
 BuildRequires: jpackage-utils
 BuildRequires: json-c-devel
+BuildRequires: libuuid-devel
 BuildRequires: libvirt-devel >= 0.6
 BuildRequires: libxml2-devel
 BuildRequires: libxslt-devel
@@ -876,6 +877,9 @@ exit 0
 
 
 %changelog
+* Mon Mar 23 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.1
+- Added libuuid-devel build dependency
+
 * Mon Mar  9 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.1
 - Dropped euca-install-service-image (EUCA-10369)
 
