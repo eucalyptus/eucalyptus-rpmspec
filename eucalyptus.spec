@@ -213,9 +213,6 @@ Requires:     lvm2
 # Older openssl had a handshake bug that fails credential download
 Requires:     openssl%{?_isa} >= 1.0.1e-16
 Requires:     perl(Getopt::Long)
-# postgresql91 binaries are required for upgrades from 4.0.x (EUCA-10150)
-Requires:     postgresql91
-Requires:     postgresql91-server
 Requires:     postgresql92
 Requires:     postgresql92-server
 
@@ -414,7 +411,7 @@ export CFLAGS="%{optflags}"
 
 # Eucalyptus does not assign the usual meaning to prefix and other standard
 # configure variables, so we can't realistically use %%configure.
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=/usr/pgsql-9.2 --with-db-old-home=/usr/pgsql-9.1 --with-extra-version=%{release}
+./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
 
 # Untar the bundled cloud-lib Java dependencies.
 mkdir clc/lib
@@ -827,6 +824,7 @@ exit 0
 %changelog
 * Tue Apr  7 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
 - Removed pre-4.0 Requires/Provides/Obsoletes
+- Removed postgresql91 dependencies (only needed for 4.0 -> 4.1 upgrades)
 
 * Mon Mar 23 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.1
 - Added libuuid-devel build dependency
