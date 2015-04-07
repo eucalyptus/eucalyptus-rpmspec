@@ -434,13 +434,6 @@ sed -i -e 's#.*EUCALYPTUS=.*#EUCALYPTUS="/"#' \
        -e 's#.*VNET_BRIDGE=.*#VNET_BRIDGE="br0"#' \
        $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
 
-# RHEL does not include support for SCSI emulation in KVM.
-%if 0%{?rhel}
-sed -i 's#.*USE_VIRTIO_DISK=.*#USE_VIRTIO_DISK="1"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
-sed -i 's#.*USE_VIRTIO_ROOT=.*#USE_VIRTIO_ROOT="1"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
-sed -i 's#.*USE_VIRTIO_NET=.*#USE_VIRTIO_NET="1"#' $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
-%endif
-
 # Eucalyptus's build scripts do not respect initrddir
 if [ %{_initrddir} != /etc/init.d ]; then
     mkdir -p $RPM_BUILD_ROOT/%{_initrddir}
@@ -481,10 +474,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 
 # Remove README file if one exists
 rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
-
-
-%clean
-[ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 
 %files
@@ -825,6 +814,7 @@ exit 0
 * Tue Apr  7 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
 - Removed pre-4.0 Requires/Provides/Obsoletes
 - Removed postgresql91 dependencies (only needed for 4.0 -> 4.1 upgrades)
+- Removed pre-el6 leftovers
 
 * Mon Mar 23 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.1
 - Added libuuid-devel build dependency
