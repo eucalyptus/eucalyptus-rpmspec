@@ -27,15 +27,6 @@
 
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%define provide_abi() \
-%{!?abi_version: %define abi_version %{version}-%{release}} \
-%if 0%# \
-Provides: %{name}-abi(%1) = %{abi_version} \
-%else \
-Provides: %{name}-abi = %{abi_version} \
-%endif \
-%{nil}
-
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
 Version:       4.1.1
@@ -69,8 +60,6 @@ BuildRequires: /usr/bin/awk
 
 Requires(pre): shadow-utils
 
-%provide_abi
-
 BuildRoot:     %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Source0:       %{tarball_basedir}.tar.xz
@@ -98,12 +87,6 @@ Requires:     httpd
 Requires:     perl(Digest::MD5)
 Requires:     perl(MIME::Base64)
 
-Obsoletes:    %{name}-gl < 4
-Provides:     %{name}-gl = %{version}-%{release}
-
-%provide_abi axis2c-common
-%provide_abi gl
-
 %description axis2c-common
 Eucalyptus is a service overlay that implements elastic computing
 using existing resources. The goal of Eucalyptus is to allow sites
@@ -124,8 +107,6 @@ Requires:     perl(Crypt::OpenSSL::RSA)
 Requires:     perl(Crypt::OpenSSL::Random)
 Requires:     perl(MIME::Base64)
 Requires:     /usr/bin/which
-
-%provide_abi blockdev-utils
 
 %description blockdev-utils
 Eucalyptus is a service overlay that implements elastic computing
@@ -149,9 +130,6 @@ Requires:     %{_sbindir}/euca_conf
 Obsoletes:    eucalyptus-osg < 4.0.1
 Provides:     eucalyptus-osg = %{version}-%{release}
 
-%provide_abi common-java
-%provide_abi osg
-
 %description common-java
 Eucalyptus is a service overlay that implements elastic computing
 using existing resources. The goal of Eucalyptus is to allow sites
@@ -167,11 +145,6 @@ Group:        Applications/System
 
 Requires:     jpackage-utils
 Requires:     java-1.7.0-openjdk >= 1:1.7.0
-
-Obsoletes:    eucalyptus-enterprise-storage-san-common-libs < 3.4.0
-Provides:     eucalyptus-enterprise-storage-san-common-libs = %{version}-%{release}
-
-%provide_abi common-java-libs
 
 %description common-java-libs
 Eucalyptus is a service overlay that implements elastic computing
@@ -189,8 +162,6 @@ Group:        Applications/System
 Requires:     %{name}             = %{version}-%{release}
 Requires:     %{name}-common-java = %{version}-%{release}
 Requires:     lvm2
-
-%provide_abi walrus
 
 %description walrus
 Eucalyptus is a service overlay that implements elastic computing
@@ -216,11 +187,6 @@ Requires:     librados2%{?_isa}
 Requires:     librbd1%{?_isa}
 Requires:     lvm2
 Requires:     scsi-target-utils
-
-Obsoletes:    eucalyptus-enterprise-storage-san-common < 3.4.0
-Provides:     eucalyptus-enterprise-storage-san-common = %{version}-%{release}
-
-%provide_abi sc
 
 %description sc
 Eucalyptus is a service overlay that implements elastic computing
@@ -253,8 +219,6 @@ Requires:     postgresql91-server
 Requires:     postgresql92
 Requires:     postgresql92-server
 
-%provide_abi cloud
-
 %description cloud
 Eucalyptus is a service overlay that implements elastic computing
 using existing resources. The goal of Eucalyptus is to allow sites
@@ -283,8 +247,6 @@ Requires:     vconfig
 Requires:     vtun
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
-
-%provide_abi cc
 
 %description cc
 Eucalyptus is a service overlay that implements elastic computing
@@ -330,8 +292,6 @@ Requires:     util-linux
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
 
-%provide_abi nc
-
 %description nc
 Eucalyptus is a service overlay that implements elastic computing
 using existing resources. The goal of Eucalyptus is to allow sites
@@ -357,13 +317,7 @@ Requires:     PyYAML
 Requires:     rsync
 Requires:     /usr/bin/which
 
-Obsoletes:    python-eucadmin < 4
-Provides:     python-eucadmin = %{version}-%{release}
-
 BuildArch:    noarch
-
-%provide_abi admin-tools
-%provide_abi python-eucadmin
 
 %description admin-tools
 Eucalyptus is a service overlay that implements elastic computing
@@ -385,10 +339,6 @@ Requires:       ebtables
 Requires:       ipset
 Requires:       iptables
 Requires:       /usr/bin/which
-
-%provide_abi eucanetd
-
-Obsoletes:      eucalyptus-eucanet < 4.0
 
 %description -n eucanetd
 Eucalyptus is a service overlay that implements elastic computing
@@ -420,8 +370,6 @@ Requires:     grub
 Requires:     httpd
 Requires:     parted
 Requires:     util-linux
-
-%provide_abi imaging-toolkit
 
 %description imaging-toolkit
 Eucalyptus is a service overlay that implements elastic computing
@@ -877,6 +825,9 @@ exit 0
 
 
 %changelog
+* Tue Apr  7 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
+- Removed pre-4.0 Requires/Provides/Obsoletes
+
 * Mon Mar 23 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.1
 - Added libuuid-devel build dependency
 
