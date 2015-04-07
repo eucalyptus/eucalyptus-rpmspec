@@ -215,6 +215,7 @@ Requires:     openssl%{?_isa} >= 1.0.1e-16
 Requires:     perl(Getopt::Long)
 Requires:     postgresql92
 Requires:     postgresql92-server
+Requires:     python-argparse
 
 %description cloud
 Eucalyptus is a service overlay that implements elastic computing
@@ -240,6 +241,7 @@ Requires:     httpd
 Requires:     iproute
 Requires:     iptables
 Requires:     iputils
+Requires:     python-argparse
 Requires:     vconfig
 Requires:     vtun
 Requires:     /usr/bin/which
@@ -310,6 +312,9 @@ Requires:     euca2ools >= 3.2
 Requires:     m2crypto
 Requires:     PyGreSQL
 Requires:     python-boto >= 2.1
+Requires:     python-prettytable
+Requires:     python-requestbuilder
+Requires:     python-requests
 Requires:     PyYAML
 Requires:     rsync
 Requires:     /usr/bin/which
@@ -562,6 +567,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %defattr(-,root,root,-)
 /etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
 /usr/sbin/euca-lictool
+/usr/sbin/clcadmin-*
 /usr/share/eucalyptus/lic_default
 /usr/share/eucalyptus/lic_template
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/db
@@ -584,6 +590,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/CC
 %ghost /var/run/eucalyptus/httpd-cc.conf
 /usr/lib/eucalyptus/shutdownCC
+/usr/sbin/clusteradmin-*
 /usr/share/eucalyptus/vtunall.conf.template
 /usr/share/eucalyptus/dynserv.pl
 /usr/share/eucalyptus/getstats_net.pl
@@ -616,6 +623,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %files admin-tools
 %defattr(-,root,root,-)
+# Old stuff (remove after 4.2)
 %{python_sitelib}/eucadmin*
 %{_sbindir}/euca_conf
 %{_sbindir}/euca-configure-vmware
@@ -662,6 +670,12 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/eureport-generate-report
 %{_sbindir}/eureport-export-data
 %{_sbindir}/eureport-delete-data
+# New stuff (new in 4.2)
+%{python_sitelib}/eucalyptus_admin*
+%{_bindir}/empyrean-*
+%{_bindir}/euctl
+%{_mandir}/man1/empyrean-*.1*
+%{_mandir}/man1/euctl.1*
 
 
 %files -n eucanetd
@@ -815,6 +829,7 @@ exit 0
 - Removed pre-4.0 Requires/Provides/Obsoletes
 - Removed postgresql91 dependencies (only needed for 4.0 -> 4.1 upgrades)
 - Removed pre-el6 leftovers
+- Added first batch of new admin, support scripts
 
 * Mon Mar 23 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.1
 - Added libuuid-devel build dependency
