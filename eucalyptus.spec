@@ -29,7 +29,7 @@
 
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
-Version:       4.1.1
+Version:       4.2.0
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -825,6 +825,9 @@ exit 0
 
 
 %changelog
+* Thu Apr  9 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
+- Version bump (4.2.0)
+
 * Tue Apr  7 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
 - Removed pre-4.0 Requires/Provides/Obsoletes
 - Removed postgresql91 dependencies (only needed for 4.0 -> 4.1 upgrades)
