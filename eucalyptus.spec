@@ -731,6 +731,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %files -n eucanetd
 %defattr(-,root,root,-)
+%{_libexecdir}/announce-arp
 %{_sbindir}/eucanetd
 %{_initrddir}/eucanetd
 %attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
@@ -876,6 +877,9 @@ exit 0
 
 
 %changelog
+* Tue Apr 14 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.1
+- Added announce-arp support script for eucanetd (EUCA-10741)
+
 * Mon Mar  9 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.1
 - Dropped euca-install-service-image (EUCA-10369)
 
