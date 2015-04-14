@@ -731,7 +731,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %files -n eucanetd
 %defattr(-,root,root,-)
-%{_libexecdir}/announce-arp
+%{_libexecdir}/eucalyptus/announce-arp
 %{_sbindir}/eucanetd
 %{_initrddir}/eucanetd
 %attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
