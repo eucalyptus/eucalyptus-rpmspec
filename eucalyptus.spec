@@ -209,6 +209,7 @@ Requires:     %{name}-common-java%{?_isa} = %{version}-%{release}
 Requires:     bc
 Requires:     euca2ools >= 2.0
 Requires:     eucanetd = %{version}-%{release}
+Requires:     libselinux-python
 Requires:     lvm2
 # Older openssl had a handshake bug that fails credential download
 Requires:     openssl%{?_isa} >= 1.0.1e-16
@@ -216,6 +217,7 @@ Requires:     perl(Getopt::Long)
 Requires:     postgresql92
 Requires:     postgresql92-server
 Requires:     python-argparse
+Requires:     rsync
 
 %description cloud
 Eucalyptus is a service overlay that implements elastic computing
@@ -241,7 +243,9 @@ Requires:     httpd
 Requires:     iproute
 Requires:     iptables
 Requires:     iputils
+Requires:     libselinux-python
 Requires:     python-argparse
+Requires:     rsync
 Requires:     vconfig
 Requires:     vtun
 Requires:     /usr/bin/which
