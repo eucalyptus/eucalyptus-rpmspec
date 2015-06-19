@@ -38,7 +38,7 @@ Provides: %{name}-abi = %{abi_version} \
 
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
-Version:       4.1.1
+Version:       4.1.2
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -877,6 +877,9 @@ exit 0
 
 
 %changelog
+* Fri Jun 19 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.2
+- Version bump (4.1.2)
+
 * Tue Apr 14 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.1
 - Added announce-arp support script for eucanetd (EUCA-10741)
 
