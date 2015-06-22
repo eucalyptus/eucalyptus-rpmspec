@@ -549,8 +549,11 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_initrddir}/eucalyptus-cloud
 # cloud.d contains random stuff used by every Java component.  Most of it
 # probably belongs in /usr/share, but moving it will be painful.
+# https://eucalyptus.atlassian.net/browse/EUCA-11002
 %dir /etc/eucalyptus/cloud.d
 /etc/eucalyptus/cloud.d/conf/
+%dir /etc/eucalyptus/cloud.d/elb-security-policy
+%config(noreplace) /etc/eucalyptus/cloud.d/elb-security-policy/*
 %dir /etc/eucalyptus/cloud.d/init.d
 /etc/eucalyptus/cloud.d/jmx/
 /etc/eucalyptus/cloud.d/scripts/
@@ -830,6 +833,9 @@ exit 0
 
 
 %changelog
+* Mon Jun 22 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
+- Added ELB security policies (EUCA-10985)
+
 * Tue Apr 14 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.1.1
 - Added announce-arp support script for eucanetd (EUCA-10741)
 
