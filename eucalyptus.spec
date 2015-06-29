@@ -319,6 +319,7 @@ Requires:     python-boto >= 2.1
 Requires:     python-prettytable
 Requires:     python-requestbuilder
 Requires:     python-requests
+Requires:     python-six
 Requires:     PyYAML
 Requires:     rsync
 Requires:     /usr/bin/which
@@ -683,6 +684,10 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_bindir}/euctl
 %{_mandir}/man1/empyrean-*.1*
 %{_mandir}/man1/euctl.1*
+%dir %{_sysconfdir}/eucalyptus-admin
+%dir %{_sysconfdir}/eucalyptus-admin/conf.d
+%config(noreplace) %{_sysconfdir}/eucalyptus-admin/eucalyptus-admin.ini
+%config(noreplace) %{_sysconfdir}/eucalyptus-admin/conf.d/localhost.ini
 
 
 %files -n eucanetd
@@ -833,6 +838,10 @@ exit 0
 
 
 %changelog
+* Mon Jun 29 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
+- Added more new admin tools
+- Added /etc/eucalyptus-admin
+
 * Mon Jun 22 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
 - Added ELB security policies (EUCA-10985)
 
