@@ -476,6 +476,10 @@ mkdir -p $RPM_BUILD_ROOT/etc/udev/scripts
 install -m 0755 $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/iscsidev.sh $RPM_BUILD_ROOT/etc/udev/scripts/iscsidev.sh
 rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/udev
 
+# Store admin tool config files
+mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
+cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
+
 # Work around a regression in libvirtd.conf file handling that appears
 # in at least RHEL 6.2
 # https://www.redhat.com/archives/libvirt-users/2011-July/msg00039.html
