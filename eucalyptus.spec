@@ -317,7 +317,7 @@ Requires:     m2crypto
 Requires:     PyGreSQL
 Requires:     python-boto >= 2.1
 Requires:     python-prettytable
-Requires:     python-requestbuilder
+Requires:     python-requestbuilder >= 0.3.2
 Requires:     python-requests
 Requires:     python-six
 Requires:     PyYAML
@@ -842,6 +842,9 @@ exit 0
 
 
 %changelog
+* Thu Jul 16 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
+- Bumped python-requestbuilder dep to >= 0.3.2
+
 * Mon Jun 29 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
 - Added more new admin tools
 - Added /etc/eucalyptus-admin
