@@ -365,6 +365,7 @@ License:      ASL 2.0
 Requires:     %{name} = %{version}-%{release}
 # This includes both things under tools/imaging and storage.
 Requires:     euca2ools >= 3.1
+Requires:     pv
 Requires:     python-argparse
 Requires:     python-lxml
 Requires:     python-requests
@@ -842,6 +843,9 @@ exit 0
 
 
 %changelog
+* Tue Jul 28 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
+- Added pv dep to imaging-toolkit package
+
 * Thu Jul 16 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
 - Bumped python-requestbuilder dep to >= 0.3.2
 
