@@ -639,13 +639,11 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 # Old stuff (remove after 4.2)
 %{python_sitelib}/eucadmin*
 %{_sbindir}/euca_conf
-%{_sbindir}/euca-configure-vmware
 %{_sbindir}/euca-deregister-arbitrator
 %{_sbindir}/euca-deregister-cloud
 %{_sbindir}/euca-deregister-cluster
 %{_sbindir}/euca-deregister-service
 %{_sbindir}/euca-deregister-storage-controller
-%{_sbindir}/euca-deregister-vmware-broker
 %{_sbindir}/euca-deregister-walrusbackend
 %{_sbindir}/euca-describe-arbitrators
 %{_sbindir}/euca-describe-autoscaling
@@ -664,7 +662,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-describe-service-types
 %{_sbindir}/euca-describe-storage-controllers
 %{_sbindir}/euca-describe-tokens
-%{_sbindir}/euca-describe-vmware-brokers
 %{_sbindir}/euca-describe-walrusbackends
 %{_sbindir}/euca-get-credentials
 %{_sbindir}/euca-migrate-instances
@@ -678,7 +675,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-register-cluster
 %{_sbindir}/euca-register-service
 %{_sbindir}/euca-register-storage-controller
-%{_sbindir}/euca-register-vmware-broker
 %{_sbindir}/euca-register-walrusbackend
 %{_sbindir}/eureport-generate-report
 %{_sbindir}/eureport-export-data
@@ -843,6 +839,9 @@ exit 0
 
 
 %changelog
+* Tue Sep  8 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
+- Remove vmware admin tools
+
 * Tue Jul 28 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
 - Added pv dep to imaging-toolkit package
 
