@@ -317,7 +317,7 @@ Requires:     m2crypto
 Requires:     PyGreSQL
 Requires:     python-boto >= 2.1
 Requires:     python-prettytable
-Requires:     python-requestbuilder >= 0.3.2
+Requires:     python-requestbuilder >= 0.4
 Requires:     python-requests
 Requires:     python-six
 Requires:     PyYAML
@@ -839,6 +839,9 @@ exit 0
 
 
 %changelog
+* Mon Sep 21 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
+- Pulled in python-requestbuilder >= 0.4 to fix unsigned redirects (EUCA-11378)
+
 * Tue Sep  8 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
 - Remove vmware admin tools
 
