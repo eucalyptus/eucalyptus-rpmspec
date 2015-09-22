@@ -459,6 +459,7 @@ for dir in bukkits CC db keys ldap upgrade vmware volumes webapps; do
     install -d -m 0700 $RPM_BUILD_ROOT/var/lib/eucalyptus/$dir
 done
 install -d -m 0771 $RPM_BUILD_ROOT/var/lib/eucalyptus/instances
+install -d -m 0755 $RPM_BUILD_ROOT/var/run/eucalyptus/net
 install -d -m 0750 $RPM_BUILD_ROOT/var/run/eucalyptus/status
 
 # Touch httpd config files that the init scripts create so we can %ghost them
@@ -696,6 +697,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_libexecdir}/eucalyptus/announce-arp
 %{_sbindir}/eucanetd
 %{_initrddir}/eucanetd
+%attr(-,eucalyptus,eucalyptus) /var/run/eucalyptus/net
 %attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
 /usr/share/eucalyptus/nginx_proxy.conf
 
@@ -839,6 +841,9 @@ exit 0
 
 
 %changelog
+* Tue Sep 22 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
+- Added /var/run/eucalyptus/net to eucanetd package (EUCA-11411)
+
 * Mon Sep 21 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
 - Pulled in python-requestbuilder >= 0.4 to fix unsigned redirects (EUCA-11378)
 
