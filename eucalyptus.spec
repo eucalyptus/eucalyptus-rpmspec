@@ -682,10 +682,10 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/eureport-delete-data
 # New stuff (new in 4.2)
 %{python_sitelib}/eucalyptus_admin*
-%{_bindir}/empyrean-*
 %{_bindir}/euctl
-%{_mandir}/man1/empyrean-*.1*
+%{_bindir}/euserv-*
 %{_mandir}/man1/euctl.1*
+%{_mandir}/man1/euserv-*.1*
 %dir %{_sysconfdir}/eucalyptus-admin
 %dir %{_sysconfdir}/eucalyptus-admin/conf.d
 %config(noreplace) %{_sysconfdir}/eucalyptus-admin/eucalyptus-admin.ini
