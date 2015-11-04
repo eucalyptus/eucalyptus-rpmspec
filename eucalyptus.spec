@@ -29,7 +29,7 @@
 
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
-Version:       4.2.0
+Version:       4.2.1
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -841,6 +841,9 @@ exit 0
 
 
 %changelog
+* Tue Nov  3 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.1
+- Version bump (4.2.1)
+
 * Tue Sep 22 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.0
 - Added /var/run/eucalyptus/net to eucanetd package (EUCA-11411)
 
