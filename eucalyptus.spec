@@ -36,7 +36,6 @@ URL:           http://www.eucalyptus.com
 Group:         Applications/System
 
 BuildRequires: ant >= 1.7
-BuildRequires: ant-nodeps >= 1.7
 BuildRequires: apache-ivy
 BuildRequires: axis2-adb-codegen
 BuildRequires: axis2-codegen
@@ -55,8 +54,13 @@ BuildRequires: python-devel
 BuildRequires: python-setuptools
 BuildRequires: rampartc-devel >= 1.3.0
 BuildRequires: swig
+BuildRequires: xalan-j2
 BuildRequires: xalan-j2-xsltc
 BuildRequires: /usr/bin/awk
+
+%if 0%{?el6}
+BuildRequires: ant-nodeps >= 1.7
+%endif
 
 Requires(pre): shadow-utils
 
@@ -841,6 +845,9 @@ exit 0
 
 
 %changelog
+* Tue Nov 17 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Fixed BuildRequires for RHEL 7
+
 * Fri Oct 30 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Version bump (4.3.0)
 
