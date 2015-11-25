@@ -378,7 +378,6 @@ Requires:     python-requests
 Requires:     coreutils
 Requires:     e2fsprogs
 Requires:     file
-Requires:     grub
 Requires:     httpd
 Requires:     parted
 Requires:     util-linux
