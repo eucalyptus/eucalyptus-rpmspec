@@ -854,7 +854,7 @@ exit 0
 
 
 %changelog
-* Thu Jan 21 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+* Thu Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Depend on unversioned postgresql packages for RHEL 7
 
 * Tue Nov 17 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
