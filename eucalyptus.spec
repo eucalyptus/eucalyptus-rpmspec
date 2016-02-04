@@ -458,12 +458,6 @@ make # %{?_smp_mflags}
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
-sed -i -e 's#.*EUCALYPTUS=.*#EUCALYPTUS="/"#' \
-       -e 's#.*HYPERVISOR=.*#HYPERVISOR="kvm"#' \
-       -e 's#.*INSTANCE_PATH=.*#INSTANCE_PATH="/var/lib/eucalyptus/instances"#' \
-       -e 's#.*VNET_BRIDGE=.*#VNET_BRIDGE="br0"#' \
-       $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
-
 # Eucalyptus's build scripts do not respect initrddir
 if [ %{_initrddir} != /etc/init.d ]; then
     mkdir -p $RPM_BUILD_ROOT/%{_initrddir}
@@ -967,6 +961,7 @@ usermod -a -G libvirt eucalyptus || :
 * Wed Feb  3 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Added systemd scriptlets
 - Added systemd files
+- Switched to stock eucalyptus.conf defaults
 
 * Thu Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Depend on unversioned postgresql packages for RHEL 7
