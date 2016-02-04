@@ -70,8 +70,6 @@ BuildRoot:     %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Source0:       %{tarball_basedir}.tar.xz
 Source1:       %{cloud_lib_tarball}
-# A version of WSDL2C.sh that respects standard classpaths
-Source2:       euca-WSDL2C.sh
 
 %description
 Eucalyptus is a service overlay that implements elastic computing
@@ -438,9 +436,9 @@ export CFLAGS="%{optflags}"
 # Eucalyptus does not assign the usual meaning to prefix and other standard
 # configure variables, so we can't realistically use %%configure.
 %if 0%{?el6}
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-sysvinit --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
+./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-sysvinit --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
 %else
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-systemd --with-db-home=%{_prefix} --with-extra-version=%{release}
+./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-systemd --with-db-home=%{_prefix} --with-extra-version=%{release}
 %endif
 
 # Untar the bundled cloud-lib Java dependencies.
@@ -483,9 +481,6 @@ rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/udev
 # Store admin tool config files
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
-
-# Remove README file if one exists
-rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %if 0%{?el6}
 # Eucalyptus's build scripts do not respect initrddir
@@ -962,6 +957,7 @@ usermod -a -G libvirt eucalyptus || :
 - Added systemd scriptlets
 - Added systemd files
 - Switched to stock eucalyptus.conf defaults
+- Switched to eucalyptus-provided euca-WSDL2C.sh
 
 * Thu Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Depend on unversioned postgresql packages for RHEL 7
