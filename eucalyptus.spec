@@ -60,6 +60,8 @@ BuildRequires: /usr/bin/awk
 
 %if 0%{?el6}
 BuildRequires: ant-nodeps >= 1.7
+%else
+BuildRequires: systemd
 %endif
 
 Requires(pre): shadow-utils
@@ -130,9 +132,7 @@ Requires:     %{name}-common-java-libs = %{version}-%{release}
 Requires:     lvm2
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
-
-Obsoletes:    eucalyptus-osg < 4.0.1
-Provides:     eucalyptus-osg = %{version}-%{release}
+%{?systemd_requires}
 
 %description common-java
 Eucalyptus is a service overlay that implements elastic computing
@@ -259,6 +259,9 @@ Requires:     vconfig
 Requires:     vtun
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
+%{?systemd_requires}
+
+Provides:     eucalyptus-cluster = %{version}-%{release}
 
 %description cc
 Eucalyptus is a service overlay that implements elastic computing
@@ -303,6 +306,9 @@ Requires:     vconfig
 Requires:     util-linux
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
+%{?systemd_requires}
+
+Provides:     eucalyptus-node = %{version}-%{release}
 
 %description nc
 Eucalyptus is a service overlay that implements elastic computing
@@ -355,6 +361,7 @@ Requires:       ebtables
 Requires:       ipset
 Requires:       iptables
 Requires:       /usr/bin/which
+%{?systemd_requires}
 
 %description -n eucanetd
 Eucalyptus is a service overlay that implements elastic computing
@@ -431,9 +438,9 @@ export CFLAGS="%{optflags}"
 # Eucalyptus does not assign the usual meaning to prefix and other standard
 # configure variables, so we can't realistically use %%configure.
 %if 0%{?el6}
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
+./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-sysvinit --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
 %else
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=%{_prefix} --with-extra-version=%{release}
+./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-systemd --with-db-home=%{_prefix} --with-extra-version=%{release}
 %endif
 
 # Untar the bundled cloud-lib Java dependencies.
@@ -477,9 +484,12 @@ install -d -m 0750 $RPM_BUILD_ROOT/var/run/eucalyptus/status
 # Touch httpd config files that the init scripts create so we can %ghost them
 touch $RPM_BUILD_ROOT/var/run/eucalyptus/httpd-{cc,nc,tmp}.conf
 
-# Add PolicyKit config on systems that support it
+%if 0%{?el6}
+# Add PolicyKit config on RHEL 6
+# We do this with membership in the "libvirt" group on RHEL 7 instead
 mkdir -p $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d
 cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
+%endif
 
 # Put udev rules in the right place
 mkdir -p $RPM_BUILD_ROOT/lib/udev/rules.d
@@ -720,6 +730,8 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{python_sitelib}/eucatoolkit*
 
 
+%if 0%{?el6}
+
 %pre
 getent group eucalyptus >/dev/null || groupadd -r eucalyptus
 getent group eucalyptus-status >/dev/null || groupadd -r eucalyptus-status
@@ -764,9 +776,9 @@ if [ "$1" = "2" ]; then
 fi
 exit 0
 
-
 %post blockdev-utils
 # Reload udev rules
+# This is unnecessary on el7 because udev watches for changes with inotify
 /sbin/service udev-post reload || :
 exit 0
 
@@ -806,6 +818,7 @@ exit 0
 
 %postun blockdev-utils
 # Reload udev rules on uninstall
+# This is unnecessary on el7 because udev watches for changes with inotify
 if [ "$1" = "0" ]; then
     /sbin/service udev-post reload || :
 fi
@@ -851,8 +864,82 @@ if [ "$1" = "0" ]; then
 fi
 exit 0
 
+%else  #if 0%{?el6}
+
+%pre
+getent group eucalyptus >/dev/null || groupadd -r eucalyptus
+getent group eucalyptus-status >/dev/null || groupadd -r eucalyptus
+getent passwd eucalyptus >/dev/null || \
+    useradd -r -g eucalyptus -d /var/lib/eucalyptus -s /sbin/nologin \
+    -c 'Eucalyptus cloud' eucalyptus
+
+if [ "$1" = 2 ]; then
+    # Back up the previous installation's jars since they are required for
+    # upgrade (EUCA-633)
+    BACKUPDIR="/var/lib/eucalyptus/upgrade/eucalyptus.backup.`date +%%s`"
+    mkdir -p "$BACKUPDIR"
+    EUCABACKUPS=""
+    for i in /var/lib/eucalyptus/keys/ /var/lib/eucalyptus/db/ /var/lib/eucalyptus/services /etc/eucalyptus/eucalyptus.conf /etc/eucalyptus/eucalyptus-version /usr/share/eucalyptus/; do
+        if [ -e $i ]; then
+            EUCABACKUPS="$EUCABACKUPS $i"
+        fi
+    done
+
+    OLD_EUCA_VERSION=`cat /etc/eucalyptus/eucalyptus-version`
+    echo "# This file was automatically generated by Eucalyptus packaging." > /etc/eucalyptus/.upgrade
+    echo "$OLD_EUCA_VERSION:$BACKUPDIR" >> /etc/eucalyptus/.upgrade
+
+    tar cf - $EUCABACKUPS 2>/dev/null | tar xf - -C "$BACKUPDIR" 2>/dev/null
+fi
+exit 0
+
+%post common-java
+%systemd_post eucalyptus-cloud.service
+
+%post cc
+%systemd_post eucalyptus-cluster.service
+
+%post nc
+%systemd_post eucalyptus-node.service
+# The stock policykit policy for libvirt allows members of the libvirt
+# group to connect to the system instance without authenticating
+getent group libvirt >/dev/null || groupadd -r libvirt
+usermod -a -G libvirt eucalyptus || :
+
+%post -n eucanetd
+%systemd_post eucanetd.service
+
+%preun common-java
+%systemd_preun eucalyptus-cloud.service
+
+%preun cc
+%systemd_preun eucalyptus-cluster.service
+
+%preun nc
+%systemd_preun eucalyptus-node.service
+
+%preun -n eucanetd
+%systemd_preun eucanetd.service
+
+%postun common-java
+%systemd_postun
+
+%postun cc
+%systemd_postun
+
+%postun nc
+%systemd_postun
+
+%postun -n eucanetd
+%systemd_postun
+
+%endif  #if 0%{?el6}
+
 
 %changelog
+* Wed Feb  3 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Added systemd scriptlets
+
 * Thu Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Depend on unversioned postgresql packages for RHEL 7
 
