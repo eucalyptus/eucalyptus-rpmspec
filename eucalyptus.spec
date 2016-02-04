@@ -458,13 +458,6 @@ make # %{?_smp_mflags}
 [ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
-# Eucalyptus's build scripts do not respect initrddir
-if [ %{_initrddir} != /etc/init.d ]; then
-    mkdir -p $RPM_BUILD_ROOT/%{_initrddir}
-    mv $RPM_BUILD_ROOT/etc/init.d/* $RPM_BUILD_ROOT/%{_initrddir}
-    rmdir $RPM_BUILD_ROOT/etc/init.d
-fi
-
 # Create the directories where components store their data
 mkdir -p $RPM_BUILD_ROOT/var/lib/eucalyptus
 touch $RPM_BUILD_ROOT/var/lib/eucalyptus/services
@@ -477,13 +470,6 @@ install -d -m 0750 $RPM_BUILD_ROOT/var/run/eucalyptus/status
 
 # Touch httpd config files that the init scripts create so we can %ghost them
 touch $RPM_BUILD_ROOT/var/run/eucalyptus/httpd-{cc,nc,tmp}.conf
-
-%if 0%{?el6}
-# Add PolicyKit config on RHEL 6
-# We do this with membership in the "libvirt" group on RHEL 7 instead
-mkdir -p $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d
-cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
-%endif
 
 # Put udev rules in the right place
 mkdir -p $RPM_BUILD_ROOT/lib/udev/rules.d
@@ -498,14 +484,28 @@ rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/udev
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
+# Remove README file if one exists
+rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
+
+%if 0%{?el6}
+# Eucalyptus's build scripts do not respect initrddir
+if [ %{_initrddir} != /etc/init.d ]; then
+    mkdir -p $RPM_BUILD_ROOT/%{_initrddir}
+    mv $RPM_BUILD_ROOT/etc/init.d/* $RPM_BUILD_ROOT/%{_initrddir}
+    rmdir $RPM_BUILD_ROOT/etc/init.d
+fi
+
+# Add PolicyKit config on RHEL 6
+# We do this with membership in the "libvirt" group on RHEL 7 instead
+mkdir -p $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d
+cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
+
 # Work around a regression in libvirtd.conf file handling that appears
 # in at least RHEL 6.2
 # https://www.redhat.com/archives/libvirt-users/2011-July/msg00039.html
 mkdir $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt
 touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
-
-# Remove README file if one exists
-rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
+%endif
 
 
 %files
