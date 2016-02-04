@@ -625,6 +625,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %ghost /var/run/eucalyptus/httpd-cc.conf
 /usr/lib/eucalyptus/shutdownCC
 /usr/sbin/clusteradmin-*
+/usr/sbin/eucalyptus-cluster
 /usr/share/eucalyptus/vtunall.conf.template
 /usr/share/eucalyptus/dynserv.pl
 /usr/share/eucalyptus/getstats_net.pl
@@ -645,6 +646,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
 %ghost /var/run/eucalyptus/httpd-nc.conf
 /usr/sbin/euca_test_nc
+/usr/sbin/eucalyptus-node
 /usr/share/eucalyptus/authorize-migration-keys.pl
 /usr/share/eucalyptus/detach.pl
 /usr/share/eucalyptus/gen_kvm_libvirt_xml
@@ -958,6 +960,7 @@ usermod -a -G libvirt eucalyptus || :
 - Added systemd files
 - Switched to stock eucalyptus.conf defaults
 - Switched to eucalyptus-provided euca-WSDL2C.sh
+- Added main executables for CC and NC
 
 * Thu Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Depend on unversioned postgresql packages for RHEL 7
