@@ -466,9 +466,6 @@ install -d -m 0771 $RPM_BUILD_ROOT/var/lib/eucalyptus/instances
 install -d -m 0755 $RPM_BUILD_ROOT/var/run/eucalyptus/net
 install -d -m 0750 $RPM_BUILD_ROOT/var/run/eucalyptus/status
 
-# Touch httpd config files that the init scripts create so we can %ghost them
-touch $RPM_BUILD_ROOT/var/run/eucalyptus/httpd-{cc,nc,tmp}.conf
-
 # Put udev rules in the right place
 mkdir -p $RPM_BUILD_ROOT/lib/udev/rules.d
 cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/12-dm-permissions.rules $RPM_BUILD_ROOT/lib/udev/rules.d/12-dm-permissions.rules
@@ -542,7 +539,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 # CC and NC
 /etc/eucalyptus/httpd.conf
 /usr/share/eucalyptus/policies
-%ghost /var/run/eucalyptus/httpd-tmp.conf
 /usr/share/eucalyptus/euca_ipt
 /usr/share/eucalyptus/floppy
 /usr/share/eucalyptus/populate_arp.pl
@@ -622,7 +618,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %defattr(-,root,root,-)
 %{axis2c_home}/services/EucalyptusCC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/CC
-%ghost /var/run/eucalyptus/httpd-cc.conf
 /usr/lib/eucalyptus/shutdownCC
 /usr/sbin/clusteradmin-*
 /usr/sbin/eucalyptus-cluster
@@ -644,7 +639,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /etc/eucalyptus/nc-hooks/example.sh
 %{axis2c_home}/services/EucalyptusNC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
-%ghost /var/run/eucalyptus/httpd-nc.conf
 /usr/sbin/euca_test_nc
 /usr/sbin/eucalyptus-node
 /usr/share/eucalyptus/authorize-migration-keys.pl
@@ -961,6 +955,7 @@ usermod -a -G libvirt eucalyptus || :
 - Switched to stock eucalyptus.conf defaults
 - Switched to eucalyptus-provided euca-WSDL2C.sh
 - Added main executables for CC and NC
+- Stopped tracking temporary CC and NC httpd config files
 
 * Thu Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Depend on unversioned postgresql packages for RHEL 7
