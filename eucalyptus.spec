@@ -544,6 +544,10 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /usr/share/eucalyptus/faults/
 /usr/share/eucalyptus/status/
 
+%if 0%{?rhel} > 6
+%{_tmpfilesdir}/eucalyptus.conf
+%endif
+
 
 %files axis2c-common
 # CC and NC
@@ -575,7 +579,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %files common-java
 %defattr(-,root,root,-)
-%{_initrddir}/eucalyptus-cloud
 # cloud.d contains random stuff used by every Java component.  Most of it
 # probably belongs in /usr/share, but moving it will be painful.
 # https://eucalyptus.atlassian.net/browse/EUCA-11002
@@ -591,6 +594,13 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /usr/sbin/eucalyptus-cloud
 %ghost /var/lib/eucalyptus/services
 %attr(-,eucalyptus,eucalyptus) /var/lib/eucalyptus/webapps/
+%if 0%{?el6}
+%{_initrddir}/eucalyptus-cloud
+%else
+%{_sysctldir}/70-eucalyptus-cloud.conf
+%{_unitdir}/eucalyptus-cloud.service
+%{_unitdir}/eucalyptus-cloud-upgrade.service
+%endif
 
 
 %files common-java-libs
@@ -621,7 +631,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %files cc
 %defattr(-,root,root,-)
-%{_initrddir}/eucalyptus-cc
 %{axis2c_home}/services/EucalyptusCC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/CC
 %ghost /var/run/eucalyptus/httpd-cc.conf
@@ -630,6 +639,11 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /usr/share/eucalyptus/vtunall.conf.template
 /usr/share/eucalyptus/dynserv.pl
 /usr/share/eucalyptus/getstats_net.pl
+%if 0%{?el6}
+%{_initrddir}/eucalyptus-cc
+%else
+%{_unitdir}/eucalyptus-cluster.service
+%endif
 
 
 %files nc
@@ -638,7 +652,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %config(noreplace) /etc/eucalyptus/libvirt.xsl
 %dir /etc/eucalyptus/nc-hooks
 /etc/eucalyptus/nc-hooks/example.sh
-%{_initrddir}/eucalyptus-nc
 %{axis2c_home}/services/EucalyptusNC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
 %ghost /var/run/eucalyptus/httpd-nc.conf
@@ -653,8 +666,17 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /usr/share/eucalyptus/get_sys_info
 /usr/share/eucalyptus/get_xen_info
 /usr/share/eucalyptus/partition2disk
+%if 0%{?el6}
+%{_initrddir}/eucalyptus-nc
 %attr(-,eucalyptus,eucalyptus) /var/lib/eucalyptus/.libvirt/
 /var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
+%else
+# Note that modules-load.d is not processed by default on el7, so we
+# still have to load it in the eucalyptus-node executable
+/usr/lib/modules-load.d/70-eucalyptus-node.conf
+%{_unitdir}/eucalyptus-node.service
+%{_unitdir}/eucalyptus-node-keygen.service
+%endif
 
 
 %files admin-tools
@@ -718,10 +740,15 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %defattr(-,root,root,-)
 %{_libexecdir}/eucalyptus/announce-arp
 %{_sbindir}/eucanetd
-%{_initrddir}/eucanetd
 %attr(-,eucalyptus,eucalyptus) /var/run/eucalyptus/net
 %attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
 /usr/share/eucalyptus/nginx_proxy.conf
+%if 0%{?el6}
+%{_initrddir}/eucanetd
+%else
+%{_sysctldir}/70-eucanetd.conf
+%{_unitdir}/eucanetd.service
+%endif
 
 
 %files imaging-toolkit
@@ -939,6 +966,7 @@ usermod -a -G libvirt eucalyptus || :
 %changelog
 * Wed Feb  3 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Added systemd scriptlets
+- Added systemd files
 
 * Thu Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Depend on unversioned postgresql packages for RHEL 7
