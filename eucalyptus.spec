@@ -66,8 +66,6 @@ BuildRequires: systemd
 
 Requires(pre): shadow-utils
 
-BuildRoot:     %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-
 Source0:       %{tarball_basedir}.tar.xz
 Source1:       %{cloud_lib_tarball}
 
@@ -448,12 +446,10 @@ tar xf %{SOURCE1} -C clc/lib
 # Don't bother with git since we're using a cloud-libs tarball
 touch clc/.nogit
 
-# FIXME: storage/Makefile breaks with parallel make
-make # %{?_smp_mflags}
+make %{?_smp_mflags}
 
 
 %install
-[ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
 # Create the directories where components store their data
@@ -949,6 +945,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Mon Feb  8 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Removed old cruft
+
 * Wed Feb  3 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Added systemd scriptlets
 - Added systemd files
