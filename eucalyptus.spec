@@ -378,7 +378,7 @@ Requires:     pv
 Requires:     python-argparse
 Requires:     python-lxml
 Requires:     python-requests
-# The next seven come from euca-imager (storage/diskutil.c), which shells
+# The next seven come from storage/diskutil.c, which shells
 # out to lots of stuff
 Requires:     coreutils
 Requires:     e2fsprogs
@@ -715,7 +715,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 
 %files imaging-toolkit
-%{_libexecdir}/eucalyptus/euca-imager
 %{_libexecdir}/eucalyptus/euca-run-workflow
 %{python_sitelib}/eucatoolkit*
 
@@ -853,6 +852,9 @@ exit 0
 
 
 %changelog
+* Tue Feb 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Don't install euca-imager
+
 * Thu Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Depend on unversioned postgresql packages for RHEL 7
 
