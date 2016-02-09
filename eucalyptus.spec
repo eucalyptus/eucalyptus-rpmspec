@@ -260,6 +260,8 @@ Requires:     vtun
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
 
+Provides:     eucalyptus-cluster = %{version}-%{release}
+
 %description cc
 Eucalyptus is a service overlay that implements elastic computing
 using existing resources. The goal of Eucalyptus is to allow sites
@@ -304,6 +306,8 @@ Requires:     vconfig
 Requires:     util-linux
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
+
+Provides:     eucalyptus-node = %{version}-%{release}
 
 %description nc
 Eucalyptus is a service overlay that implements elastic computing
@@ -856,6 +860,7 @@ exit 0
 * Tue Feb 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Don't install euca-imager
 - Added seabios dependency to nc package (EUCA-12003)
+- Provide eucalyptus-node and eucalyptus-cluster
 
 * Thu Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Depend on unversioned postgresql packages for RHEL 7
