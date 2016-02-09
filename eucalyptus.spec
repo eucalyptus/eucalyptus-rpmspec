@@ -293,6 +293,7 @@ Requires:     libvirt
 Requires:     perl(Sys::Virt)
 Requires:     perl(Time::HiRes)
 Requires:     perl(XML::Simple)
+Requires:     seabios
 # The next six come from storage/diskutil.c, which shells out to lots of stuff.
 Requires:     coreutils
 Requires:     curl
@@ -854,6 +855,7 @@ exit 0
 %changelog
 * Tue Feb 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Don't install euca-imager
+- Added seabios dependency to nc package (EUCA-12003)
 
 * Thu Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Depend on unversioned postgresql packages for RHEL 7
