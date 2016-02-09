@@ -916,6 +916,7 @@ usermod -a -G libvirt eucalyptus || :
 
 %post -n eucanetd
 %systemd_post eucanetd.service
+sysctl --system
 
 %preun common-java
 %systemd_preun eucalyptus-cloud.service
@@ -928,6 +929,7 @@ usermod -a -G libvirt eucalyptus || :
 
 %preun -n eucanetd
 %systemd_preun eucanetd.service
+sysctl --system
 
 %postun common-java
 %systemd_postun
@@ -947,6 +949,7 @@ usermod -a -G libvirt eucalyptus || :
 %changelog
 * Mon Feb  8 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Removed old cruft
+- Started loading sysctl values where needed on RHEL 7
 
 * Wed Feb  3 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Added systemd scriptlets
