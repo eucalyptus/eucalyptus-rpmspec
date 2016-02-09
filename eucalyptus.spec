@@ -1,4 +1,4 @@
-# Copyright 2009-2015 Eucalyptus Systems, Inc.
+# Copyright 2009-2016 Hewlett Packard Enterprise Development Company LP
 #
 # Redistribution and use of this software in source and binary forms, with or
 # without modification, are permitted provided that the following conditions
@@ -218,8 +218,13 @@ Requires:     lvm2
 # Older openssl had a handshake bug that fails credential download
 Requires:     openssl%{?_isa} >= 1.0.1e-16
 Requires:     perl(Getopt::Long)
+%if 0%{?el6}
 Requires:     postgresql92
 Requires:     postgresql92-server
+%else
+Requires:     postgresql
+Requires:     postgresql-server
+%endif
 Requires:     python-argparse
 Requires:     rsync
 
@@ -425,7 +430,11 @@ export CFLAGS="%{optflags}"
 
 # Eucalyptus does not assign the usual meaning to prefix and other standard
 # configure variables, so we can't realistically use %%configure.
+%if 0%{?el6}
 ./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
+%else
+./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=%{_prefix} --with-extra-version=%{release}
+%endif
 
 # Untar the bundled cloud-lib Java dependencies.
 mkdir clc/lib
@@ -844,6 +853,9 @@ exit 0
 
 
 %changelog
+* Thu Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Depend on unversioned postgresql packages for RHEL 7
+
 * Tue Nov 17 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Fixed BuildRequires for RHEL 7
 
