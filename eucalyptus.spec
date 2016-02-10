@@ -624,6 +624,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %if 0%{?el6}
 %{_initrddir}/eucalyptus-cc
 %else
+%{_unitdir}/eucalyptus-cc.service
 %{_unitdir}/eucalyptus-cluster.service
 %endif
 
@@ -654,6 +655,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
 %else
 /usr/lib/modules-load.d/70-eucalyptus-node.conf
+%{_unitdir}/eucalyptus-nc.service
 %{_unitdir}/eucalyptus-node.service
 %{_unitdir}/eucalyptus-node-keygen.service
 %endif
@@ -948,6 +950,9 @@ sysctl --system >/dev/null || :
 
 
 %changelog
+* Wed Feb 10 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Added compatibility symlinks for eucalyptus-cluster/node systemd units
+
 * Tue Feb  9 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Don't install euca-imager
 - Added seabios dependency to nc package (EUCA-12003)
