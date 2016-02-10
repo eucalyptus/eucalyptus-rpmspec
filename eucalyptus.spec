@@ -292,6 +292,7 @@ Requires:     libvirt
 Requires:     perl(Sys::Virt)
 Requires:     perl(Time::HiRes)
 Requires:     perl(XML::Simple)
+Requires:     seabios
 # The next six come from storage/diskutil.c, which shells out to lots of stuff.
 Requires:     coreutils
 Requires:     curl
@@ -381,7 +382,7 @@ Requires:     pv
 Requires:     python-argparse
 Requires:     python-lxml
 Requires:     python-requests
-# The next seven come from euca-imager (storage/diskutil.c), which shells
+# The next seven come from storage/diskutil.c, which shells
 # out to lots of stuff
 Requires:     coreutils
 Requires:     e2fsprogs
@@ -732,7 +733,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 
 
 %files imaging-toolkit
-%{_libexecdir}/eucalyptus/euca-imager
 %{_libexecdir}/eucalyptus/euca-run-workflow
 %{python_sitelib}/eucatoolkit*
 
@@ -948,6 +948,11 @@ sysctl --system >/dev/null || :
 
 
 %changelog
+* Tue Feb  9 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Don't install euca-imager
+- Added seabios dependency to nc package (EUCA-12003)
+- Provide eucalyptus-node and eucalyptus-cluster
+
 * Mon Feb  8 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Removed old cruft
 - Started loading sysctl values where needed on RHEL 7
