@@ -652,8 +652,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %attr(-,eucalyptus,eucalyptus) /var/lib/eucalyptus/.libvirt/
 /var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
 %else
-# Note that modules-load.d is not processed by default on el7, so we
-# still have to load it in the eucalyptus-node executable
 /usr/lib/modules-load.d/70-eucalyptus-node.conf
 %{_unitdir}/eucalyptus-node.service
 %{_unitdir}/eucalyptus-node-keygen.service
@@ -727,6 +725,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %if 0%{?el6}
 %{_initrddir}/eucanetd
 %else
+/usr/lib/modules-load.d/70-eucanetd.conf
 %{_sysctldir}/70-eucanetd.conf
 %{_unitdir}/eucanetd.service
 %endif
@@ -916,6 +915,7 @@ usermod -a -G libvirt eucalyptus || :
 
 %post -n eucanetd
 %systemd_post eucanetd.service
+/usr/lib/systemd/systemd-modules-load
 sysctl --system >/dev/null
 
 %preun common-java
@@ -929,6 +929,7 @@ sysctl --system >/dev/null
 
 %preun -n eucanetd
 %systemd_preun eucanetd.service
+/usr/lib/systemd/systemd-modules-load
 sysctl --system >/dev/null
 
 %postun common-java
@@ -950,6 +951,7 @@ sysctl --system >/dev/null
 * Mon Feb  8 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Removed old cruft
 - Started loading sysctl values where needed on RHEL 7
+- Started loading modules where needed on RHEL 7
 
 * Wed Feb  3 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Added systemd scriptlets
