@@ -915,8 +915,8 @@ usermod -a -G libvirt eucalyptus || :
 
 %post -n eucanetd
 %systemd_post eucanetd.service
-/usr/lib/systemd/systemd-modules-load
-sysctl --system >/dev/null
+/usr/lib/systemd/systemd-modules-load || :
+sysctl --system >/dev/null || :
 
 %preun common-java
 %systemd_preun eucalyptus-cloud.service
@@ -929,8 +929,8 @@ sysctl --system >/dev/null
 
 %preun -n eucanetd
 %systemd_preun eucanetd.service
-/usr/lib/systemd/systemd-modules-load
-sysctl --system >/dev/null
+/usr/lib/systemd/systemd-modules-load || :
+sysctl --system >/dev/null || :
 
 %postun common-java
 %systemd_postun
