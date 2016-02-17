@@ -681,7 +681,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_sbindir}/euca-describe-storage-controllers
 %{_sbindir}/euca-describe-tokens
 %{_sbindir}/euca-describe-walrusbackends
-%{_sbindir}/euca-get-credentials
 %{_sbindir}/euca-migrate-instances
 %{_sbindir}/euca-modify-cluster
 %{_sbindir}/euca-modify-property
@@ -857,6 +856,9 @@ exit 0
 
 
 %changelog
+* Tue Feb 16 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Removed euca-get-credentials
+
 * Tue Feb 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Don't install euca-imager
 - Added seabios dependency to nc package (EUCA-12003)
