@@ -292,7 +292,7 @@ Requires:     libvirt
 Requires:     perl(Sys::Virt)
 Requires:     perl(Time::HiRes)
 Requires:     perl(XML::Simple)
-Requires:     seabios
+Requires:     qemu-kvm
 # The next six come from storage/diskutil.c, which shells out to lots of stuff.
 Requires:     coreutils
 Requires:     curl
@@ -950,6 +950,9 @@ sysctl --system >/dev/null || :
 
 
 %changelog
+* Wed Feb 17 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Added qemu-kvm dependency to nc package (fixes /dev/kvm permissions)
+
 * Wed Feb 10 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Added compatibility symlinks for eucalyptus-cluster/node systemd units
 
