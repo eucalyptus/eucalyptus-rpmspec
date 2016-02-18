@@ -859,7 +859,7 @@ exit 0
 * Tue Feb 16 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Removed euca-get-credentials
 
-* Tue Feb 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+* Tue Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Don't install euca-imager
 - Added seabios dependency to nc package (EUCA-12003)
 - Provide eucalyptus-node and eucalyptus-cluster
