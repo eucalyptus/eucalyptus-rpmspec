@@ -60,16 +60,14 @@ BuildRequires: /usr/bin/awk
 
 %if 0%{?el6}
 BuildRequires: ant-nodeps >= 1.7
+%else
+BuildRequires: systemd
 %endif
 
 Requires(pre): shadow-utils
 
-BuildRoot:     %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-
 Source0:       %{tarball_basedir}.tar.xz
 Source1:       %{cloud_lib_tarball}
-# A version of WSDL2C.sh that respects standard classpaths
-Source2:       euca-WSDL2C.sh
 
 %description
 Eucalyptus is a service overlay that implements elastic computing
@@ -130,9 +128,7 @@ Requires:     %{name}-common-java-libs = %{version}-%{release}
 Requires:     lvm2
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
-
-Obsoletes:    eucalyptus-osg < 4.0.1
-Provides:     eucalyptus-osg = %{version}-%{release}
+%{?systemd_requires}
 
 %description common-java
 Eucalyptus is a service overlay that implements elastic computing
@@ -259,6 +255,7 @@ Requires:     vconfig
 Requires:     vtun
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
+%{?systemd_requires}
 
 Provides:     eucalyptus-cluster = %{version}-%{release}
 
@@ -295,7 +292,7 @@ Requires:     libvirt
 Requires:     perl(Sys::Virt)
 Requires:     perl(Time::HiRes)
 Requires:     perl(XML::Simple)
-Requires:     seabios
+Requires:     qemu-kvm
 # The next six come from storage/diskutil.c, which shells out to lots of stuff.
 Requires:     coreutils
 Requires:     curl
@@ -306,6 +303,7 @@ Requires:     vconfig
 Requires:     util-linux
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
+%{?systemd_requires}
 
 Provides:     eucalyptus-node = %{version}-%{release}
 
@@ -360,6 +358,7 @@ Requires:       ebtables
 Requires:       ipset
 Requires:       iptables
 Requires:       /usr/bin/which
+%{?systemd_requires}
 
 %description -n eucanetd
 Eucalyptus is a service overlay that implements elastic computing
@@ -436,9 +435,9 @@ export CFLAGS="%{optflags}"
 # Eucalyptus does not assign the usual meaning to prefix and other standard
 # configure variables, so we can't realistically use %%configure.
 %if 0%{?el6}
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
+./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-sysvinit --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
 %else
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh=%{S:2} --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --with-db-home=%{_prefix} --with-extra-version=%{release}
+./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-systemd --with-db-home=%{_prefix} --with-extra-version=%{release}
 %endif
 
 # Untar the bundled cloud-lib Java dependencies.
@@ -448,26 +447,11 @@ tar xf %{SOURCE1} -C clc/lib
 # Don't bother with git since we're using a cloud-libs tarball
 touch clc/.nogit
 
-# FIXME: storage/Makefile breaks with parallel make
-make # %{?_smp_mflags}
+make %{?_smp_mflags}
 
 
 %install
-[ $RPM_BUILD_ROOT != "/" ] && rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-
-sed -i -e 's#.*EUCALYPTUS=.*#EUCALYPTUS="/"#' \
-       -e 's#.*HYPERVISOR=.*#HYPERVISOR="kvm"#' \
-       -e 's#.*INSTANCE_PATH=.*#INSTANCE_PATH="/var/lib/eucalyptus/instances"#' \
-       -e 's#.*VNET_BRIDGE=.*#VNET_BRIDGE="br0"#' \
-       $RPM_BUILD_ROOT/etc/eucalyptus/eucalyptus.conf
-
-# Eucalyptus's build scripts do not respect initrddir
-if [ %{_initrddir} != /etc/init.d ]; then
-    mkdir -p $RPM_BUILD_ROOT/%{_initrddir}
-    mv $RPM_BUILD_ROOT/etc/init.d/* $RPM_BUILD_ROOT/%{_initrddir}
-    rmdir $RPM_BUILD_ROOT/etc/init.d
-fi
 
 # Create the directories where components store their data
 mkdir -p $RPM_BUILD_ROOT/var/lib/eucalyptus
@@ -478,13 +462,6 @@ done
 install -d -m 0771 $RPM_BUILD_ROOT/var/lib/eucalyptus/instances
 install -d -m 0755 $RPM_BUILD_ROOT/var/run/eucalyptus/net
 install -d -m 0750 $RPM_BUILD_ROOT/var/run/eucalyptus/status
-
-# Touch httpd config files that the init scripts create so we can %ghost them
-touch $RPM_BUILD_ROOT/var/run/eucalyptus/httpd-{cc,nc,tmp}.conf
-
-# Add PolicyKit config on systems that support it
-mkdir -p $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d
-cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
 
 # Put udev rules in the right place
 mkdir -p $RPM_BUILD_ROOT/lib/udev/rules.d
@@ -499,14 +476,25 @@ rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/udev
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
+%if 0%{?el6}
+# Eucalyptus's build scripts do not respect initrddir
+if [ %{_initrddir} != /etc/init.d ]; then
+    mkdir -p $RPM_BUILD_ROOT/%{_initrddir}
+    mv $RPM_BUILD_ROOT/etc/init.d/* $RPM_BUILD_ROOT/%{_initrddir}
+    rmdir $RPM_BUILD_ROOT/etc/init.d
+fi
+
+# Add PolicyKit config on RHEL 6
+# We do this with membership in the "libvirt" group on RHEL 7 instead
+mkdir -p $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d
+cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
+
 # Work around a regression in libvirtd.conf file handling that appears
 # in at least RHEL 6.2
 # https://www.redhat.com/archives/libvirt-users/2011-July/msg00039.html
 mkdir $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt
 touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
-
-# Remove README file if one exists
-rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
+%endif
 
 
 %files
@@ -539,12 +527,15 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /usr/share/eucalyptus/faults/
 /usr/share/eucalyptus/status/
 
+%if 0%{?rhel} > 6
+%{_tmpfilesdir}/eucalyptus.conf
+%endif
+
 
 %files axis2c-common
 # CC and NC
 /etc/eucalyptus/httpd.conf
 /usr/share/eucalyptus/policies
-%ghost /var/run/eucalyptus/httpd-tmp.conf
 /usr/share/eucalyptus/euca_ipt
 /usr/share/eucalyptus/floppy
 /usr/share/eucalyptus/populate_arp.pl
@@ -570,7 +561,6 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %files common-java
 %defattr(-,root,root,-)
-%{_initrddir}/eucalyptus-cloud
 # cloud.d contains random stuff used by every Java component.  Most of it
 # probably belongs in /usr/share, but moving it will be painful.
 # https://eucalyptus.atlassian.net/browse/EUCA-11002
@@ -586,6 +576,13 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /usr/sbin/eucalyptus-cloud
 %ghost /var/lib/eucalyptus/services
 %attr(-,eucalyptus,eucalyptus) /var/lib/eucalyptus/webapps/
+%if 0%{?el6}
+%{_initrddir}/eucalyptus-cloud
+%else
+%{_sysctldir}/70-eucalyptus-cloud.conf
+%{_unitdir}/eucalyptus-cloud.service
+%{_unitdir}/eucalyptus-cloud-upgrade.service
+%endif
 
 
 %files common-java-libs
@@ -616,15 +613,20 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 
 %files cc
 %defattr(-,root,root,-)
-%{_initrddir}/eucalyptus-cc
 %{axis2c_home}/services/EucalyptusCC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/CC
-%ghost /var/run/eucalyptus/httpd-cc.conf
 /usr/lib/eucalyptus/shutdownCC
 /usr/sbin/clusteradmin-*
+/usr/sbin/eucalyptus-cluster
 /usr/share/eucalyptus/vtunall.conf.template
 /usr/share/eucalyptus/dynserv.pl
 /usr/share/eucalyptus/getstats_net.pl
+%if 0%{?el6}
+%{_initrddir}/eucalyptus-cc
+%else
+%{_unitdir}/eucalyptus-cc.service
+%{_unitdir}/eucalyptus-cluster.service
+%endif
 
 
 %files nc
@@ -633,11 +635,10 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %config(noreplace) /etc/eucalyptus/libvirt.xsl
 %dir /etc/eucalyptus/nc-hooks
 /etc/eucalyptus/nc-hooks/example.sh
-%{_initrddir}/eucalyptus-nc
 %{axis2c_home}/services/EucalyptusNC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
-%ghost /var/run/eucalyptus/httpd-nc.conf
 /usr/sbin/euca_test_nc
+/usr/sbin/eucalyptus-node
 /usr/share/eucalyptus/authorize-migration-keys.pl
 /usr/share/eucalyptus/detach.pl
 /usr/share/eucalyptus/gen_kvm_libvirt_xml
@@ -648,8 +649,16 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 /usr/share/eucalyptus/get_sys_info
 /usr/share/eucalyptus/get_xen_info
 /usr/share/eucalyptus/partition2disk
+%if 0%{?el6}
+%{_initrddir}/eucalyptus-nc
 %attr(-,eucalyptus,eucalyptus) /var/lib/eucalyptus/.libvirt/
 /var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
+%else
+/usr/lib/modules-load.d/70-eucalyptus-node.conf
+%{_unitdir}/eucalyptus-nc.service
+%{_unitdir}/eucalyptus-node.service
+%{_unitdir}/eucalyptus-node-keygen.service
+%endif
 
 
 %files admin-tools
@@ -712,16 +721,24 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %defattr(-,root,root,-)
 %{_libexecdir}/eucalyptus/announce-arp
 %{_sbindir}/eucanetd
-%{_initrddir}/eucanetd
 %attr(-,eucalyptus,eucalyptus) /var/run/eucalyptus/net
 %attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
 /usr/share/eucalyptus/nginx_proxy.conf
+%if 0%{?el6}
+%{_initrddir}/eucanetd
+%else
+/usr/lib/modules-load.d/70-eucanetd.conf
+%{_sysctldir}/70-eucanetd.conf
+%{_unitdir}/eucanetd.service
+%endif
 
 
 %files imaging-toolkit
 %{_libexecdir}/eucalyptus/euca-run-workflow
 %{python_sitelib}/eucatoolkit*
 
+
+%if 0%{?el6}
 
 %pre
 getent group eucalyptus >/dev/null || groupadd -r eucalyptus
@@ -767,9 +784,9 @@ if [ "$1" = "2" ]; then
 fi
 exit 0
 
-
 %post blockdev-utils
 # Reload udev rules
+# This is unnecessary on el7 because udev watches for changes with inotify
 /sbin/service udev-post reload || :
 exit 0
 
@@ -809,6 +826,7 @@ exit 0
 
 %postun blockdev-utils
 # Reload udev rules on uninstall
+# This is unnecessary on el7 because udev watches for changes with inotify
 if [ "$1" = "0" ]; then
     /sbin/service udev-post reload || :
 fi
@@ -854,10 +872,104 @@ if [ "$1" = "0" ]; then
 fi
 exit 0
 
+%else  #if 0%{?el6}
+
+%pre
+getent group eucalyptus >/dev/null || groupadd -r eucalyptus
+getent group eucalyptus-status >/dev/null || groupadd -r eucalyptus-status
+getent passwd eucalyptus >/dev/null || \
+    useradd -r -g eucalyptus -d /var/lib/eucalyptus -s /sbin/nologin \
+    -c 'Eucalyptus cloud' eucalyptus
+
+if [ "$1" = 2 ]; then
+    # Back up the previous installation's jars since they are required for
+    # upgrade (EUCA-633)
+    BACKUPDIR="/var/lib/eucalyptus/upgrade/eucalyptus.backup.`date +%%s`"
+    mkdir -p "$BACKUPDIR"
+    EUCABACKUPS=""
+    for i in /var/lib/eucalyptus/keys/ /var/lib/eucalyptus/db/ /var/lib/eucalyptus/services /etc/eucalyptus/eucalyptus.conf /etc/eucalyptus/eucalyptus-version /usr/share/eucalyptus/; do
+        if [ -e $i ]; then
+            EUCABACKUPS="$EUCABACKUPS $i"
+        fi
+    done
+
+    OLD_EUCA_VERSION=`cat /etc/eucalyptus/eucalyptus-version`
+    echo "# This file was automatically generated by Eucalyptus packaging." > /etc/eucalyptus/.upgrade
+    echo "$OLD_EUCA_VERSION:$BACKUPDIR" >> /etc/eucalyptus/.upgrade
+
+    tar cf - $EUCABACKUPS 2>/dev/null | tar xf - -C "$BACKUPDIR" 2>/dev/null
+fi
+exit 0
+
+%post common-java
+%systemd_post eucalyptus-cloud.service
+
+%post cc
+%systemd_post eucalyptus-cluster.service
+
+%post nc
+%systemd_post eucalyptus-node.service
+# The stock policykit policy for libvirt allows members of the libvirt
+# group to connect to the system instance without authenticating
+getent group libvirt >/dev/null || groupadd -r libvirt
+usermod -a -G libvirt eucalyptus || :
+
+%post -n eucanetd
+%systemd_post eucanetd.service
+/usr/lib/systemd/systemd-modules-load || :
+sysctl --system >/dev/null || :
+
+%preun common-java
+%systemd_preun eucalyptus-cloud.service
+
+%preun cc
+%systemd_preun eucalyptus-cluster.service
+
+%preun nc
+%systemd_preun eucalyptus-node.service
+
+%preun -n eucanetd
+%systemd_preun eucanetd.service
+/usr/lib/systemd/systemd-modules-load || :
+sysctl --system >/dev/null || :
+
+%postun common-java
+%systemd_postun
+
+%postun cc
+%systemd_postun
+
+%postun nc
+%systemd_postun
+
+%postun -n eucanetd
+%systemd_postun
+
+%endif  #if 0%{?el6}
+
 
 %changelog
+* Wed Feb 17 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Added qemu-kvm dependency to nc package (fixes /dev/kvm permissions)
+
 * Tue Feb 16 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Removed euca-get-credentials
+
+* Wed Feb 10 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Added compatibility symlinks for eucalyptus-cluster/node systemd units
+
+* Mon Feb  8 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Removed old cruft
+- Started loading sysctl values where needed on RHEL 7
+- Started loading modules where needed on RHEL 7
+
+* Wed Feb  3 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Added systemd scriptlets
+- Added systemd files
+- Switched to stock eucalyptus.conf defaults
+- Switched to eucalyptus-provided euca-WSDL2C.sh
+- Added main executables for CC and NC
+- Stopped tracking temporary CC and NC httpd config files
 
 * Tue Jan 21 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Don't install euca-imager
