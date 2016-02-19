@@ -572,7 +572,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /etc/eucalyptus/cloud.d/jmx/
 /etc/eucalyptus/cloud.d/scripts/
 /etc/eucalyptus/cloud.d/security.policy
-/etc/eucalyptus/cloud.d/www/
 /usr/sbin/eucalyptus-cloud
 %ghost /var/lib/eucalyptus/services
 %attr(-,eucalyptus,eucalyptus) /var/lib/eucalyptus/webapps/
@@ -949,6 +948,9 @@ sysctl --system >/dev/null || :
 
 
 %changelog
+* Thu Feb 18 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
+- Removed /etc/eucalyptus/cloud.d/www
+
 * Wed Feb 17 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Added qemu-kvm dependency to nc package (fixes /dev/kvm permissions)
 
