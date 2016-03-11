@@ -747,8 +747,11 @@ getent group eucalyptus-status >/dev/null || groupadd -r eucalyptus-status
 #    useradd -r -g eucalyptus -d /var/lib/eucalyptus -s /sbin/nologin \
 #    -c 'Eucalyptus' eucalyptus
 getent passwd eucalyptus >/dev/null || \
-    useradd -r -g eucalyptus -d /var/lib/eucalyptus \
+    useradd -r -g eucalyptus -G eucalyptus-status -d /var/lib/eucalyptus \
     -c 'Eucalyptus' eucalyptus
+# 4.2.2 / EUCA-12108:  Add preexisting user to eucalyptus-status group
+getent group eucalyptus-status | grep -qE 'eucalyptus(,|$)' || \
+    usermod -a -G eucalyptus-status eucalyptus
 
 if [ "$1" = "2" ]; then
     # Stop all old services
@@ -948,6 +951,12 @@ sysctl --system >/dev/null || :
 
 
 %changelog
+* Thu Mar 10 2016 Garrett Holmstrom <gholms@hpe.com> - 4.2.2
+- Added eucalyptus user to eucalyptus-status group (EUCA-12108)
+
+* Mon Feb 29 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.2
+- Version bump (4.2.2)
+
 * Thu Feb 18 2016 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Removed /etc/eucalyptus/cloud.d/www
 
@@ -983,6 +992,9 @@ sysctl --system >/dev/null || :
 
 * Tue Nov 17 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Fixed BuildRequires for RHEL 7
+
+* Tue Nov  3 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.2.1
+- Version bump (4.2.1)
 
 * Fri Oct 30 2015 Eucalyptus Release Engineering <support@eucalyptus.com> - 4.3.0
 - Version bump (4.3.0)
