@@ -880,8 +880,8 @@ exit 0
 getent group eucalyptus >/dev/null || groupadd -r eucalyptus
 getent group eucalyptus-status >/dev/null || groupadd -r eucalyptus-status
 getent passwd eucalyptus >/dev/null || \
-    useradd -r -g eucalyptus -d /var/lib/eucalyptus -s /sbin/nologin \
-    -c 'Eucalyptus cloud' eucalyptus
+    useradd -r -g eucalyptus -G eucalyptus-status -d /var/lib/eucalyptus \
+    -s /sbin/nologin -c 'Eucalyptus cloud' eucalyptus
 
 if [ "$1" = 2 ]; then
     # Back up the previous installation's jars since they are required for
