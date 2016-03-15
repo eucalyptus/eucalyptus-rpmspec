@@ -41,7 +41,7 @@ BuildRequires: axis2-adb-codegen
 BuildRequires: axis2-codegen
 BuildRequires: axis2c-devel >= 1.6.0
 BuildRequires: curl-devel
-BuildRequires: java-1.7.0-openjdk-devel >= 1:1.7.0
+BuildRequires: java-1.8.0-openjdk-devel >= 1:1.8.0
 BuildRequires: jpackage-utils
 BuildRequires: json-c-devel
 BuildRequires: libuuid-devel
@@ -144,7 +144,7 @@ Summary:      Eucalyptus cloud platform - ws java stack libs
 Group:        Applications/System
 
 Requires:     jpackage-utils
-Requires:     java-1.7.0-openjdk >= 1:1.7.0
+Requires:     java-1.8.0-openjdk >= 1:1.8.0
 
 %description common-java-libs
 Eucalyptus is a service overlay that implements elastic computing
@@ -951,6 +951,9 @@ sysctl --system >/dev/null || :
 
 
 %changelog
+* Mon Mar 15 2016 Vasiliy Kochergin <vasya@hpe.com> - 4.3.0
+- Switched to Java 1.8
+
 * Thu Mar 10 2016 Garrett Holmstrom <gholms@hpe.com> - 4.2.2
 - Added eucalyptus user to eucalyptus-status group (EUCA-12108)
 
