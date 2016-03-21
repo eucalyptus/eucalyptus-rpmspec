@@ -686,6 +686,7 @@ rm -f $RPM_BUILD_ROOT/usr/share/eucalyptus/README
 %{_bindir}/euserv-*
 %{_mandir}/man1/euctl.1*
 %{_mandir}/man1/euserv-*.1*
+%{_mandir}/man7/eucalyptus-admin.7*
 %dir %{_sysconfdir}/eucalyptus-admin
 %dir %{_sysconfdir}/eucalyptus-admin/conf.d
 %config(noreplace) %{_sysconfdir}/eucalyptus-admin/eucalyptus-admin.ini
@@ -844,6 +845,9 @@ exit 0
 
 
 %changelog
+* Mon Mar 21 2016 Garrett Holmstrom <gholms@hpe.com> - 4.2.2
+- Added eucalyptus-admin(7) man page
+
 * Thu Mar 10 2016 Garrett Holmstrom <gholms@hpe.com> - 4.2.2
 - Added eucalyptus user to eucalyptus-status group (EUCA-12108)
 
