@@ -710,6 +710,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %{_bindir}/euserv-*
 %{_mandir}/man1/euctl.1*
 %{_mandir}/man1/euserv-*.1*
+%{_mandir}/man7/eucalyptus-admin.7*
 %dir %{_sysconfdir}/eucalyptus-admin
 %dir %{_sysconfdir}/eucalyptus-admin/conf.d
 %config(noreplace) %{_sysconfdir}/eucalyptus-admin/eucalyptus-admin.ini
@@ -951,6 +952,9 @@ sysctl --system >/dev/null || :
 
 
 %changelog
+* Mon Mar 21 2016 Garrett Holmstrom <gholms@hpe.com> - 4.2.2
+- Added eucalyptus-admin(7) man page
+
 * Mon Mar 21 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.0
 - add --with-java-home to configure command for java 1.8 support
 
