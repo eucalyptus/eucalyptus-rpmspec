@@ -435,7 +435,8 @@ export CFLAGS="%{optflags}"
 # Eucalyptus does not assign the usual meaning to prefix and other standard
 # configure variables, so we can't realistically use %%configure.
 %if 0%{?el6}
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-sysvinit --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release} --with-java-home='/usr/lib/jvm/java-1.8.0-openjdk.x86_64'
+export JAVA_HOME='/usr/lib/jvm/java-1.8.0-openjdk.x86_64' && export JAVA='$JAVA_HOME/jre/bin/java'
+./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-sysvinit --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
 %else
 ./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-systemd --with-db-home=%{_prefix} --with-extra-version=%{release} --with-java-home='/usr/lib/jvm/java-1.8.0-openjdk'
 %endif
