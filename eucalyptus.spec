@@ -920,7 +920,7 @@ usermod -a -G libvirt eucalyptus || :
 %post -n eucanetd
 %systemd_post eucanetd.service
 /usr/lib/systemd/systemd-modules-load || :
-sysctl --system >/dev/null || :
+%sysctl_apply 70-eucanetd.conf || :
 
 %preun common-java
 %systemd_preun eucalyptus-cloud.service
@@ -934,24 +934,27 @@ sysctl --system >/dev/null || :
 %preun -n eucanetd
 %systemd_preun eucanetd.service
 /usr/lib/systemd/systemd-modules-load || :
-sysctl --system >/dev/null || :
+%sysctl_apply 70-eucalyptus-cloud.conf || :
 
 %postun common-java
-%systemd_postun
+%systemd_postun eucalyptus-cloud.service
 
 %postun cc
-%systemd_postun
+%systemd_postun eucalyptus-cluster.service
 
 %postun nc
-%systemd_postun
+%systemd_postun eucalyptus-node.service
 
 %postun -n eucanetd
-%systemd_postun
+%systemd_postun eucanetd.service
 
 %endif  #if 0%{?el6}
 
 
 %changelog
+* Thu Mar 24 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
+- Cleaned up calls to systemd macros
+
 * Thu Mar 24 2016 Vasiliy Kochergin <vasya@hpe.com> - 4.3.0
 - Don't install euca_mountwrap
 
