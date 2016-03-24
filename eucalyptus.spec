@@ -520,7 +520,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 # This is currently used for CC and NC httpd logs.
 /etc/logrotate.d/eucalyptus
 
-%attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_mountwrap
 %attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_rootwrap
 /usr/libexec/eucalyptus/euca-upgrade
 
@@ -953,6 +952,9 @@ sysctl --system >/dev/null || :
 
 
 %changelog
+* Thu Mar 24 2016 Vasiliy Kochergin <vasya@hpe.com> - 4.3.0
+- Don't instal euca_mountwrap
+
 * Mon Mar 21 2016 Garrett Holmstrom <gholms@hpe.com> - 4.2.2
 - Added eucalyptus-admin(7) man page
 
