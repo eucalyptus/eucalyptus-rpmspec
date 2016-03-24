@@ -953,7 +953,7 @@ sysctl --system >/dev/null || :
 
 %changelog
 * Thu Mar 24 2016 Vasiliy Kochergin <vasya@hpe.com> - 4.3.0
-- Don't instal euca_mountwrap
+- Don't install euca_mountwrap
 
 * Mon Mar 21 2016 Garrett Holmstrom <gholms@hpe.com> - 4.2.2
 - Added eucalyptus-admin(7) man page
