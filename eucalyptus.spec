@@ -565,13 +565,10 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 # probably belongs in /usr/share, but moving it will be painful.
 # https://eucalyptus.atlassian.net/browse/EUCA-11002
 %dir /etc/eucalyptus/cloud.d
-/etc/eucalyptus/cloud.d/conf/
 %dir /etc/eucalyptus/cloud.d/elb-security-policy
 %config(noreplace) /etc/eucalyptus/cloud.d/elb-security-policy/*
 %dir /etc/eucalyptus/cloud.d/init.d
-/etc/eucalyptus/cloud.d/jmx/
 /etc/eucalyptus/cloud.d/scripts/
-/etc/eucalyptus/cloud.d/security.policy
 /usr/sbin/eucalyptus-cloud
 %ghost /var/lib/eucalyptus/services
 %attr(-,eucalyptus,eucalyptus) /var/lib/eucalyptus/webapps/
@@ -952,6 +949,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Tue Mar 29 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
+- Removed much of /etc/eucalyptus/cloud.d (EUCA-12005)
+
 * Thu Mar 24 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Cleaned up calls to systemd macros
 
