@@ -57,6 +57,7 @@ BuildRequires: swig
 BuildRequires: xalan-j2
 BuildRequires: xalan-j2-xsltc
 BuildRequires: /usr/bin/awk
+BuildRequires: gengetopt
 
 %if 0%{?el6}
 BuildRequires: ant-nodeps >= 1.7
