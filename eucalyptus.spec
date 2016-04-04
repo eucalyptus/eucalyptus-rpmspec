@@ -88,6 +88,9 @@ Requires:     %{name} = %{version}-%{release}
 Requires:     httpd
 Requires:     perl(Digest::MD5)
 Requires:     perl(MIME::Base64)
+%if ! 0%{?el6}
+Requires:     eucalyptus-selinux
+%endif
 
 %description axis2c-common
 Eucalyptus is a service overlay that implements elastic computing
@@ -109,6 +112,9 @@ Requires:     perl(Crypt::OpenSSL::RSA)
 Requires:     perl(Crypt::OpenSSL::Random)
 Requires:     perl(MIME::Base64)
 Requires:     /usr/bin/which
+%if ! 0%{?el6}
+Requires:     eucalyptus-selinux
+%endif
 
 %description blockdev-utils
 Eucalyptus is a service overlay that implements elastic computing
@@ -128,6 +134,9 @@ Requires:     %{name}-common-java-libs = %{version}-%{release}
 Requires:     lvm2
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
+%if ! 0%{?el6}
+Requires:     eucalyptus-selinux
+%endif
 %{?systemd_requires}
 
 %description common-java
@@ -145,6 +154,9 @@ Group:        Applications/System
 
 Requires:     jpackage-utils
 Requires:     java-1.8.0-openjdk >= 1:1.8.0
+%if ! 0%{?el6}
+Requires:     eucalyptus-selinux
+%endif
 
 %description common-java-libs
 Eucalyptus is a service overlay that implements elastic computing
@@ -162,6 +174,9 @@ Group:        Applications/System
 Requires:     %{name}             = %{version}-%{release}
 Requires:     %{name}-common-java = %{version}-%{release}
 Requires:     lvm2
+%if ! 0%{?el6}
+Requires:     eucalyptus-selinux
+%endif
 
 %description walrus
 Eucalyptus is a service overlay that implements elastic computing
@@ -187,6 +202,9 @@ Requires:     librados2%{?_isa}
 Requires:     librbd1%{?_isa}
 Requires:     lvm2
 Requires:     scsi-target-utils
+%if ! 0%{?el6}
+Requires:     eucalyptus-selinux
+%endif
 
 %description sc
 Eucalyptus is a service overlay that implements elastic computing
@@ -218,6 +236,7 @@ Requires:     perl(Getopt::Long)
 Requires:     postgresql92
 Requires:     postgresql92-server
 %else
+Requires:     eucalyptus-selinux
 Requires:     postgresql
 Requires:     postgresql-server
 %endif
@@ -255,6 +274,9 @@ Requires:     vconfig
 Requires:     vtun
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
+%if ! 0%{?el6}
+Requires:     eucalyptus-selinux
+%endif
 %{?systemd_requires}
 
 Provides:     eucalyptus-cluster = %{version}-%{release}
@@ -303,6 +325,9 @@ Requires:     vconfig
 Requires:     util-linux
 Requires:     /usr/bin/which
 Requires:     %{_sbindir}/euca_conf
+%if ! 0%{?el6}
+Requires:     eucalyptus-selinux
+%endif
 %{?systemd_requires}
 
 Provides:     eucalyptus-node = %{version}-%{release}
@@ -335,6 +360,9 @@ Requires:     python-six
 Requires:     PyYAML
 Requires:     rsync
 Requires:     /usr/bin/which
+%if ! 0%{?el6}
+Requires:     eucalyptus-selinux
+%endif
 
 BuildArch:    noarch
 
@@ -358,6 +386,9 @@ Requires:       ebtables
 Requires:       ipset
 Requires:       iptables
 Requires:       /usr/bin/which
+%if ! 0%{?el6}
+Requires:       eucalyptus-selinux
+%endif
 %{?systemd_requires}
 
 %description -n eucanetd
@@ -390,6 +421,9 @@ Requires:     file
 Requires:     httpd
 Requires:     parted
 Requires:     util-linux
+%if ! 0%{?el6}
+Requires:     eucalyptus-selinux
+%endif
 
 %description imaging-toolkit
 Eucalyptus is a service overlay that implements elastic computing
@@ -949,6 +983,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Mon Apr  4 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
+- Added dependencies on eucalyptus-selinux on el7
+
 * Tue Mar 29 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Removed much of /etc/eucalyptus/cloud.d (EUCA-12005)
 
@@ -964,7 +1001,7 @@ usermod -a -G libvirt eucalyptus || :
 * Mon Mar 21 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.0
 - add --with-java-home to configure command for java 1.8 support
 
-* Mon Mar 15 2016 Vasiliy Kochergin <vasya@hpe.com> - 4.3.0
+* Tue Mar 15 2016 Vasiliy Kochergin <vasya@hpe.com> - 4.3.0
 - Switched to Java 1.8
 
 * Thu Mar 10 2016 Garrett Holmstrom <gholms@hpe.com> - 4.2.2
