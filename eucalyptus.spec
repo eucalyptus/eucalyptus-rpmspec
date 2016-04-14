@@ -134,6 +134,7 @@ Requires:     %{name} = %{version}-%{release}
 Requires:     %{name}-common-java-libs = %{version}-%{release}
 Requires:     lvm2
 Requires:     /usr/bin/which
+Requires:     %{_sbindir}/euca_conf
 %if ! 0%{?el6}
 Requires:     eucalyptus-selinux
 %endif
@@ -229,6 +230,8 @@ Requires:     euca2ools >= 2.0
 Requires:     eucanetd = %{version}-%{release}
 Requires:     libselinux-python
 Requires:     lvm2
+# Older openssl had a handshake bug that fails credential download
+Requires:     openssl%{?_isa} >= 1.0.1e-16
 Requires:     perl(Getopt::Long)
 %if 0%{?el6}
 Requires:     postgresql92
@@ -271,6 +274,7 @@ Requires:     rsync
 Requires:     vconfig
 Requires:     vtun
 Requires:     /usr/bin/which
+Requires:     %{_sbindir}/euca_conf
 %if ! 0%{?el6}
 Requires:     eucalyptus-selinux
 %endif
@@ -321,6 +325,7 @@ Requires:     parted
 Requires:     vconfig
 Requires:     util-linux
 Requires:     /usr/bin/which
+Requires:     %{_sbindir}/euca_conf
 %if ! 0%{?el6}
 Requires:     eucalyptus-selinux
 %endif
@@ -344,12 +349,18 @@ Summary:      Eucalyptus cloud platform - admin CLI tools
 License:      BSD and Python
 Group:        Applications/System
 
+Requires:     %{name} = %{version}-%{release}
 Requires:     euca2ools >= 3.2
+Requires:     m2crypto
+Requires:     PyGreSQL
 Requires:     python-boto >= 2.1
 Requires:     python-prettytable
 Requires:     python-requestbuilder >= 0.4
 Requires:     python-requests
 Requires:     python-six
+Requires:     PyYAML
+Requires:     rsync
+Requires:     /usr/bin/which
 %if ! 0%{?el6}
 Requires:     eucalyptus-selinux
 %endif
@@ -363,7 +374,7 @@ with existing clusters and server infrastructure to co-host an elastic
 computing service that is interface-compatible with Amazon AWS.
 
 This package contains command line tools necessary for managing a
-Eucalyptus cloud.
+Eucalyptus cluster.
 
 
 %package -n eucanetd
@@ -684,15 +695,48 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 
 %files admin-tools
 %defattr(-,root,root,-)
-# Non-functional placeholder whose error messages people point people
-# to new tools (new in 4.3)
-%{_sbindir}/euca_conf
-# Old stuff (no replacements as of 4.3)
+# Old stuff (remove after 4.2)
 %{python_sitelib}/eucadmin*
+%{_sbindir}/euca_conf
+%{_sbindir}/euca-deregister-arbitrator
+%{_sbindir}/euca-deregister-cloud
+%{_sbindir}/euca-deregister-cluster
+%{_sbindir}/euca-deregister-service
+%{_sbindir}/euca-deregister-storage-controller
+%{_sbindir}/euca-deregister-walrusbackend
+%{_sbindir}/euca-describe-arbitrators
+%{_sbindir}/euca-describe-autoscaling
+%{_sbindir}/euca-describe-cloudformation
+%{_sbindir}/euca-describe-clouds
+%{_sbindir}/euca-describe-cloudwatch
+%{_sbindir}/euca-describe-clusters
+%{_sbindir}/euca-describe-compute
+%{_sbindir}/euca-describe-components
+%{_sbindir}/euca-describe-euare
+%{_sbindir}/euca-describe-loadbalancing
+%{_sbindir}/euca-describe-nodes
+%{_sbindir}/euca-describe-object-storage-gateways
+%{_sbindir}/euca-describe-properties
+%{_sbindir}/euca-describe-services
+%{_sbindir}/euca-describe-service-types
+%{_sbindir}/euca-describe-storage-controllers
+%{_sbindir}/euca-describe-tokens
+%{_sbindir}/euca-describe-walrusbackends
+%{_sbindir}/euca-migrate-instances
+%{_sbindir}/euca-modify-cluster
+%{_sbindir}/euca-modify-property
+%{_sbindir}/euca-modify-service
+%{_sbindir}/euca-modify-storage-controller
+%{_sbindir}/euca-modify-walrus
+%{_sbindir}/euca-register-arbitrator
+%{_sbindir}/euca-register-cloud
+%{_sbindir}/euca-register-cluster
+%{_sbindir}/euca-register-service
+%{_sbindir}/euca-register-storage-controller
+%{_sbindir}/euca-register-walrusbackend
 %{_sbindir}/eureport-generate-report
 %{_sbindir}/eureport-export-data
 %{_sbindir}/eureport-delete-data
-%{_mandir}/man8/eureport-*.8*
 # New stuff (new in 4.2)
 %{python_sitelib}/eucalyptus_admin*
 %{_bindir}/euctl
@@ -941,10 +985,6 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
-* Fri Apr  7 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
-- Removed old admin tools, except for eureport-*
-- eucalyptus-admin-tools may now be installed standalone
-
 * Mon Apr  4 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Added dependencies on eucalyptus-selinux on el7
 
