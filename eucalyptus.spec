@@ -157,6 +157,7 @@ Requires:     jpackage-utils
 Requires:     java-1.8.0-openjdk >= 1:1.8.0
 %if ! 0%{?el6}
 Requires:     eucalyptus-selinux
+%else
 Requires:     java-1.8.0-openjdk-devel >= 1:1.8.0
 %endif
 
