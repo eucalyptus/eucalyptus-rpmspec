@@ -41,6 +41,7 @@ BuildRequires: axis2-adb-codegen
 BuildRequires: axis2-codegen
 BuildRequires: axis2c-devel >= 1.6.0
 BuildRequires: curl-devel
+BuildRequires: gengetopt
 BuildRequires: java-1.8.0-openjdk-devel >= 1:1.8.0
 BuildRequires: jpackage-utils
 BuildRequires: json-c-devel
@@ -57,7 +58,6 @@ BuildRequires: swig
 BuildRequires: xalan-j2
 BuildRequires: xalan-j2-xsltc
 BuildRequires: /usr/bin/awk
-BuildRequires: gengetopt
 
 %if 0%{?el6}
 BuildRequires: ant-nodeps >= 1.7
