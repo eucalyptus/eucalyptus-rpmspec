@@ -673,6 +673,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
 /usr/sbin/euca_test_nc
 /usr/sbin/eucalyptus-node
+/usr/sbin/nodeadmin-*
 /usr/share/eucalyptus/authorize-migration-keys.pl
 /usr/share/eucalyptus/detach.pl
 /usr/share/eucalyptus/gen_kvm_libvirt_xml
@@ -987,6 +988,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Thu May  5 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
+- Added node support scripts (EUCA-12285)
+
 * Mon Apr  4 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Added dependencies on eucalyptus-selinux on el7
 
