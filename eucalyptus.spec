@@ -314,6 +314,7 @@ Requires:     kvm
 Requires:     librados2%{?_isa}
 Requires:     librbd1%{?_isa}
 Requires:     libvirt
+Requires:     libvirt-python
 Requires:     perl(Sys::Virt)
 Requires:     perl(Time::HiRes)
 Requires:     perl(XML::Simple)
