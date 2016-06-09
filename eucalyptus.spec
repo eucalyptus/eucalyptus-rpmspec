@@ -225,6 +225,8 @@ Group:        Applications/System
 
 Requires:     %{name}                     = %{version}-%{release}
 Requires:     %{name}-common-java%{?_isa} = %{version}-%{release}
+# Change this to Recommends in RHEL 8
+Requires:     %{name}-admin-tools         = %{version}-%{release}
 # bc is needed for /etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
 Requires:     bc
 Requires:     euca2ools >= 2.0
@@ -945,6 +947,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Thu Jun  9 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
+- Made eucalyptus-cloud pull in admin tools for convenience (EUCA-12429)
+
 * Thu May  5 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Added node support scripts (EUCA-12285)
 
