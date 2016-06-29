@@ -663,6 +663,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /etc/eucalyptus/nc-hooks/example.sh
 %{axis2c_home}/services/EucalyptusNC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
+%{_libexecdir}/eucalyptus/nodeadmin-manage-volume-connections
 /usr/sbin/euca_test_nc
 /usr/sbin/eucalyptus-node
 /usr/sbin/nodeadmin-*
@@ -947,6 +948,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Wed Jun 29 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
+- Added nodeadmin-manage-volume-connections (EUCA-12514)
+
 * Thu Jun  9 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Made eucalyptus-cloud pull in admin tools for convenience (EUCA-12429)
 
