@@ -33,7 +33,6 @@ Version:       4.3.0
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
-Group:         Applications/System
 
 BuildRequires: ant >= 1.7
 BuildRequires: apache-ivy
@@ -55,15 +54,10 @@ BuildRequires: python-devel
 BuildRequires: python-setuptools
 BuildRequires: rampartc-devel >= 1.3.0
 BuildRequires: swig
+BuildRequires: systemd
 BuildRequires: xalan-j2
 BuildRequires: xalan-j2-xsltc
 BuildRequires: /usr/bin/awk
-
-%if 0%{?el6}
-BuildRequires: ant-nodeps >= 1.7
-%else
-BuildRequires: systemd
-%endif
 
 Requires(pre): shadow-utils
 
@@ -83,15 +77,12 @@ will need to install Eucalyptus services as well.
 
 %package axis2c-common
 Summary:      Eucalyptus cloud platform - Axis2/C shared components
-Group:        Applications/System
 
 Requires:     %{name} = %{version}-%{release}
+Requires:     eucalyptus-selinux
 Requires:     httpd
 Requires:     perl(Digest::MD5)
 Requires:     perl(MIME::Base64)
-%if ! 0%{?el6}
-Requires:     eucalyptus-selinux
-%endif
 
 %description axis2c-common
 Eucalyptus is a service overlay that implements elastic computing
@@ -105,17 +96,14 @@ that are based on Axis2/C.
 
 %package blockdev-utils
 Summary:      Eucalyptus cloud platform - shared block device utilities
-Group:        Applications/System
 
 Requires:     %{name} = %{version}-%{release}
+Requires:     eucalyptus-selinux
 Requires:     libselinux-python
 Requires:     perl(Crypt::OpenSSL::RSA)
 Requires:     perl(Crypt::OpenSSL::Random)
 Requires:     perl(MIME::Base64)
 Requires:     /usr/bin/which
-%if ! 0%{?el6}
-Requires:     eucalyptus-selinux
-%endif
 
 %description blockdev-utils
 Eucalyptus is a service overlay that implements elastic computing
@@ -129,15 +117,14 @@ that connect to iSCSI targets.
 
 %package common-java
 Summary:      Eucalyptus cloud platform - ws java stack
-Group:        Applications/System
 Requires:     %{name} = %{version}-%{release}
 Requires:     %{name}-common-java-libs = %{version}-%{release}
+Requires:     eucalyptus-selinux
 Requires:     lvm2
 Requires:     /usr/bin/which
-%if ! 0%{?el6}
-Requires:     eucalyptus-selinux
-%endif
 %{?systemd_requires}
+
+Provides: %{name}-java-common = %{version}-%{release}
 
 %description common-java
 Eucalyptus is a service overlay that implements elastic computing
@@ -150,15 +137,10 @@ This package contains the common-java files.
 
 %package common-java-libs
 Summary:      Eucalyptus cloud platform - ws java stack libs
-Group:        Applications/System
 
+Requires:     eucalyptus-selinux
 Requires:     jpackage-utils
 Requires:     java-1.8.0-openjdk >= 1:1.8.0
-%if ! 0%{?el6}
-Requires:     eucalyptus-selinux
-%else
-Requires:     java-1.8.0-openjdk-devel >= 1:1.8.0
-%endif
 
 %description common-java-libs
 Eucalyptus is a service overlay that implements elastic computing
@@ -171,14 +153,11 @@ This package contains the java WS stack.
 
 %package walrus
 Summary:      Eucalyptus cloud platform - walrus
-Group:        Applications/System
 
 Requires:     %{name}             = %{version}-%{release}
 Requires:     %{name}-common-java = %{version}-%{release}
-Requires:     lvm2
-%if ! 0%{?el6}
 Requires:     eucalyptus-selinux
-%endif
+Requires:     lvm2
 
 %description walrus
 Eucalyptus is a service overlay that implements elastic computing
@@ -193,20 +172,19 @@ cloud controller.
 
 %package sc
 Summary:      Eucalyptus cloud platform - storage controller
-Group:        Applications/System
 
 Requires:     %{name} = %{version}-%{release}
 Requires:     %{name}-blockdev-utils = %{version}-%{release}
 Requires:     %{name}-common-java = %{version}-%{release}
 Requires:     device-mapper-multipath
+Requires:     eucalyptus-selinux
 Requires:     iscsi-initiator-utils
 Requires:     librados2%{?_isa}
 Requires:     librbd1%{?_isa}
 Requires:     lvm2
 Requires:     scsi-target-utils
-%if ! 0%{?el6}
-Requires:     eucalyptus-selinux
-%endif
+
+Provides:     eucalyptus-storage = %{version}-%{release}
 
 %description sc
 Eucalyptus is a service overlay that implements elastic computing
@@ -221,27 +199,19 @@ alongside the cluster controller.
 
 %package cloud
 Summary:      Eucalyptus cloud platform - cloud controller
-Group:        Applications/System
 
 Requires:     %{name}                     = %{version}-%{release}
 Requires:     %{name}-common-java%{?_isa} = %{version}-%{release}
 # Change this to Recommends in RHEL 8
 Requires:     %{name}-admin-tools         = %{version}-%{release}
-# bc is needed for /etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
-Requires:     bc
+Requires:     eucalyptus-selinux
 Requires:     euca2ools >= 2.0
 Requires:     eucanetd = %{version}-%{release}
 Requires:     libselinux-python
 Requires:     lvm2
 Requires:     perl(Getopt::Long)
-%if 0%{?el6}
-Requires:     postgresql92
-Requires:     postgresql92-server
-%else
-Requires:     eucalyptus-selinux
 Requires:     postgresql
 Requires:     postgresql-server
-%endif
 Requires:     python-argparse
 Requires:     rsync
 
@@ -258,12 +228,12 @@ the cloud clients.
 
 %package cc
 Summary:      Eucalyptus cloud platform - cluster controller
-Group:        Applications/System
 
 Requires:     %{name} = %{version}-%{release}
 Requires:     %{name}-axis2c-common = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     dhcp >= 4.1.1-33.P1
+Requires:     eucalyptus-selinux
 Requires:     eucanetd = %{version}-%{release}
 Requires:     httpd
 Requires:     iproute
@@ -275,9 +245,6 @@ Requires:     rsync
 Requires:     vconfig
 Requires:     vtun
 Requires:     /usr/bin/which
-%if ! 0%{?el6}
-Requires:     eucalyptus-selinux
-%endif
 %{?systemd_requires}
 
 Provides:     eucalyptus-cluster = %{version}-%{release}
@@ -294,7 +261,6 @@ handles a group of node controllers.
 
 %package nc
 Summary:      Eucalyptus cloud platform - node controller
-Group:        Applications/System
 
 Requires:     %{name} = %{version}-%{release}
 Requires:     %{name}-axis2c-common = %{version}-%{release}
@@ -304,6 +270,7 @@ Requires:     bridge-utils
 Requires:     device-mapper
 Requires:     device-mapper-multipath
 Requires:     euca2ools >= 3.2
+Requires:     eucalyptus-selinux
 Requires:     eucanetd = %{version}-%{release}
 Requires:     httpd
 Requires:     iscsi-initiator-utils
@@ -326,9 +293,6 @@ Requires:     parted
 Requires:     vconfig
 Requires:     util-linux
 Requires:     /usr/bin/which
-%if ! 0%{?el6}
-Requires:     eucalyptus-selinux
-%endif
 %{?systemd_requires}
 
 Provides:     eucalyptus-node = %{version}-%{release}
@@ -347,9 +311,9 @@ component handles instances.
 Summary:      Eucalyptus cloud platform - admin CLI tools
 # A patched version of python's gzip is included, so we add the Python license
 License:      BSD and Python
-Group:        Applications/System
 
 Requires:     euca2ools >= 3.2
+Requires:     eucalyptus-selinux
 Requires:     python-boto >= 2.1
 Requires:     python-prettytable
 Requires:     python-requestbuilder >= 0.4
@@ -371,16 +335,13 @@ Eucalyptus cloud.
 %package -n eucanetd
 Summary:        Eucalyptus cloud platform - edge networking daemon
 License:        GPLv3
-Group:          Applications/System
 
 Requires:       dhcp >= 4.1.1-33.P1
 Requires:       ebtables
+Requires:       eucalyptus-selinux
 Requires:       ipset
 Requires:       iptables
 Requires:       /usr/bin/which
-%if ! 0%{?el6}
-Requires:       eucalyptus-selinux
-%endif
 %{?systemd_requires}
 
 %description -n eucanetd
@@ -401,6 +362,7 @@ License:      ASL 2.0
 Requires:     %{name} = %{version}-%{release}
 # This includes both things under tools/imaging and storage.
 Requires:     euca2ools >= 3.1
+Requires:     eucalyptus-selinux
 Requires:     pv
 Requires:     python-argparse
 Requires:     python-lxml
@@ -413,9 +375,6 @@ Requires:     file
 Requires:     httpd
 Requires:     parted
 Requires:     util-linux
-%if ! 0%{?el6}
-Requires:     eucalyptus-selinux
-%endif
 
 %description imaging-toolkit
 Eucalyptus is a service overlay that implements elastic computing
@@ -460,13 +419,8 @@ export CFLAGS="%{optflags}"
 
 # Eucalyptus does not assign the usual meaning to prefix and other standard
 # configure variables, so we can't realistically use %%configure.
-%if 0%{?el6}
-export JAVA_HOME='/usr/lib/jvm/java-1.8.0' && export JAVA='$JAVA_HOME/jre/bin/java'
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-sysvinit --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
-%else
 export JAVA_HOME='/usr/lib/jvm/java-1.8.0' && export JAVA='$JAVA_HOME/jre/bin/java'
 ./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-systemd --with-db-home=%{_prefix} --with-extra-version=%{release}
-%endif
 
 # Untar the bundled cloud-lib Java dependencies.
 mkdir clc/lib
@@ -504,26 +458,6 @@ rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/udev
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
-%if 0%{?el6}
-# Eucalyptus's build scripts do not respect initrddir
-if [ %{_initrddir} != /etc/init.d ]; then
-    mkdir -p $RPM_BUILD_ROOT/%{_initrddir}
-    mv $RPM_BUILD_ROOT/etc/init.d/* $RPM_BUILD_ROOT/%{_initrddir}
-    rmdir $RPM_BUILD_ROOT/etc/init.d
-fi
-
-# Add PolicyKit config on RHEL 6
-# We do this with membership in the "libvirt" group on RHEL 7 instead
-mkdir -p $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d
-cp -p tools/eucalyptus-nc-libvirt.pkla $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
-
-# Work around a regression in libvirtd.conf file handling that appears
-# in at least RHEL 6.2
-# https://www.redhat.com/archives/libvirt-users/2011-July/msg00039.html
-mkdir $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt
-touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
-%endif
-
 
 %files
 %defattr(-,root,root,-)
@@ -554,9 +488,7 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /usr/share/eucalyptus/faults/
 /usr/share/eucalyptus/status/
 
-%if 0%{?rhel} > 6
 %{_tmpfilesdir}/eucalyptus.conf
-%endif
 
 
 %files axis2c-common
@@ -599,13 +531,9 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /usr/sbin/eucalyptus-cloud
 %ghost /var/lib/eucalyptus/services
 %attr(-,eucalyptus,eucalyptus) /var/lib/eucalyptus/webapps/
-%if 0%{?el6}
-%{_initrddir}/eucalyptus-cloud
-%else
 %{_sysctldir}/70-eucalyptus-cloud.conf
 %{_unitdir}/eucalyptus-cloud.service
 %{_unitdir}/eucalyptus-cloud-upgrade.service
-%endif
 
 
 %files common-java-libs
@@ -644,12 +572,8 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /usr/share/eucalyptus/vtunall.conf.template
 /usr/share/eucalyptus/dynserv.pl
 /usr/share/eucalyptus/getstats_net.pl
-%if 0%{?el6}
-%{_initrddir}/eucalyptus-cc
-%else
 %{_unitdir}/eucalyptus-cc.service
 %{_unitdir}/eucalyptus-cluster.service
-%endif
 
 
 %files nc
@@ -674,16 +598,10 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 /usr/share/eucalyptus/get_sys_info
 /usr/share/eucalyptus/get_xen_info
 /usr/share/eucalyptus/partition2disk
-%if 0%{?el6}
-%{_initrddir}/eucalyptus-nc
-%attr(-,eucalyptus,eucalyptus) /var/lib/eucalyptus/.libvirt/
-/var/lib/polkit-1/localauthority/10-vendor.d/eucalyptus-nc-libvirt.pkla
-%else
 /usr/lib/modules-load.d/70-eucalyptus-node.conf
 %{_unitdir}/eucalyptus-nc.service
 %{_unitdir}/eucalyptus-node.service
 %{_unitdir}/eucalyptus-node-keygen.service
-%endif
 
 
 %files admin-tools
@@ -717,158 +635,15 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %attr(-,eucalyptus,eucalyptus) /var/run/eucalyptus/net
 %attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
 /usr/share/eucalyptus/nginx_proxy.conf
-%if 0%{?el6}
-%{_initrddir}/eucanetd
-%else
 /usr/lib/modules-load.d/70-eucanetd.conf
 %{_sysctldir}/70-eucanetd.conf
 %{_unitdir}/eucanetd.service
-%endif
 
 
 %files imaging-toolkit
 %{_libexecdir}/eucalyptus/euca-run-workflow
 %{python_sitelib}/eucatoolkit*
 
-
-%if 0%{?el6}
-
-%pre
-getent group eucalyptus >/dev/null || groupadd -r eucalyptus
-getent group eucalyptus-status >/dev/null || groupadd -r eucalyptus-status
-## FIXME:  Make QA (and Eucalyptus proper?) work with /sbin/nologin as the shell [RT:2092]
-#getent passwd eucalyptus >/dev/null || \
-#    useradd -r -g eucalyptus -d /var/lib/eucalyptus -s /sbin/nologin \
-#    -c 'Eucalyptus' eucalyptus
-getent passwd eucalyptus >/dev/null || \
-    useradd -r -g eucalyptus -G eucalyptus-status -d /var/lib/eucalyptus \
-    -c 'Eucalyptus' eucalyptus
-# 4.2.2 / EUCA-12108:  Add preexisting user to eucalyptus-status group
-getent group eucalyptus-status | grep -qE 'eucalyptus(,|$)' || \
-    usermod -a -G eucalyptus-status eucalyptus
-
-if [ "$1" = "2" ]; then
-    # Stop all old services
-    if [ -x %{_initrddir}/eucalyptus-cloud ]; then
-         /sbin/service eucalyptus-cloud stop
-    fi
-    if [ -x %{_initrddir}/eucalyptus-cc ]; then
-         /sbin/service eucalyptus-cc cleanstop
-    fi
-    if [ -x %{_initrddir}/eucalyptus-nc ]; then
-         /sbin/service eucalyptus-nc stop
-    fi
-    if [ -x %{_initrddir}/eucanetd ]; then
-         /sbin/service eucanetd stop
-    fi
-
-    # Back up important data as well as all of the previous installation's jars.
-    BACKUPDIR="/var/lib/eucalyptus/upgrade/eucalyptus.backup.`date +%%s`"
-    mkdir -p "$BACKUPDIR"
-    EUCABACKUPS=""
-    for i in /var/lib/eucalyptus/keys/ /var/lib/eucalyptus/db/ /var/lib/eucalyptus/services /etc/eucalyptus/eucalyptus.conf /etc/eucalyptus/eucalyptus-version /usr/share/eucalyptus/; do
-        if [ -e $i ]; then
-            EUCABACKUPS="$EUCABACKUPS $i"
-        fi
-    done
-
-    OLD_EUCA_VERSION=`cat /etc/eucalyptus/eucalyptus-version`
-    echo "# This file was automatically generated by Eucalyptus packaging." > /etc/eucalyptus/.upgrade
-    echo "$OLD_EUCA_VERSION:$BACKUPDIR" >> /etc/eucalyptus/.upgrade
-
-    tar cf - $EUCABACKUPS 2>/dev/null | tar xf - -C "$BACKUPDIR" 2>/dev/null
-fi
-exit 0
-
-%post blockdev-utils
-# Reload udev rules
-# This is unnecessary on el7 because udev watches for changes with inotify
-/sbin/service udev-post reload || :
-exit 0
-
-
-%post common-java
-chkconfig --add eucalyptus-cloud
-exit 0
-
-
-%post sc
-if [ -e %{_initrddir}/tgtd ]; then
-    chkconfig --add tgtd
-    /sbin/service tgtd start
-fi
-exit 0
-
-
-%post cc
-chkconfig --add eucalyptus-cc
-exit 0
-
-
-%post nc
-if [ -e %{_initrddir}/libvirtd ]; then
-    chkconfig --add libvirtd
-    /sbin/service libvirtd restart
-fi
-chkconfig --add eucalyptus-nc
-usermod -a -G kvm eucalyptus
-exit 0
-
-
-%post -n eucanetd
-chkconfig --add eucanetd
-exit 0
-
-
-%postun blockdev-utils
-# Reload udev rules on uninstall
-# This is unnecessary on el7 because udev watches for changes with inotify
-if [ "$1" = "0" ]; then
-    /sbin/service udev-post reload || :
-fi
-exit 0
-
-
-%preun common-java
-if [ "$1" = "0" ]; then
-    if [ -f /etc/eucalyptus/eucalyptus.conf ]; then
-        /sbin/service eucalyptus-cloud stop
-    fi
-    chkconfig --del eucalyptus-cloud
-fi
-exit 0
-
-
-%preun cc
-if [ "$1" = "0" ]; then
-    if [ -f /etc/eucalyptus/eucalyptus.conf ]; then
-        /sbin/service eucalyptus-cc cleanstop
-    fi
-    chkconfig --del eucalyptus-cc
-fi
-exit 0
-
-
-%preun nc
-if [ "$1" = "0" ]; then
-    if [ -f /etc/eucalyptus/eucalyptus.conf ]; then
-        /sbin/service eucalyptus-nc stop
-    fi
-    chkconfig --del eucalyptus-nc
-fi
-exit 0
-
-
-%preun -n eucanetd
-if [ "$1" = "0" ]; then
-    if [ -f /etc/eucalyptus/eucalyptus.conf ]; then
-        /sbin/service eucanetd stop
-    fi
-    chkconfig --del eucanetd
-fi
-exit 0
-
-%else  #if 0%{?el6}
 
 %pre
 getent group eucalyptus >/dev/null || groupadd -r eucalyptus
@@ -941,10 +716,11 @@ usermod -a -G libvirt eucalyptus || :
 %postun -n eucanetd
 %systemd_postun eucanetd.service
 
-%endif  #if 0%{?el6}
-
 
 %changelog
+* Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
+- Removed RHEL 6 support
+
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Dropped eucalyptus-selinux dependency from admin-tools package
 
