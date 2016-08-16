@@ -41,6 +41,7 @@ BuildRequires: axis2-adb-codegen
 BuildRequires: axis2-codegen
 BuildRequires: axis2c-devel >= 1.6.0
 BuildRequires: curl-devel
+BuildRequires: eucalyptus-java-deps
 BuildRequires: gengetopt
 BuildRequires: java-1.8.0-openjdk-devel >= 1:1.8.0
 BuildRequires: jpackage-utils
@@ -68,7 +69,6 @@ BuildRequires: systemd
 Requires(pre): shadow-utils
 
 Source0:       %{tarball_basedir}.tar.xz
-Source1:       %{cloud_lib_tarball}
 
 %description
 Eucalyptus is a service overlay that implements elastic computing
@@ -152,6 +152,7 @@ This package contains the common-java files.
 Summary:      Eucalyptus cloud platform - ws java stack libs
 Group:        Applications/System
 
+Requires:     eucalyptus-java-deps
 Requires:     jpackage-utils
 Requires:     java-1.8.0-openjdk >= 1:1.8.0
 %if ! 0%{?el6}
@@ -457,23 +458,17 @@ chmod +x %{__perl_requires}
 
 %build
 export CFLAGS="%{optflags}"
+export JAVA_HOME='/usr/lib/jvm/java-1.8.0' && export JAVA='$JAVA_HOME/jre/bin/java'
 
 # Eucalyptus does not assign the usual meaning to prefix and other standard
 # configure variables, so we can't realistically use %%configure.
 %if 0%{?el6}
 export JAVA_HOME='/usr/lib/jvm/java-1.8.0' && export JAVA='$JAVA_HOME/jre/bin/java'
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-sysvinit --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
+./configure --disable-bundled-jars --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-sysvinit --with-db-home=/usr/pgsql-9.2 --with-extra-version=%{release}
 %else
 export JAVA_HOME='/usr/lib/jvm/java-1.8.0' && export JAVA='$JAVA_HOME/jre/bin/java'
-./configure --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-systemd --with-db-home=%{_prefix} --with-extra-version=%{release}
+./configure --disable-bundled-jars --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-systemd --with-db-home=%{_prefix} --with-extra-version=%{release}
 %endif
-
-# Untar the bundled cloud-lib Java dependencies.
-mkdir clc/lib
-tar xf %{SOURCE1} -C clc/lib
-
-# Don't bother with git since we're using a cloud-libs tarball
-touch clc/.nogit
 
 make %{?_smp_mflags}
 
@@ -611,7 +606,6 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %files common-java-libs
 %defattr(-,root,root,-)
 /usr/share/eucalyptus/*jar*
-%doc /usr/share/eucalyptus/licenses/
 
 
 %files cloud
@@ -943,8 +937,10 @@ usermod -a -G libvirt eucalyptus || :
 
 %endif  #if 0%{?el6}
 
-
 %changelog
+* Tue Aug 30 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
+- Switched to building against packaged dependencies (EUCA-10666)
+
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Dropped eucalyptus-selinux dependency from admin-tools package
 
