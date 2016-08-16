@@ -464,30 +464,25 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 %doc INSTALL README
 
 %attr(-,eucalyptus,eucalyptus) %dir /etc/eucalyptus
+%config(noreplace) /etc/eucalyptus/eucalyptus.conf
+/etc/eucalyptus/eucalyptus-version
+# This is currently used for CC and NC httpd logs.
+/etc/logrotate.d/eucalyptus
 %attr(-,root,eucalyptus) %dir /usr/lib/eucalyptus
+%attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_rootwrap
 %attr(-,root,eucalyptus) %dir /usr/libexec/eucalyptus
+%{_tmpfilesdir}/eucalyptus.conf
+/usr/sbin/euca-generate-fault
 %dir /usr/share/eucalyptus
 %doc /usr/share/eucalyptus/doc/
+/usr/share/eucalyptus/faults/
+/usr/share/eucalyptus/status/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/keys
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/upgrade
 %attr(-,eucalyptus,eucalyptus) %dir /var/log/eucalyptus
 %attr(-,eucalyptus,eucalyptus) %dir /var/run/eucalyptus
 %attr(-,eucalyptus,eucalyptus-status) %dir /var/run/eucalyptus/status
-
-%config(noreplace) /etc/eucalyptus/eucalyptus.conf
-/etc/eucalyptus/eucalyptus-version
-
-# This is currently used for CC and NC httpd logs.
-/etc/logrotate.d/eucalyptus
-
-%attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_rootwrap
-
-/usr/sbin/euca-generate-fault
-/usr/share/eucalyptus/faults/
-/usr/share/eucalyptus/status/
-
-%{_tmpfilesdir}/eucalyptus.conf
 
 
 %files axis2c-common
