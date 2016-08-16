@@ -355,9 +355,6 @@ Requires:     python-prettytable
 Requires:     python-requestbuilder >= 0.4
 Requires:     python-requests
 Requires:     python-six
-%if ! 0%{?el6}
-Requires:     eucalyptus-selinux
-%endif
 
 BuildArch:    noarch
 
@@ -948,6 +945,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
+- Dropped eucalyptus-selinux dependency from admin-tools package
+
 * Wed Jun 29 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Added nodeadmin-manage-volume-connections (EUCA-12514)
 
