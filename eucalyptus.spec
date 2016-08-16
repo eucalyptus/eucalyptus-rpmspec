@@ -482,7 +482,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 /etc/logrotate.d/eucalyptus
 
 %attr(4750,root,eucalyptus) /usr/lib/eucalyptus/euca_rootwrap
-/usr/libexec/eucalyptus/euca-upgrade
 
 /usr/sbin/euca-generate-fault
 /usr/share/eucalyptus/faults/
@@ -545,6 +544,7 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 %files cloud
 %defattr(-,root,root,-)
 /etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
+/usr/libexec/eucalyptus/euca-upgrade
 /usr/sbin/euca-lictool
 /usr/sbin/clcadmin-*
 /usr/share/eucalyptus/lic_default
@@ -720,6 +720,7 @@ usermod -a -G libvirt eucalyptus || :
 %changelog
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Removed RHEL 6 support
+- Moved euca-upgrade to cloud package
 
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Dropped eucalyptus-selinux dependency from admin-tools package
