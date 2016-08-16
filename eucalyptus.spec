@@ -460,7 +460,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 
 %files
-%defattr(-,root,root,-)
 %doc LICENSE INSTALL README
 
 %attr(-,eucalyptus,eucalyptus) %dir /etc/eucalyptus
@@ -518,7 +517,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 
 %files common-java
-%defattr(-,root,root,-)
 # cloud.d contains random stuff used by every Java component.  Most of it
 # probably belongs in /usr/share, but moving it will be painful.
 # https://eucalyptus.atlassian.net/browse/EUCA-11002
@@ -536,13 +534,11 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 
 %files common-java-libs
-%defattr(-,root,root,-)
 /usr/share/eucalyptus/*jar*
 %doc /usr/share/eucalyptus/licenses/
 
 
 %files cloud
-%defattr(-,root,root,-)
 /etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
 /usr/libexec/eucalyptus/euca-upgrade
 /usr/sbin/euca-lictool
@@ -553,17 +549,14 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 
 %files walrus
-%defattr(-,root,root,-)
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/bukkits
 
 
 %files sc
-%defattr(-,root,root,-)
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/volumes
 
 
 %files cc
-%defattr(-,root,root,-)
 %{axis2c_home}/services/EucalyptusCC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/CC
 /usr/lib/eucalyptus/shutdownCC
@@ -577,7 +570,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 
 %files nc
-%defattr(-,root,root,-)
 %doc tools/nc-hooks
 %config(noreplace) /etc/eucalyptus/libvirt.xsl
 %dir /etc/eucalyptus/nc-hooks
@@ -605,7 +597,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 
 %files admin-tools
-%defattr(-,root,root,-)
 # Non-functional placeholder whose error messages people point people
 # to new tools (new in 4.3)
 %{_sbindir}/euca_conf
@@ -629,7 +620,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 
 %files -n eucanetd
-%defattr(-,root,root,-)
 %{_libexecdir}/eucalyptus/announce-arp
 %{_sbindir}/eucanetd
 %attr(-,eucalyptus,eucalyptus) /var/run/eucalyptus/net
@@ -721,6 +711,7 @@ usermod -a -G libvirt eucalyptus || :
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Removed RHEL 6 support
 - Moved euca-upgrade to cloud package
+- Removed useless defattr statements
 
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Dropped eucalyptus-selinux dependency from admin-tools package
