@@ -460,7 +460,8 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 
 %files
-%doc LICENSE INSTALL README
+%license LICENSE
+%doc INSTALL README
 
 %attr(-,eucalyptus,eucalyptus) %dir /etc/eucalyptus
 %attr(-,root,eucalyptus) %dir /usr/lib/eucalyptus
@@ -535,7 +536,7 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 %files common-java-libs
 /usr/share/eucalyptus/*jar*
-%doc /usr/share/eucalyptus/licenses/
+%license /usr/share/eucalyptus/licenses/
 
 
 %files cloud
@@ -712,6 +713,7 @@ usermod -a -G libvirt eucalyptus || :
 - Removed RHEL 6 support
 - Moved euca-upgrade to cloud package
 - Removed useless defattr statements
+- Tagged license files as such
 
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Dropped eucalyptus-selinux dependency from admin-tools package
