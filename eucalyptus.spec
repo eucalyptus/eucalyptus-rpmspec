@@ -29,7 +29,7 @@
 
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
-Version:       4.3.0
+Version:       4.3.0.1
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -761,7 +761,12 @@ if [ "$1" = "2" ]; then
     if [ -x %{_initrddir}/eucanetd ]; then
          /sbin/service eucanetd stop
     fi
+fi
+exit 0
 
+
+%pre cloud
+if [ "$1" = "2" ]; then
     # Back up important data as well as all of the previous installation's jars.
     BACKUPDIR="/var/lib/eucalyptus/upgrade/eucalyptus.backup.`date +%%s`"
     mkdir -p "$BACKUPDIR"
@@ -779,6 +784,7 @@ if [ "$1" = "2" ]; then
     tar cf - $EUCABACKUPS 2>/dev/null | tar xf - -C "$BACKUPDIR" 2>/dev/null
 fi
 exit 0
+
 
 %post blockdev-utils
 # Reload udev rules
@@ -875,8 +881,9 @@ getent group eucalyptus >/dev/null || groupadd -r eucalyptus
 getent group eucalyptus-status >/dev/null || groupadd -r eucalyptus-status
 getent passwd eucalyptus >/dev/null || \
     useradd -r -g eucalyptus -G eucalyptus-status -d /var/lib/eucalyptus \
-    -s /sbin/nologin -c 'Eucalyptus cloud' eucalyptus
+    -s /sbin/nologin -c 'Eucalyptus cloud' eucalyptus || :
 
+%pre cloud
 if [ "$1" = 2 ]; then
     # Back up the previous installation's jars since they are required for
     # upgrade (EUCA-633)
@@ -945,6 +952,10 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Thu Aug 25 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0.1
+- Version bump (4.3.0.1)
+- Moved /var/lib/eucalyptus backup script to cloud package
+
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Dropped eucalyptus-selinux dependency from admin-tools package
 
