@@ -36,6 +36,7 @@ URL:           http://www.eucalyptus.com
 Group:         Applications/System
 
 BuildRequires: ant >= 1.7
+BuildRequires: ant-apache-regexp
 BuildRequires: apache-ivy
 BuildRequires: axis2-adb-codegen
 BuildRequires: axis2-codegen
@@ -943,6 +944,7 @@ usermod -a -G libvirt eucalyptus || :
 * Tue Aug 30 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Switched to building against packaged dependencies (EUCA-10666)
 - Fixed common-java package's post script on el7
+- BuildRequired ant-apache-regexp
 
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Dropped eucalyptus-selinux dependency from admin-tools package
