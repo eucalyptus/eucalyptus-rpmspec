@@ -623,7 +623,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 %{_libexecdir}/eucalyptus/announce-arp
 %{_sbindir}/eucanetd
 %attr(-,eucalyptus,eucalyptus) /var/run/eucalyptus/net
-%attr(0755,root,eucalyptus) /usr/libexec/eucalyptus/conntrack_kernel_params
 /usr/share/eucalyptus/nginx_proxy.conf
 /usr/lib/modules-load.d/70-eucanetd.conf
 %{_sysctldir}/70-eucanetd.conf
@@ -710,6 +709,7 @@ usermod -a -G libvirt eucalyptus || :
 %changelog
 * Tue Aug 30 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Removed create-loop-devices script
+- Removed conntrack_kernel_params script
 
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Removed RHEL 6 support
