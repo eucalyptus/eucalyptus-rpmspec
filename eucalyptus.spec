@@ -507,7 +507,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 /etc/udev/scripts/iscsidev.sh
 /lib/udev/rules.d/12-dm-permissions.rules
 /lib/udev/rules.d/55-openiscsi*.rules
-/usr/share/eucalyptus/create-loop-devices
 /usr/share/eucalyptus/connect_iscsitarget.pl
 /usr/share/eucalyptus/connect_iscsitarget_main.pl
 /usr/share/eucalyptus/connect_iscsitarget_sc.pl
@@ -709,6 +708,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Tue Aug 30 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
+- Removed create-loop-devices script
+
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Removed RHEL 6 support
 - Moved euca-upgrade to cloud package
