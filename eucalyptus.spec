@@ -139,6 +139,8 @@ Requires:     eucalyptus-selinux
 %endif
 %{?systemd_requires}
 
+Provides:     %{name}-java-common = %{version}-%{release}
+
 %description common-java
 Eucalyptus is a service overlay that implements elastic computing
 using existing resources. The goal of Eucalyptus is to allow sites
