@@ -893,6 +893,7 @@ exit 0
 
 %post common-java
 %systemd_post eucalyptus-cloud.service
+%sysctl_apply 70-eucalyptus-cloud.conf || :
 
 %post cc
 %systemd_post eucalyptus-cluster.service
@@ -921,7 +922,6 @@ usermod -a -G libvirt eucalyptus || :
 %preun -n eucanetd
 %systemd_preun eucanetd.service
 /usr/lib/systemd/systemd-modules-load || :
-%sysctl_apply 70-eucalyptus-cloud.conf || :
 
 %postun common-java
 %systemd_postun eucalyptus-cloud.service
@@ -940,6 +940,7 @@ usermod -a -G libvirt eucalyptus || :
 %changelog
 * Tue Aug 30 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Switched to building against packaged dependencies (EUCA-10666)
+- Fixed common-java package's post script on el7
 
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Dropped eucalyptus-selinux dependency from admin-tools package
