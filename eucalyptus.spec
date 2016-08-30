@@ -124,7 +124,7 @@ Requires:     lvm2
 Requires:     /usr/bin/which
 %{?systemd_requires}
 
-Provides: %{name}-java-common = %{version}-%{release}
+Provides:     %{name}-java-common = %{version}-%{release}
 
 %description common-java
 Eucalyptus is a service overlay that implements elastic computing
