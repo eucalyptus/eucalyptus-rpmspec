@@ -432,9 +432,6 @@ export JAVA_HOME='/usr/lib/jvm/java-1.8.0' && export JAVA='$JAVA_HOME/jre/bin/ja
     --with-db-home=%{_prefix} \
     --with-extra-version=%{release}
 
-# Don't bother with git since we're using a cloud-libs tarball
-touch clc/.nogit
-
 make %{?_smp_mflags}
 
 
