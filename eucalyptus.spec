@@ -379,6 +379,8 @@ Requires:       dhcp >= 4.1.1-33.P1
 Requires:       ebtables
 Requires:       ipset
 Requires:       iptables
+# nginx 1.9.13 added perl as a loadable module (EUCA-12734)
+Requires:       nginx >= 1.9.13
 Requires:       /usr/bin/which
 %if ! 0%{?el6}
 Requires:       eucalyptus-selinux
@@ -954,6 +956,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Fri Sep  9 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0.1
+- Added nginx >= 1.9.13 dependency to eucanetd package (EUCA-12734)
+
 * Thu Aug 25 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0.1
 - Version bump (4.3.0.1)
 - Moved /var/lib/eucalyptus backup script to cloud package
