@@ -764,10 +764,9 @@ if [ "$1" = "2" ]; then
          /sbin/service eucanetd stop
     fi
 fi
-exit 0
 
-
-%pre cloud
+# This must go in the same package as /etc/eucalyptus/eucalyptus-version to
+# ensure /etc/eucalyptus/.upgrade is correct.
 if [ "$1" = "2" ]; then
     # Back up important data as well as all of the previous installation's jars.
     BACKUPDIR="/var/lib/eucalyptus/upgrade/eucalyptus.backup.`date +%%s`"
@@ -885,7 +884,8 @@ getent passwd eucalyptus >/dev/null || \
     useradd -r -g eucalyptus -G eucalyptus-status -d /var/lib/eucalyptus \
     -s /sbin/nologin -c 'Eucalyptus cloud' eucalyptus || :
 
-%pre cloud
+# This must go in the same package as /etc/eucalyptus/eucalyptus-version to
+# ensure /etc/eucalyptus/.upgrade is correct.
 if [ "$1" = 2 ]; then
     # Back up the previous installation's jars since they are required for
     # upgrade (EUCA-633)
