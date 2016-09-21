@@ -29,7 +29,7 @@
 
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
-Version:       4.3.0
+Version:       4.3.0.1
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -343,6 +343,8 @@ Requires:       ebtables
 Requires:       eucalyptus-selinux
 Requires:       ipset
 Requires:       iptables
+# nginx 1.9.13 added perl as a loadable module (EUCA-12734)
+Requires:       nginx >= 1.9.13
 Requires:       /usr/bin/which
 %{?systemd_requires}
 
@@ -637,8 +639,10 @@ getent group eucalyptus >/dev/null || groupadd -r eucalyptus
 getent group eucalyptus-status >/dev/null || groupadd -r eucalyptus-status
 getent passwd eucalyptus >/dev/null || \
     useradd -r -g eucalyptus -G eucalyptus-status -d /var/lib/eucalyptus \
-    -s /sbin/nologin -c 'Eucalyptus cloud' eucalyptus
+    -s /sbin/nologin -c 'Eucalyptus cloud' eucalyptus || :
 
+# This must go in the same package as /etc/eucalyptus/eucalyptus-version to
+# ensure /etc/eucalyptus/.upgrade is correct.
 if [ "$1" = 2 ]; then
     # Back up the previous installation's jars since they are required for
     # upgrade (EUCA-633)
@@ -705,6 +709,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Fri Sep  9 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0.1
+- Added nginx >= 1.9.13 dependency to eucanetd package (EUCA-12734)
+
 * Tue Aug 30 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Removed create-loop-devices script
 - Removed conntrack_kernel_params script
@@ -713,6 +720,10 @@ usermod -a -G libvirt eucalyptus || :
 - Switched to building against packaged dependencies (EUCA-10666)
 - Fixed common-java package's post script on el7
 - BuildRequired ant-apache-regexp
+
+* Thu Aug 25 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0.1
+- Version bump (4.3.0.1)
+- Moved /var/lib/eucalyptus backup script to cloud package
 
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Removed RHEL 6 support
