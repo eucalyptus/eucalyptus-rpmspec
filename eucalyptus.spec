@@ -29,7 +29,7 @@
 
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
-Version:       4.3.0
+Version:       4.3.0.1
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -381,6 +381,8 @@ Requires:       dhcp >= 4.1.1-33.P1
 Requires:       ebtables
 Requires:       ipset
 Requires:       iptables
+# nginx 1.9.13 added perl as a loadable module (EUCA-12734)
+Requires:       nginx >= 1.9.13
 Requires:       /usr/bin/which
 %if ! 0%{?el6}
 Requires:       eucalyptus-selinux
@@ -758,7 +760,11 @@ if [ "$1" = "2" ]; then
     if [ -x %{_initrddir}/eucanetd ]; then
          /sbin/service eucanetd stop
     fi
+fi
 
+# This must go in the same package as /etc/eucalyptus/eucalyptus-version to
+# ensure /etc/eucalyptus/.upgrade is correct.
+if [ "$1" = "2" ]; then
     # Back up important data as well as all of the previous installation's jars.
     BACKUPDIR="/var/lib/eucalyptus/upgrade/eucalyptus.backup.`date +%%s`"
     mkdir -p "$BACKUPDIR"
@@ -776,6 +782,7 @@ if [ "$1" = "2" ]; then
     tar cf - $EUCABACKUPS 2>/dev/null | tar xf - -C "$BACKUPDIR" 2>/dev/null
 fi
 exit 0
+
 
 %post blockdev-utils
 # Reload udev rules
@@ -872,8 +879,10 @@ getent group eucalyptus >/dev/null || groupadd -r eucalyptus
 getent group eucalyptus-status >/dev/null || groupadd -r eucalyptus-status
 getent passwd eucalyptus >/dev/null || \
     useradd -r -g eucalyptus -G eucalyptus-status -d /var/lib/eucalyptus \
-    -s /sbin/nologin -c 'Eucalyptus cloud' eucalyptus
+    -s /sbin/nologin -c 'Eucalyptus cloud' eucalyptus || :
 
+# This must go in the same package as /etc/eucalyptus/eucalyptus-version to
+# ensure /etc/eucalyptus/.upgrade is correct.
 if [ "$1" = 2 ]; then
     # Back up the previous installation's jars since they are required for
     # upgrade (EUCA-633)
@@ -941,10 +950,17 @@ usermod -a -G libvirt eucalyptus || :
 %endif  #if 0%{?el6}
 
 %changelog
+* Fri Sep  9 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0.1
+- Added nginx >= 1.9.13 dependency to eucanetd package (EUCA-12734)
+
 * Tue Aug 30 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Switched to building against packaged dependencies (EUCA-10666)
 - Fixed common-java package's post script on el7
 - BuildRequired ant-apache-regexp
+
+* Thu Aug 25 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0.1
+- Version bump (4.3.0.1)
+- Moved /var/lib/eucalyptus backup script to cloud package
 
 * Mon Aug 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0
 - Dropped eucalyptus-selinux dependency from admin-tools package
