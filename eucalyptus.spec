@@ -428,7 +428,6 @@ export JAVA_HOME='/usr/lib/jvm/java-1.8.0' && export JAVA='$JAVA_HOME/jre/bin/ja
     --prefix=/ \
     --disable-bundled-jars \
     --enable-debug \
-    --enable-systemd \
     --with-apache2-module-dir=%{_libdir}/httpd/modules \
     --with-axis2=%{_datadir}/axis2-* \
     --with-axis2c=%{axis2c_home} \
