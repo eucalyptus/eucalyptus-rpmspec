@@ -711,6 +711,9 @@ usermod -a -G libvirt eucalyptus || :
 * Wed Oct 12 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Version bump (4.4.0)
 
+* Wed Oct 12 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.1
+- Version bump (4.3.1)
+
 * Fri Sep  9 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0.1
 - Added nginx >= 1.9.13 dependency to eucanetd package (EUCA-12734)
 
