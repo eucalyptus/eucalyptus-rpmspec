@@ -29,7 +29,7 @@
 
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
-Version:       4.3.0.1
+Version:       4.4.0
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -708,6 +708,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Wed Oct 12 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
+- Version bump (4.4.0)
+
 * Fri Sep  9 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.0.1
 - Added nginx >= 1.9.13 dependency to eucanetd package (EUCA-12734)
 
