@@ -139,7 +139,7 @@ This package contains the common-java files.
 %package common-java-libs
 Summary:      Eucalyptus cloud platform - ws java stack libs
 
-Requires:     eucalyptus-java-deps
+Requires:     eucalyptus-java-deps >= 4.3-0.4.4
 Requires:     eucalyptus-selinux
 Requires:     jpackage-utils
 Requires:     java-1.8.0-openjdk >= 1:1.8.0
@@ -708,6 +708,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Thu Oct 27 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.1
+- Bumped minimum eucalyptus-java-deps version (EUCA-12885)
+
 * Wed Oct 12 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Version bump (4.4.0)
 
