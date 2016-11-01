@@ -563,7 +563,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 /usr/sbin/eucalyptus-cluster
 /usr/share/eucalyptus/vtunall.conf.template
 /usr/share/eucalyptus/dynserv.pl
-/usr/share/eucalyptus/getstats_net.pl
 %{_unitdir}/eucalyptus-cc.service
 %{_unitdir}/eucalyptus-cluster.service
 
@@ -708,6 +707,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Tue Nov  1 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
+- remove getstats_net.pl (EUCA-12864)
+
 * Thu Oct 27 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.1
 - Bumped minimum eucalyptus-java-deps version (EUCA-12885)
 
