@@ -621,8 +621,8 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 %{_libexecdir}/eucalyptus/announce-arp
 %{_sbindir}/eucanetd
 %attr(-,eucalyptus,eucalyptus) /var/run/eucalyptus/net
-/usr/share/eucalyptus/nginx_proxy.conf
 /usr/share/eucalyptus/nginx_md.conf
+/usr/share/eucalyptus/nginx_proxy.conf
 /usr/lib/modules-load.d/70-eucanetd.conf
 %{_sysctldir}/70-eucanetd.conf
 %{_unitdir}/eucanetd.service
@@ -708,6 +708,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Fri Nov  4 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
+- add nginx_md.conf
+
 * Tue Nov  1 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
 - remove getstats_net.pl (EUCA-12864)
 
