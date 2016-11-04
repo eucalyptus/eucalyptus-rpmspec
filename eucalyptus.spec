@@ -709,10 +709,10 @@ usermod -a -G libvirt eucalyptus || :
 
 %changelog
 * Fri Nov  4 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
-- add nginx_md.conf
+- Added nginx_md.conf (EUCA-12893)
 
 * Tue Nov  1 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
-- remove getstats_net.pl (EUCA-12864)
+- Removed getstats_net.pl (EUCA-12864)
 
 * Thu Oct 27 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.1
 - Bumped minimum eucalyptus-java-deps version (EUCA-12885)
