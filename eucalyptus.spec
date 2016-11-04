@@ -622,6 +622,7 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 %{_sbindir}/eucanetd
 %attr(-,eucalyptus,eucalyptus) /var/run/eucalyptus/net
 /usr/share/eucalyptus/nginx_proxy.conf
+/usr/share/eucalyptus/nginx_md.conf
 /usr/lib/modules-load.d/70-eucanetd.conf
 %{_sysctldir}/70-eucanetd.conf
 %{_unitdir}/eucanetd.service
