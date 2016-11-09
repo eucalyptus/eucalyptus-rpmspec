@@ -27,6 +27,10 @@
 
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
+# Meant to be used with ''rpmbuild -bc''
+# You must also install coverity-analysis.
+%bcond_with coverity
+
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
 Version:       4.3.1
@@ -475,7 +479,12 @@ export JAVA_HOME='/usr/lib/jvm/java-1.8.0' && export JAVA='$JAVA_HOME/jre/bin/ja
 ./configure --disable-bundled-jars --with-axis2=%{_datadir}/axis2-* --with-axis2c=%{axis2c_home} --with-wsdl2c-sh="$(pwd)/devel/euca-WSDL2C.sh" --enable-debug --prefix=/ --with-apache2-module-dir=%{_libdir}/httpd/modules --enable-systemd --with-db-home=%{_prefix} --with-extra-version=%{release}
 %endif
 
+%if %{with coverity}
+# Meant to be used with rpmbuild -bc
+%{coverity_analysis_dir}/bin/cov-build --dir .coverity-build make
+%else
 make %{?_smp_mflags}
+%endif
 
 
 %install
@@ -950,6 +959,9 @@ usermod -a -G libvirt eucalyptus || :
 %endif  #if 0%{?el6}
 
 %changelog
+* Wed Nov  9 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.1
+- Added "coverity" build option
+
 * Thu Oct 27 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.1
 - Bumped minimum eucalyptus-java-deps version (EUCA-12885)
 
