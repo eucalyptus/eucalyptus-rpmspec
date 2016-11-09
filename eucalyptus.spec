@@ -27,6 +27,10 @@
 
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
+# Meant to be used with ''rpmbuild -bc''
+# You must also install coverity-analysis.
+%bcond_with coverity
+
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
 Version:       4.4.0
@@ -434,7 +438,12 @@ export JAVA_HOME='/usr/lib/jvm/java-1.8.0' && export JAVA='$JAVA_HOME/jre/bin/ja
     --with-db-home=%{_prefix} \
     --with-extra-version=%{release}
 
+%if %{with coverity}
+# Meant to be used with rpmbuild -bc
+%{coverity_analysis_dir}/bin/cov-build --dir .coverity-build make
+%else
 make %{?_smp_mflags}
+%endif
 
 
 %install
@@ -708,10 +717,13 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
-* Fri Nov  4 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
+* Wed Nov  9 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.1
+- Added "coverity" build option
+
+* Fri Nov  4 2016 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - Added nginx_md.conf (EUCA-12893)
 
-* Tue Nov  1 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
+* Tue Nov  1 2016 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - Removed getstats_net.pl (EUCA-12864)
 
 * Thu Oct 27 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.1
