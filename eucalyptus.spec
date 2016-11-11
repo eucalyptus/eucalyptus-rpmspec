@@ -249,7 +249,6 @@ Requires:     libselinux-python
 Requires:     python-argparse
 Requires:     rsync
 Requires:     vconfig
-Requires:     vtun
 Requires:     /usr/bin/which
 %{?systemd_requires}
 
@@ -570,7 +569,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 /usr/lib/eucalyptus/shutdownCC
 /usr/sbin/clusteradmin-*
 /usr/sbin/eucalyptus-cluster
-/usr/share/eucalyptus/vtunall.conf.template
 /usr/share/eucalyptus/dynserv.pl
 %{_unitdir}/eucalyptus-cc.service
 %{_unitdir}/eucalyptus-cluster.service
@@ -717,6 +715,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Fri Nov 11 2016 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
+- Removed vtun dependency and vtunall template (EUCA-12755)
+
 * Wed Nov  9 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.1
 - Added "coverity" build option
 
