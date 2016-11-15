@@ -189,6 +189,7 @@ Requires:     librados2%{?_isa}
 Requires:     librbd1%{?_isa}
 Requires:     lvm2
 Requires:     scsi-target-utils
+Requires:     /usr/bin/rbd
 
 Provides:     eucalyptus-storage = %{version}-%{release}
 
@@ -715,6 +716,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Tue Nov 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
+- Added rbd dependency to the sc package (EUCA-12941)
+
 * Fri Nov 11 2016 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - Removed vtun dependency and vtunall template (EUCA-12755)
 
