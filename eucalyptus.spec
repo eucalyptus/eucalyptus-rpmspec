@@ -475,7 +475,7 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 %files
 %license LICENSE
-%doc INSTALL README
+%doc INSTALL README.md
 
 %attr(-,eucalyptus,eucalyptus) %dir /etc/eucalyptus
 %config(noreplace) /etc/eucalyptus/eucalyptus.conf
@@ -716,6 +716,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Tue Nov 29 2016 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
+- Change README to README.md
+
 * Tue Nov 15 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Added rbd dependency to the sc package (EUCA-12941)
 
