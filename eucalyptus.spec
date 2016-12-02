@@ -669,6 +669,8 @@ touch $RPM_BUILD_ROOT/var/lib/eucalyptus/.libvirt/libvirtd.conf
 %{axis2c_home}/services/EucalyptusNC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
 %{_libexecdir}/eucalyptus/nodeadmin-manage-volume-connections
+%dir /etc/libvirt/hooks
+/etc/libvirt/hooks/qemu
 /usr/sbin/euca_test_nc
 /usr/sbin/eucalyptus-node
 /usr/sbin/nodeadmin-*
@@ -959,6 +961,9 @@ usermod -a -G libvirt eucalyptus || :
 %endif  #if 0%{?el6}
 
 %changelog
+* Fri Dec  2 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
+- Added /etc/libvirt/hooks/qemu to nc package (EUCA-12594)
+
 * Wed Nov  9 2016 Garrett Holmstrom <gholms@hpe.com> - 4.3.1
 - Added "coverity" build option
 
