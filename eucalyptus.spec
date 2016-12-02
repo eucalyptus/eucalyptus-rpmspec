@@ -583,6 +583,8 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 %{axis2c_home}/services/EucalyptusNC/
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/instances
 %{_libexecdir}/eucalyptus/nodeadmin-manage-volume-connections
+%dir /etc/libvirt/hooks
+/etc/libvirt/hooks/qemu
 /usr/sbin/euca_test_nc
 /usr/sbin/eucalyptus-node
 /usr/sbin/nodeadmin-*
@@ -716,6 +718,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Fri Dec  2 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
+- Added /etc/libvirt/hooks/qemu to nc package (EUCA-12594)
+
 * Tue Nov 29 2016 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - Change README to README.md
 
