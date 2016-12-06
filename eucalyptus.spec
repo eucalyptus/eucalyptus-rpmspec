@@ -927,6 +927,7 @@ exit 0
 # group to connect to the system instance without authenticating
 getent group libvirt >/dev/null || groupadd -r libvirt
 usermod -a -G libvirt eucalyptus || :
+/usr/lib/systemd/systemd-modules-load || :
 
 %post -n eucanetd
 %systemd_post eucanetd.service
@@ -961,6 +962,9 @@ usermod -a -G libvirt eucalyptus || :
 %endif  #if 0%{?el6}
 
 %changelog
+* Tue Dec  6 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
+- Run systemd-modules-load in nc package post scriptlet (EUCA-12983)
+
 * Fri Dec  2 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
 - Added /etc/libvirt/hooks/qemu to nc package (EUCA-12594)
 
