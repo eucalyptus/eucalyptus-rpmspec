@@ -459,15 +459,6 @@ install -d -m 0771 $RPM_BUILD_ROOT/var/lib/eucalyptus/instances
 install -d -m 0755 $RPM_BUILD_ROOT/var/run/eucalyptus/net
 install -d -m 0750 $RPM_BUILD_ROOT/var/run/eucalyptus/status
 
-# Put udev rules in the right place
-mkdir -p $RPM_BUILD_ROOT/lib/udev/rules.d
-cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/12-dm-permissions.rules $RPM_BUILD_ROOT/lib/udev/rules.d/12-dm-permissions.rules
-cp -p $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/rules.d/55-openiscsi.rules $RPM_BUILD_ROOT/lib/udev/rules.d/55-openiscsi.rules
-# FIXME:  iscsidev.sh belongs in /usr/share/eucalyptus [RT:2093]
-mkdir -p $RPM_BUILD_ROOT/etc/udev/scripts
-install -m 0755 $RPM_BUILD_ROOT/usr/share/eucalyptus/udev/iscsidev.sh $RPM_BUILD_ROOT/etc/udev/scripts/iscsidev.sh
-rm -rf $RPM_BUILD_ROOT/usr/share/eucalyptus/udev
-
 # Store admin tool config files
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
@@ -511,10 +502,8 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 %files blockdev-utils
 # SC and NC
-%doc tools/multipath.conf.example.* tools/iscsid.conf.example
-/etc/udev/scripts/iscsidev.sh
-/lib/udev/rules.d/12-dm-permissions.rules
-/lib/udev/rules.d/55-openiscsi*.rules
+%{_udevrulesdir}/55-eucalyptus-openiscsi.rules
+%{_libexecdir}/eucalyptus/check-iscsi-target-name
 /usr/share/eucalyptus/connect_iscsitarget.pl
 /usr/share/eucalyptus/connect_iscsitarget_main.pl
 /usr/share/eucalyptus/connect_iscsitarget_sc.pl
@@ -721,7 +710,7 @@ usermod -a -G libvirt eucalyptus || :
 
 %changelog
 * Thu Jan  5 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
-- Remove file extension from authorize-migration-keys
+- Removed file extension from authorize-migration-keys
 
 * Thu Jan  5 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - authorize-migration-keys is now a python script (EUCA-12883)
@@ -729,6 +718,10 @@ usermod -a -G libvirt eucalyptus || :
 
 * Thu Dec 22 2016 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - Add new eucanetd service files (EUCA-12424)
+
+* Fri Dec 16 2016 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
+- Moved iscsidev.sh to $libexecdir/check-iscsi-target-name (EUCA-2414, EUCA-12646)
+- Moved udev rules to /lib/udev/rules.d (EUCA-12645)
 
 * Tue Dec  6 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
 - Run systemd-modules-load in nc package post scriptlet (EUCA-12983)
