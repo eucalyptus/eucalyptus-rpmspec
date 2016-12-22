@@ -636,7 +636,8 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 /usr/lib/modules-load.d/70-eucanetd.conf
 %{_sysctldir}/70-eucanetd.conf
 %{_unitdir}/eucanetd.service
-
+%{_unitdir}/eucanetd-dhcpd*.service
+%{_unitdir}/eucanetd-nginx.service
 
 %files imaging-toolkit
 %{_libexecdir}/eucalyptus/euca-run-workflow
@@ -719,6 +720,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Thu Dec 22 2016 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
+- Add new eucanetd service files (EUCA-12424)
+
 * Tue Dec  6 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
 - Run systemd-modules-load in nc package post scriptlet (EUCA-12983)
 
