@@ -588,7 +588,7 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 /usr/sbin/euca_test_nc
 /usr/sbin/eucalyptus-node
 /usr/sbin/nodeadmin-*
-/usr/share/eucalyptus/authorize-migration-keys.py
+/usr/share/eucalyptus/authorize-migration-keys
 /usr/share/eucalyptus/detach.pl
 /usr/share/eucalyptus/gen_kvm_libvirt_xml
 /usr/share/eucalyptus/gen_libvirt_xml
@@ -602,8 +602,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 %{_unitdir}/eucalyptus-nc.service
 %{_unitdir}/eucalyptus-node.service
 %{_unitdir}/eucalyptus-node-keygen.service
-%exclude /usr/share/eucalyptus/*.pyc
-%exclude /usr/share/eucalyptus/*.pyo
 
 
 %files admin-tools
@@ -722,6 +720,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Thu Jan  5 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
+- Remove file extension from authorize-migration-keys
+
 * Thu Jan  5 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - authorize-migration-keys is now a python script (EUCA-12883)
 - Avoid packaging .pyc/.pyo byte compiled files in NC package (EUCA-12883)
