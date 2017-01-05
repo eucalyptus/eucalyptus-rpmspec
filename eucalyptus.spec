@@ -602,6 +602,8 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 %{_unitdir}/eucalyptus-nc.service
 %{_unitdir}/eucalyptus-node.service
 %{_unitdir}/eucalyptus-node-keygen.service
+%exclude /usr/share/eucalyptus/*.pyc
+%exclude /usr/share/eucalyptus/*.pyo
 
 
 %files admin-tools
@@ -722,6 +724,7 @@ usermod -a -G libvirt eucalyptus || :
 %changelog
 * Thu Jan  5 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - authorize-migration-keys is now a python script (EUCA-12883)
+- Avoid packaging .pyc/.pyo byte compiled files in NC package (EUCA-12883)
 
 * Thu Dec 22 2016 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - Add new eucanetd service files (EUCA-12424)
