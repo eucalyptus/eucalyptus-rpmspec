@@ -1,4 +1,4 @@
-# Copyright 2009-2016 Hewlett Packard Enterprise Development Company LP
+# Copyright 2009-2017 Hewlett Packard Enterprise Development Company LP
 #
 # Redistribution and use of this software in source and binary forms, with or
 # without modification, are permitted provided that the following conditions
@@ -588,7 +588,7 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 /usr/sbin/euca_test_nc
 /usr/sbin/eucalyptus-node
 /usr/sbin/nodeadmin-*
-/usr/share/eucalyptus/authorize-migration-keys.pl
+/usr/share/eucalyptus/authorize-migration-keys.py
 /usr/share/eucalyptus/detach.pl
 /usr/share/eucalyptus/gen_kvm_libvirt_xml
 /usr/share/eucalyptus/gen_libvirt_xml
@@ -720,6 +720,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Thu Jan  5 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
+- authorize-migration-keys is now a python script (EUCA-12883)
+
 * Thu Dec 22 2016 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - Add new eucanetd service files (EUCA-12424)
 
