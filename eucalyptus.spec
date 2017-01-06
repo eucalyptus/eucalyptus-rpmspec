@@ -449,16 +449,6 @@ make %{?_smp_mflags}
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
 
-# Create the directories where components store their data
-mkdir -p $RPM_BUILD_ROOT/var/lib/eucalyptus
-touch $RPM_BUILD_ROOT/var/lib/eucalyptus/services
-for dir in bukkits CC db keys ldap upgrade vmware volumes webapps; do
-    install -d -m 0700 $RPM_BUILD_ROOT/var/lib/eucalyptus/$dir
-done
-install -d -m 0771 $RPM_BUILD_ROOT/var/lib/eucalyptus/instances
-install -d -m 0755 $RPM_BUILD_ROOT/var/run/eucalyptus/net
-install -d -m 0750 $RPM_BUILD_ROOT/var/run/eucalyptus/status
-
 # Store admin tool config files
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
@@ -712,6 +702,7 @@ usermod -a -G libvirt eucalyptus || :
 %changelog
 * Fri Jan  6 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Added /etc/eucalyptus/faults (EUCA-12391)
+- Let makefiles handle creation of /var/lib/eucalyptus/* (EUCA-508)
 
 * Thu Jan  5 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Removed file extension from authorize-migration-keys
