@@ -471,6 +471,7 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 %attr(-,eucalyptus,eucalyptus) %dir /etc/eucalyptus
 %config(noreplace) /etc/eucalyptus/eucalyptus.conf
 /etc/eucalyptus/eucalyptus-version
+/etc/eucalyptus/faults/
 # This is currently used for CC and NC httpd logs.
 /etc/logrotate.d/eucalyptus
 %attr(-,root,eucalyptus) %dir /usr/lib/eucalyptus
@@ -709,6 +710,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Fri Jan  6 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
+- Added /etc/eucalyptus/faults (EUCA-12391)
+
 * Thu Jan  5 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Removed file extension from authorize-migration-keys
 
