@@ -567,7 +567,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 /etc/libvirt/hooks/qemu
 /usr/sbin/euca_test_nc
 /usr/sbin/eucalyptus-node
-/usr/sbin/nodeadmin-*
 /usr/share/eucalyptus/authorize-migration-keys
 /usr/share/eucalyptus/detach.pl
 /usr/share/eucalyptus/gen_kvm_libvirt_xml
@@ -703,6 +702,7 @@ usermod -a -G libvirt eucalyptus || :
 * Fri Jan  6 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Added /etc/eucalyptus/faults (EUCA-12391)
 - Let makefiles handle creation of /var/lib/eucalyptus/* (EUCA-508)
+- Removed nodeadmin-(un)pack scripts (EUCA-13042)
 
 * Thu Jan  5 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Removed file extension from authorize-migration-keys
