@@ -512,7 +512,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 %dir /etc/eucalyptus/cloud.d
 %dir /etc/eucalyptus/cloud.d/elb-security-policy
 %config(noreplace) /etc/eucalyptus/cloud.d/elb-security-policy/*
-%dir /etc/eucalyptus/cloud.d/init.d
 /etc/eucalyptus/cloud.d/scripts/
 /usr/sbin/eucalyptus-cloud
 %ghost /var/lib/eucalyptus/services
@@ -527,7 +526,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 
 %files cloud
-/etc/eucalyptus/cloud.d/init.d/01_pg_kernel_params
 /usr/libexec/eucalyptus/euca-upgrade
 /usr/sbin/euca-lictool
 /usr/sbin/clcadmin-*
@@ -699,6 +697,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Tue Jan 10 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
+- Removed 01_pg_kernel_params and /etc/eucalyptus/cloud.d/init.d (EUCA-12644)
+
 * Fri Jan  6 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Added /etc/eucalyptus/faults (EUCA-12391)
 - Let makefiles handle creation of /var/lib/eucalyptus/* (EUCA-508)
