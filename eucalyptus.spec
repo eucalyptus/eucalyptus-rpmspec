@@ -276,7 +276,7 @@ Requires:     bridge-utils
 Requires:     device-mapper
 Requires:     device-mapper-multipath
 Requires:     euca2ools >= 3.2
-Requires:     eucalyptus-selinux
+Requires:     eucalyptus-selinux > 0.2
 Requires:     eucanetd = %{version}-%{release}
 Requires:     httpd
 Requires:     iscsi-initiator-utils
@@ -700,7 +700,7 @@ usermod -a -G libvirt eucalyptus || :
 
 %changelog
 * Fri Jan 13 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
-- Bumped eucanetd's eucalyptus-selinux minimum versino to 0.2 (EUCA-12424)
+- Bumped eucanetd and nc's eucalyptus-selinux minimum version to 0.2 (EUCA-12424)
 
 * Fri Jan  6 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Added /etc/eucalyptus/faults (EUCA-12391)
