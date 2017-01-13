@@ -1,4 +1,4 @@
-# Copyright 2009-2016 Hewlett Packard Enterprise Development Company LP
+# Copyright 2009-2017 Hewlett Packard Enterprise Development Company LP
 #
 # Redistribution and use of this software in source and binary forms, with or
 # without modification, are permitted provided that the following conditions
@@ -33,7 +33,7 @@
 
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
-Version:       4.3.1
+Version:       4.3.1.1
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -962,6 +962,9 @@ usermod -a -G libvirt eucalyptus || :
 %endif  #if 0%{?el6}
 
 %changelog
+* Fri Jan 13 2017 Garrett Holmstrom <gholms@hpe.com> - 4.3.1.1
+- Version bump (4.3.1.1)
+
 * Tue Dec  6 2016 Matt Bacchi <mbacchi@hpe.com> - 4.3.1
 - Run systemd-modules-load in nc package post scriptlet (EUCA-12983)
 
