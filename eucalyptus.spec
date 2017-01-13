@@ -344,7 +344,7 @@ License:        GPLv3
 
 Requires:       dhcp >= 4.1.1-33.P1
 Requires:       ebtables
-Requires:       eucalyptus-selinux
+Requires:       eucalyptus-selinux > 0.2
 Requires:       ipset
 Requires:       iptables
 # nginx 1.9.13 added perl as a loadable module (EUCA-12734)
@@ -699,6 +699,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Fri Jan 13 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
+- Bumped eucanetd's eucalyptus-selinux minimum versino to 0.2 (EUCA-12424)
+
 * Fri Jan  6 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Added /etc/eucalyptus/faults (EUCA-12391)
 - Let makefiles handle creation of /var/lib/eucalyptus/* (EUCA-508)
