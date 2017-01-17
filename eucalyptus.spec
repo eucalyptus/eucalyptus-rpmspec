@@ -276,7 +276,7 @@ Requires:     bridge-utils
 Requires:     device-mapper
 Requires:     device-mapper-multipath
 Requires:     euca2ools >= 3.2
-Requires:     eucalyptus-selinux
+Requires:     eucalyptus-selinux > 0.2
 Requires:     eucanetd = %{version}-%{release}
 Requires:     httpd
 Requires:     iscsi-initiator-utils
@@ -344,7 +344,7 @@ License:        GPLv3
 
 Requires:       dhcp >= 4.1.1-33.P1
 Requires:       ebtables
-Requires:       eucalyptus-selinux
+Requires:       eucalyptus-selinux > 0.2
 Requires:       ipset
 Requires:       iptables
 # nginx 1.9.13 added perl as a loadable module (EUCA-12734)
@@ -697,8 +697,11 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
-* Tue Jan 10 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
+* Tue Jan 17 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - Removed 01_pg_kernel_params and /etc/eucalyptus/cloud.d/init.d (EUCA-12644)
+
+* Fri Jan 13 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
+- Bumped eucanetd and nc's eucalyptus-selinux minimum version to 0.2 (EUCA-12424)
 
 * Fri Jan  6 2017 Garrett Holmstrom <gholms@hpe.com> - 4.4.0
 - Added /etc/eucalyptus/faults (EUCA-12391)
