@@ -143,7 +143,7 @@ This package contains the common-java files.
 %package common-java-libs
 Summary:      Eucalyptus cloud platform - ws java stack libs
 
-Requires:     eucalyptus-java-deps >= 4.3-0.4.4
+Requires:     eucalyptus-java-deps >= 4.4
 Requires:     eucalyptus-selinux
 Requires:     jpackage-utils
 Requires:     java-1.8.0-openjdk >= 1:1.8.0
@@ -699,6 +699,7 @@ usermod -a -G libvirt eucalyptus || :
 %changelog
 * Fri Jan 20 2017 Garrett Holmstrom <gholms@fedoraproject.org> - 4.4.0
 - Moved euca-upgrade script to the same package as its systemd unit (EUCA-13139)
+- Bumped minimum eucalyptus-java-deps version
 
 * Tue Jan 17 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - Removed 01_pg_kernel_params and /etc/eucalyptus/cloud.d/init.d (EUCA-12644)
