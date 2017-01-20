@@ -513,6 +513,7 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 %dir /etc/eucalyptus/cloud.d/elb-security-policy
 %config(noreplace) /etc/eucalyptus/cloud.d/elb-security-policy/*
 /etc/eucalyptus/cloud.d/scripts/
+%{_libexecdir}/eucalyptus/euca-upgrade
 /usr/sbin/eucalyptus-cloud
 %ghost /var/lib/eucalyptus/services
 %attr(-,eucalyptus,eucalyptus) /var/lib/eucalyptus/webapps/
@@ -526,7 +527,6 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 
 %files cloud
-/usr/libexec/eucalyptus/euca-upgrade
 /usr/sbin/euca-lictool
 /usr/sbin/clcadmin-*
 /usr/share/eucalyptus/lic_default
@@ -697,6 +697,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Fri Jan 20 2017 Garrett Holmstrom <gholms@fedoraproject.org> - 4.4.0
+- Moved euca-upgrade script to the same package as its systemd unit (EUCA-13139)
+
 * Tue Jan 17 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - Removed 01_pg_kernel_params and /etc/eucalyptus/cloud.d/init.d (EUCA-12644)
 
