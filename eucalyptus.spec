@@ -698,6 +698,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Tue Jan 31 2017 Lincoln Thomas <lincoln.thomas@hpe.com> - 4.4.0
+- Install new PopulateSnapPoints.groovy script (EUCA-13122)
+
 * Fri Jan 20 2017 Garrett Holmstrom <gholms@fedoraproject.org> - 4.4.0
 - Moved euca-upgrade script to the same package as its systemd unit (EUCA-13139)
 - Bumped minimum eucalyptus-java-deps version
