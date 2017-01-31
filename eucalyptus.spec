@@ -540,6 +540,7 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 
 %files sc
 %attr(-,eucalyptus,eucalyptus) %dir /var/lib/eucalyptus/volumes
+/usr/share/eucalyptus/PopulateSnapPoints.groovy
 
 
 %files cc
