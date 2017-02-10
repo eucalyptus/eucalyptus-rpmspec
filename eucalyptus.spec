@@ -241,7 +241,6 @@ Requires:     %{name}-axis2c-common = %{version}-%{release}
 Requires:     bridge-utils
 Requires:     dhcp >= 4.1.1-33.P1
 Requires:     eucalyptus-selinux
-Requires:     eucanetd = %{version}-%{release}
 Requires:     httpd
 Requires:     iproute
 Requires:     iptables
@@ -698,6 +697,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Fri Feb 10 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
+- Removed eucanetd dependency from the cc package (EUCA-13212)
+
 * Tue Jan 31 2017 Lincoln Thomas <lincoln.thomas@hpe.com> - 4.4.0
 - Install new PopulateSnapPoints.groovy script (EUCA-13122)
 
