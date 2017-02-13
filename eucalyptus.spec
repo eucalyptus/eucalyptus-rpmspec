@@ -67,6 +67,8 @@ BuildRequires: /usr/bin/awk
 
 Requires(pre): shadow-utils
 
+Requires:      eucalyptus-selinux
+
 Source0:       %{tarball_basedir}.tar.xz
 
 %description
@@ -697,6 +699,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Mon Feb 13 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
+- Add eucalyptus-selinux dependency to eucalyptus package (EUCA-13225)
+
 * Fri Feb 10 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - Removed eucanetd dependency from the cc package (EUCA-13212)
 
