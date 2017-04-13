@@ -1,4 +1,4 @@
-# Copyright 2009-2017 Hewlett Packard Enterprise Development Company LP
+# Copyright (c) 2009-2017 Ent. Services Development Corporation LP
 #
 # Redistribution and use of this software in source and binary forms, with or
 # without modification, are permitted provided that the following conditions
@@ -33,7 +33,7 @@
 
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
-Version:       4.4.0
+Version:       4.4.1
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -699,6 +699,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Thu Apr 13 2017 Garrett Holmstrom <gholms@dxc.com> - 4.4.1
+- Version bump (4.4.1)
+
 * Mon Feb 13 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.0
 - Add eucalyptus-selinux dependency to eucalyptus package (EUCA-13225)
 
