@@ -41,6 +41,7 @@ URL:           http://www.eucalyptus.com
 BuildRequires: ant >= 1.7
 BuildRequires: ant-apache-regexp
 BuildRequires: apache-ivy
+BuildRequires: autoconf
 BuildRequires: axis2-adb-codegen
 BuildRequires: axis2-codegen
 BuildRequires: axis2c-devel >= 1.6.0
@@ -396,6 +397,7 @@ and upload virtual machine images and to convert them between formats.
 
 
 %prep
+autoconf
 %setup -q -n %{tarball_basedir}
 
 # Filter unwanted perl provides
