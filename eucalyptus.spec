@@ -397,7 +397,7 @@ and upload virtual machine images and to convert them between formats.
 
 
 %prep
-autoconf
+cd %{tarball_basedir} && autoconf && cd -
 %setup -q -n %{tarball_basedir}
 
 # Filter unwanted perl provides
