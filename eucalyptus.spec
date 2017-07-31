@@ -568,6 +568,7 @@ cp -Rp admin-tools/conf/* $RPM_BUILD_ROOT/%{_sysconfdir}/eucalyptus-admin
 /usr/sbin/euca_test_nc
 /usr/sbin/eucalyptus-node
 /usr/share/eucalyptus/authorize-migration-keys
+/usr/share/eucalyptus/config-no-polkit
 /usr/share/eucalyptus/detach.pl
 /usr/share/eucalyptus/gen_kvm_libvirt_xml
 /usr/share/eucalyptus/gen_libvirt_xml
@@ -699,6 +700,9 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Thu Jul 27 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.2
+- Added config-no-polkit script (EUCA-13359)
+
 * Thu Apr 13 2017 Garrett Holmstrom <gholms@dxc.com> - 4.4.1
 - Version bump (4.4.1)
 
