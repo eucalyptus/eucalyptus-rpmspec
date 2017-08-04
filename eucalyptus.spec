@@ -33,7 +33,7 @@
 
 Summary:       Eucalyptus cloud platform
 Name:          eucalyptus
-Version:       4.4.1
+Version:       4.4.2
 Release:       0%{?build_id:.%build_id}%{?dist}
 License:       GPLv3
 URL:           http://www.eucalyptus.com
@@ -131,7 +131,7 @@ Requires:     lvm2
 Requires:     /usr/bin/which
 %{?systemd_requires}
 
-Provides:     %{name}-java-common = %{version}-%{release}
+Provides:     %{name}-java-services = %{version}-%{release}
 
 %description common-java
 Eucalyptus is a service overlay that implements elastic computing
@@ -149,6 +149,8 @@ Requires:     eucalyptus-java-deps >= 4.4
 Requires:     eucalyptus-selinux
 Requires:     jpackage-utils
 Requires:     java-1.8.0-openjdk >= 1:1.8.0
+
+Provides:     %{name}-java-libs = %{version}-%{release}
 
 %description common-java-libs
 Eucalyptus is a service overlay that implements elastic computing
@@ -700,8 +702,14 @@ usermod -a -G libvirt eucalyptus || :
 
 
 %changelog
+* Fri Aug  4 2017 Garrett Holmstrom <gholms@dxc.com> - 4.4.2
+- Version bump (4.4.2)
+
 * Thu Jul 27 2017 Matt Bacchi <mbacchi@hpe.com> - 4.4.2
 - Added config-no-polkit script (EUCA-13359)
+
+* Fri Apr 21 2017 Garrett Holmstrom <gholms@dxc.com> - 4.4.1
+- Added forward-compat Provides to eucalyptus-common-java*
 
 * Thu Apr 13 2017 Garrett Holmstrom <gholms@dxc.com> - 4.4.1
 - Version bump (4.4.1)
